@@ -29,7 +29,8 @@ def read_description():
 setup(
     name='metadoc',
     packages=[
-        'metadoc',],
+        'metadoc',]
+        'metadoc.utils',
     version='0.1',
     description='Transportation of ML models',
     long_description=read_description(),
