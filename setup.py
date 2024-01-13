@@ -23,23 +23,23 @@ def read_description():
             description += c.read()
         return description
     except Exception:
-        return '''Transportation of ML models'''
+        return '''Removing metadata'''
 
 
 setup(
     name='metadoc',
     packages=[
-        'metadoc',]
-        'metadoc.utils',
+        'metadoc',
+        'metadoc.utils'],
     version='0.1',
-    description='Transportation of ML models',
+    description='Removing microsoft office files\' metadata',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='MetaDoc Development Team',
     author_email='info@pycm.io',
     url='https://github.com/openscilab/metadoc',
     download_url='https://github.com/openscilab/metadoc/tarball/v0.1',
-    keywords="python3 python machine_learning ML",
+    keywords="python3 python metadata remove",
     project_urls={
             'Source': 'https://github.com/openscilab/metadoc',
     },
@@ -63,13 +63,7 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Manufacturing',
         'Intended Audience :: Science/Research',
-        'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Education',
-        'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'Topic :: Scientific/Engineering :: Human Machine Interfaces',
-        'Topic :: Scientific/Engineering :: Mathematics',
-        'Topic :: Scientific/Engineering :: Physics',
+        'Topic :: Scientific/Security :: Metadata leakage',,
     ],
     license='MIT',
 )
