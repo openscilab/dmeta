@@ -1,4 +1,4 @@
-# MetaDoc Release Instructions
+# Dmeta Release Instructions
 
 #### Last Update: 2023-12-20
 
@@ -8,11 +8,11 @@
 	2. `README.md`
 	3. `otherfiles/version_check.py`
 	4. `otherfiles/meta.yaml`
-	5. `metadoc/metadoc_param.py`
+	5. `dmeta/dmeta_param.py`
 3. Update `CHANGELOG.md`
 	1. Add a new header under `Unreleased` section (Example: `## [0.1] - 2022-08-17`)
-	2. Add a new compare link to the end of the file (Example: `[0.2]: https://github.com/openscilab/metadoc/compare/v0.1...v0.2`)
-	3. Update `dev` compare link (Example: `[Unreleased]: https://github.com/openscilab/metadoc/compare/v0.2...dev`)
+	2. Add a new compare link to the end of the file (Example: `[0.2]: https://github.com/openscilab/dmeta/compare/v0.1...v0.2`)
+	3. Update `dev` compare link (Example: `[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.2...dev`)
 4. Create a PR from `release` to `dev`
 	1. Title: `Version x.x` (Example: `Version 0.1`)
 	2. Tag all related issues

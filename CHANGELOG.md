@@ -13,5 +13,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `clear` metadata functionality
 - `clear all` metadata functionality
 
-[Unreleased]: https://github.com/openscilab/metadoc/compare/v0.1...dev
-[0.1]: https://github.com/openscilab/metadoc/compare/3598e8b...v0.1
+[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.1...dev
+[0.1]: https://github.com/openscilab/dmeta/compare/3598e8b...v0.1
