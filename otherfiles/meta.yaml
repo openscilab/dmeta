@@ -1,11 +1,11 @@
-{% set name = "metadoc" %}
+{% set name = "dmeta" %}
 {% set version = "0.1" %}
 
 package:
     name: {{ name|lower }}
     version: {{ version }}
 source:
-    git_url: https://github.com/openscilab/metadoc
+    git_url: https://github.com/openscilab/dmeta
     git_rev: v{{ version }}
 build:
     noarch: python
@@ -20,16 +20,16 @@ requirements:
         - art >=1.8
         - python >=3.6
 about:
-    home: https://github.com/openscilab/metadoc
+    home: https://github.com/openscilab/dmeta
     license: MIT
     license_family: MIT
     summary: Python library for machine learning input and output
     description: |
-        MetaDoc is an open source Python package that provides...
+        Dmeta is an open source Python package that removes metadata of microsoft office files.
         
         Website: https://openscilab.com
 
-        Repo: https://github.com/openscilab/metadoc
+        Repo: https://github.com/openscilab/dmeta
 extra:
     recipe-maintainers:
         - AHReccese

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""MetaDoc modules."""
-from .metadoc_param import METADOC_VERSION
+"""Dmeta modules."""
+from .dmeta_param import DMETA_VERSION
 
-__version__ = METADOC_VERSION
+__version__ = DMETA_VERSION

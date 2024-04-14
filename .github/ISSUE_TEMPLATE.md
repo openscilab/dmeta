@@ -10,4 +10,4 @@
 
 #### Python Version
 
-#### MetaDoc Version (Use : `metadoc.__version__`)
+#### Dmeta Version (Use : `dmeta.__version__`)

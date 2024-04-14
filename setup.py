@@ -27,21 +27,21 @@ def read_description():
 
 
 setup(
-    name='metadoc',
+    name='dmeta',
     packages=[
-        'metadoc',
-        'metadoc.utils'],
+        'dmeta',
+        'dmeta.utils'],
     version='0.1',
     description='Removing microsoft office files\' metadata',
     long_description=read_description(),
     long_description_content_type='text/markdown',
-    author='MetaDoc Development Team',
+    author='Dmeta Development Team',
     author_email='info@pycm.io',
-    url='https://github.com/openscilab/metadoc',
-    download_url='https://github.com/openscilab/metadoc/tarball/v0.1',
+    url='https://github.com/openscilab/dmeta',
+    download_url='https://github.com/openscilab/dmeta/tarball/v0.1',
     keywords="python3 python metadata remove",
     project_urls={
-            'Source': 'https://github.com/openscilab/metadoc',
+            'Source': 'https://github.com/openscilab/dmeta',
     },
     install_requires=get_requires(),
     python_requires='>=3.6',
@@ -63,7 +63,7 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Manufacturing',
         'Intended Audience :: Science/Research',
-        'Topic :: Scientific/Security :: Metadata leakage',,
+        'Topic :: Scientific/Security :: Metadata leakage',
     ],
     license='MIT',
 )
