@@ -55,3 +55,14 @@ def extract_docx(docx_file_name):
     os.mkdir(unzipped_dir)
     source_file.extractall(unzipped_dir)
     return unzipped_dir, source_file
+
+def read_json(config_file_name):
+    if not isinstance(config_file_name, str):
+        return None
+    if not ".json" in config_file_name:
+        config_file_name = config_file_name + ".json"
+    if os.path.isfile(config_file_name):
+        config_file = open(config_file_name)
+        return json.load(config_file)
+    else:
+        raise("Given config file doesn't exist.")
