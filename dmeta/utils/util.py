@@ -39,3 +39,19 @@ def remove_format(docx_file_name):
         docx_file_name = docx_file_name[:last_dot_index]
     return docx_file_name
 
+
+def extract_docx(docx_file_name):
+    """
+    Zip and extract the .docx file.
+
+    :param docx_file_name: name of .docx file
+    :type docx_file_name: str
+    :return: (str, ZipFile) as (unzipped directory, ZipFile instance to work with the extracted content)
+    """
+    docx_file_name = remove_format(docx_file_name)
+    source_file = ZipFile(docx_file_name + ".docx")  
+    unzipped_dir = os.path.join(os.getcwd(), "unzipped_" + docx_file_name)
+    rmtree(unzipped_dir, ignore_errors=True)
+    os.mkdir(unzipped_dir)
+    source_file.extractall(unzipped_dir)
+    return unzipped_dir, source_file
