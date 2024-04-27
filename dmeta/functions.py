@@ -144,3 +144,26 @@ def update_all(config_file_name):
     for docx_file in docx_files:
         update(config_file_name, docx_file)
 
+def run_dmeta(args):
+    """
+    Run dmeta.
+
+    :param args: input arguments
+    :type args: argparse.Namespace
+    :return: None
+    """
+    print(args)
+    if args.clear:
+        clear(args.clear[0])
+    elif args.clear_all:
+        clear_all()
+    elif args.update:
+        if not args.config:
+            print("when using the `update` command, you should set the .json config file through the --config command")
+        else:
+            update(args.config[0], args.update[0])
+    elif args.update_all:
+        if not args.config:
+            print("when using the `update-all` command, you should set the .json config file through the --config command")
+        else:
+            update_all(args.config[0])
