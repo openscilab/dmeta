@@ -24,3 +24,18 @@ def extract_namespaces(xml_file_path):
             cropped_name = namespace_name
         namespaces[cropped_name] = root_child._attrs[namespace_name].value
     return namespaces
+
+
+def remove_format(docx_file_name):
+    """
+    Remove the format from the end of the .docx file name
+
+    :param docx_file_name: name of .docx file
+    :type docx_file_name: str
+    :return: str (the .docx file name without format at the end)
+    """
+    last_dot_index = docx_file_name.rfind('.')
+    if(last_dot_index != -1):
+        docx_file_name = docx_file_name[:last_dot_index]
+    return docx_file_name
+
