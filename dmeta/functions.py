@@ -126,3 +126,21 @@ def update(config_file_name, docx_file_name):
         for filename in source_file.namelist():
             docx.write(os.path.join(unzipped_dir,filename), filename)
     shutil.rmtree(unzipped_dir)
+
+def update_all(config_file_name):
+    """
+    Update all the editable metadata in any .docx file in the current directory according to the given config file.
+
+    :param config_file_name: name of .json config file
+    :type config_file_name: str
+    :return: None
+    """
+    path = os.getcwd()
+    dir_list = os.listdir(path)    
+    docx_files = []
+    for item in dir_list:
+        if ".docx" in item:
+            docx_files.append(item)
+    for docx_file in docx_files:
+        update(config_file_name, docx_file)
+
