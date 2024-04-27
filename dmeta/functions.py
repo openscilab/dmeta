@@ -53,3 +53,19 @@ def clear(docx_file_name):
             docx.write(os.path.join(unzipped_dir, file_name), file_name)
         docx.close()
     shutil.rmtree(unzipped_dir)
+
+def clear_all():
+    """
+    Clear all the editable metadata in any .docx file in the current directory.
+
+    :return: None
+    """
+    path = os.getcwd()
+    dir_list = os.listdir(path)    
+    docx_files = []
+    for item in dir_list:
+        if ".docx" in item:
+            docx_files.append(item)
+    for docx_file in docx_files:
+        clear(docx_file)
+
