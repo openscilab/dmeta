@@ -21,3 +21,11 @@ PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES = {
     "contentStatus": "contentStatus",
     "language": "language",
 }
+
+PERSONAL_FIELDS_APP_XML_CORRESPONDENCES = {
+    #Origin 
+    #we can't change "Application" field, it becomes a corrupted file.
+    "programName": "Application",
+    "company": "Company",
+    "manager": "Manager"
+}
