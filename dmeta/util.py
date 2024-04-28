@@ -56,6 +56,7 @@ def extract_docx(docx_file_name):
     source_file.extractall(unzipped_dir)
     return unzipped_dir, source_file
 
+
 def read_json(config_file_name):
     if not isinstance(config_file_name, str):
         return None
