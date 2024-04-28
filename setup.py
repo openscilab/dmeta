@@ -35,7 +35,7 @@ setup(
     description='Removing microsoft office files\' metadata',
     long_description=read_description(),
     long_description_content_type='text/markdown',
-    author='Dmeta Development Team',
+    author='dmeta Development Team',
     author_email='info@pycm.io',
     url='https://github.com/openscilab/dmeta',
     download_url='https://github.com/openscilab/dmeta/tarball/v0.1',

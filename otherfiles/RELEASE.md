@@ -1,4 +1,4 @@
-# Dmeta Release Instructions
+# dmeta Release Instructions
 
 #### Last Update: 2023-12-20
 

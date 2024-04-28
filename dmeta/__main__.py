@@ -1,4 +1,4 @@
-"""Dmeta main."""
+"""dmeta main."""
 import argparse
 from art import tprint
 from dmeta.functions import run_dmeta, dmeta_help
