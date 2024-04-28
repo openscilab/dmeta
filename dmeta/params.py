@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """Dmeta Parameters and constants."""
 DMETA_VERSION = "0.1"
+OVERVIEW = """
+A Python library for removing personal metadata in Microsoft files(.docx, .pptx, .xlsx).
 
-PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES = {
+"""
+CORE_XML_MAP = {
     #Description
     "title" : "title",
     "subject": "subject",
@@ -21,8 +24,7 @@ PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES = {
     "contentStatus": "contentStatus",
     "language": "language",
 }
-
-PERSONAL_FIELDS_APP_XML_CORRESPONDENCES = {
+APP_XML_MAP = {
     #Origin 
     #we can't change "Application" field, it becomes a corrupted file.
     "programName": "Application",
