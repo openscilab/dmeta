@@ -55,6 +55,7 @@ def clear(docx_file_name):
         docx.close()
     shutil.rmtree(unzipped_dir)
 
+
 def clear_all():
     """
     Clear all the editable metadata in any .docx file in the current directory.
@@ -69,6 +70,7 @@ def clear_all():
             docx_files.append(item)
     for docx_file in docx_files:
         clear(docx_file)
+
 
 def update(config_file_name, docx_file_name):
     """
@@ -127,6 +129,7 @@ def update(config_file_name, docx_file_name):
         for filename in source_file.namelist():
             docx.write(os.path.join(unzipped_dir,filename), filename)
     shutil.rmtree(unzipped_dir)
+
 
 def update_all(config_file_name):
     """

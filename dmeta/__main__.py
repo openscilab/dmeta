@@ -48,7 +48,6 @@ def main():
         type = str,
 		help = "the `config` command specifices the way metadata in the .docx files get updated."
         )
-
     # parse the arguments from the standard input
     args = parser.parse_args()
     run_dmeta(args)
