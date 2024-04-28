@@ -1,6 +1,8 @@
 """Dmeta main."""
-from dmeta.functions import run_dmeta
 import argparse
+from art import tprint
+from dmeta.functions import run_dmeta, dmeta_help
+from dmeta.params import DMETA_VERSION
 
 
 def main():
@@ -9,6 +11,9 @@ def main():
 
     :return: None
     """
+    tprint("dmeta")
+    tprint("V:" + DMETA_VERSION)
+    dmeta_help()
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--clear',
