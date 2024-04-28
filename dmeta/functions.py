@@ -5,7 +5,8 @@ import shutil
 import zipfile
 from .util import remove_format, extract_docx, extract_namespaces, read_json 
 import xml.etree.ElementTree as ET
-from .params import PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES, PERSONAL_FIELDS_APP_XML_CORRESPONDENCES
+from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW
+
 
 def clear(docx_file_name):
     """
@@ -34,15 +35,15 @@ def clear(docx_file_name):
     e_app = ET.parse(app_xml_path)
 
     for xml_element in e_core.iter():
-        for personal_field in PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES.keys():
-            associated_xml_tag = PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES[personal_field]
+        for personal_field in CORE_XML_MAP.keys():
+            associated_xml_tag = CORE_XML_MAP[personal_field]
             if(associated_xml_tag in xml_element.tag):
                 xml_element.text = ""
     e_core.write(core_xml_path,"utf-8", True, None, "xml")
 
     for xml_element in e_app.iter():
-        for personal_field in PERSONAL_FIELDS_APP_XML_CORRESPONDENCES.keys():
-            associated_xml_tag = PERSONAL_FIELDS_APP_XML_CORRESPONDENCES[personal_field]
+        for personal_field in APP_XML_MAP.keys():
+            associated_xml_tag = APP_XML_MAP[personal_field]
             if(associated_xml_tag in xml_element.tag):
                 xml_element.text = ""
     e_app.write(app_xml_path,"utf-8", True, None, "xml")
@@ -80,8 +81,8 @@ def update(config_file_name, docx_file_name):
     :return: None
     """
     config = read_json(config_file_name)
-    personal_fields_core_xml = [e for e in PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES.keys() if e in config]
-    personal_fields_app_xml = [e for e in PERSONAL_FIELDS_APP_XML_CORRESPONDENCES.keys() if e in config]
+    personal_fields_core_xml = [e for e in CORE_XML_MAP.keys() if e in config]
+    personal_fields_app_xml = [e for e in APP_XML_MAP.keys() if e in config]
 
     has_core_tags = len(personal_fields_core_xml) > 0
     has_app_tags = len(personal_fields_core_xml) > 0
@@ -105,7 +106,7 @@ def update(config_file_name, docx_file_name):
         e_core = ET.parse(core_xml_path)
         for xml_element in e_core.iter():
             for personal_field in personal_fields_core_xml:
-                associated_xml_tag = PERSONAL_FIELDS_CORE_XML_CORRESPONDENCES[personal_field]
+                associated_xml_tag = CORE_XML_MAP[personal_field]
                 if(associated_xml_tag in xml_element.tag):
                     xml_element.text = config[personal_field]
         e_core.write(core_xml_path,"utf-8", True, None, "xml")
@@ -116,7 +117,7 @@ def update(config_file_name, docx_file_name):
         e_app = ET.parse(app_xml_path)
         for xml_element in e_app.iter():
             for personal_field in personal_fields_app_xml:
-                associated_xml_tag = PERSONAL_FIELDS_APP_XML_CORRESPONDENCES[personal_field]
+                associated_xml_tag = APP_XML_MAP[personal_field]
                 if(associated_xml_tag in xml_element.tag):
                     xml_element.text = config[personal_field]
         e_app.write(app_xml_path,"utf-8", True, None, "xml")
