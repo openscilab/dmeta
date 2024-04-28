@@ -5,13 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-## [0.1] - 2022-08-17
+## [0.1] - 2024-05-08
 ### Added
-- `.docx` file support
-- `update` metadata functionality
-- `update all` metadata functionality
-- `clear` metadata functionality
-- `clear all` metadata functionality
+- `main` function in `__main__.py`
+- `README.md`
+- `clear` function `functions.py`
+- `clear_all` function in `functions.py`
+- `update` function `functions.py`
+- `update_all` function `functions.py`
+- `run_dmeta` function `functions.py`
+- `dmeta_help` function `functions.py`
+- `extract_namespaces` function in `util.py`
+- `remove_format` function in `util.py`
+- `extract_docx` function in `util.py`
+- `read_json` function in `util.py`
+
 
 [Unreleased]: https://github.com/openscilab/dmeta/compare/v0.1...dev
 [0.1]: https://github.com/openscilab/dmeta/compare/3598e8b...v0.1
