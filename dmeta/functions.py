@@ -145,6 +145,18 @@ def update_all(config_file_name):
     for docx_file in docx_files:
         update(config_file_name, docx_file)
 
+
+def dmeta_help():
+    """
+    Print dmeta details.
+
+    :return: None
+    """
+    print(OVERVIEW)
+    print("Repo : https://github.com/openscilab/dmeta")
+    print("Webpage : https://openscilab.com/")
+
+
 def run_dmeta(args):
     """
     Run dmeta.
@@ -153,7 +165,6 @@ def run_dmeta(args):
     :type args: argparse.Namespace
     :return: None
     """
-    print(args)
     if args.clear:
         clear(args.clear[0])
     elif args.clear_all:
