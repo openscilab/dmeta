@@ -58,8 +58,15 @@ def extract_docx(docx_file_name):
 
 
 def read_json(config_file_name):
+    """
+    Read the config json file and return the python obj of it.
+
+    :param config_file_name: name of .json file
+    :type config_file_name: str
+    :return: obj
+    """
     if not isinstance(config_file_name, str):
-        return None
+        raise("Given config file name should be str not the other type.")
     if not ".json" in config_file_name:
         config_file_name = config_file_name + ".json"
     if os.path.isfile(config_file_name):
