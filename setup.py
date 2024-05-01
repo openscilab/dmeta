@@ -63,7 +63,8 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Manufacturing',
         'Intended Audience :: Science/Research',
-        'Topic :: Scientific/Security :: Metadata leakage',
+        'Topic :: Security',
+        'Topic :: Utilities',
     ],
     license='MIT',
 )
