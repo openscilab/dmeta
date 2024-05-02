@@ -27,7 +27,7 @@ def read_description():
 
 
 setup(
-    name='dmeta',
+    name='DMeta',
     packages=[
         'dmeta',
         'dmeta.utils'],
