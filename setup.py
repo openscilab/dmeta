@@ -28,9 +28,7 @@ def read_description():
 
 setup(
     name='DMeta',
-    packages=[
-        'dmeta',
-        'dmeta.utils'],
+    packages=['dmeta'],
     version='0.1',
     description='Removing microsoft office files\' metadata',
     long_description=read_description(),
