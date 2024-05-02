@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""dmeta Parameters and constants."""
+"""DMeta Parameters and constants."""
 DMETA_VERSION = "0.1"
 OVERVIEW = """
 A Python library for removing personal metadata in Microsoft files(.docx, .pptx, .xlsx).

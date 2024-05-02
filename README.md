@@ -35,7 +35,7 @@
 
 ## Overview
 <p align="justify">
-dmeta is an open source Python package that provides ... TODO
+DMeta is an open source Python package that provides ... TODO
 </p>
 <table>
     <tr>

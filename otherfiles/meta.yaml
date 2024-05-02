@@ -25,7 +25,7 @@ about:
     license_family: MIT
     summary: Python library for machine learning input and output
     description: |
-        dmeta is an open source Python package that removes metadata of microsoft office files.
+        DMeta is an open source Python package that removes metadata of microsoft office files.
         
         Website: https://openscilab.com
 

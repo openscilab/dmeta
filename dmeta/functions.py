@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""dmeta Functions."""
+"""DMeta Functions."""
 import os
 import shutil
 import zipfile
