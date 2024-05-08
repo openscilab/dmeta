@@ -35,7 +35,7 @@ def remove_format(docx_file_name):
     :return: str (the .docx file name without format at the end)
     """
     last_dot_index = docx_file_name.rfind('.')
-    if(last_dot_index != -1):
+    if (last_dot_index != -1):
         docx_file_name = docx_file_name[:last_dot_index]
     return docx_file_name
 
@@ -49,7 +49,7 @@ def extract_docx(docx_file_name):
     :return: (str, ZipFile) as (unzipped directory, ZipFile instance to work with the extracted content)
     """
     docx_file_name = remove_format(docx_file_name)
-    source_file = ZipFile(docx_file_name + ".docx")  
+    source_file = ZipFile(docx_file_name + ".docx")
     unzipped_dir = os.path.join(os.getcwd(), "unzipped_" + docx_file_name)
     rmtree(unzipped_dir, ignore_errors=True)
     os.mkdir(unzipped_dir)
@@ -66,11 +66,11 @@ def read_json(config_file_name):
     :return: obj
     """
     if not isinstance(config_file_name, str):
-        raise("Given config file name should be str not the other type.")
-    if not ".json" in config_file_name:
+        raise ("Given config file name should be str not the other type.")
+    if ".json" not in config_file_name:
         config_file_name = config_file_name + ".json"
     if os.path.isfile(config_file_name):
         config_file = open(config_file_name)
         return json.load(config_file)
     else:
-        raise("Given config file doesn't exist.")
+        raise ("Given config file doesn't exist.")
