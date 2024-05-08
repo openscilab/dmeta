@@ -1,4 +1,4 @@
-{% set name = "dmeta" %}
+{% set name = "DMeta" %}
 {% set version = "0.1" %}
 
 package:

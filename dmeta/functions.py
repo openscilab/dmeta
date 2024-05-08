@@ -151,7 +151,7 @@ def update_all(config_file_name):
 
 def dmeta_help():
     """
-    Print dmeta details.
+    Print DMeta details.
 
     :return: None
     """
@@ -162,7 +162,7 @@ def dmeta_help():
 
 def run_dmeta(args):
     """
-    Run dmeta.
+    Run DMeta.
 
     :param args: input arguments
     :type args: argparse.Namespace

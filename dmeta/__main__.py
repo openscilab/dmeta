@@ -11,7 +11,7 @@ def main():
 
     :return: None
     """
-    tprint("dmeta")
+    tprint("DMeta")
     tprint("V:" + DMETA_VERSION)
     dmeta_help()
     parser = argparse.ArgumentParser()
