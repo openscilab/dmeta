@@ -23,24 +23,23 @@ def read_description():
             description += c.read()
         return description
     except Exception:
-        return '''Transportation of ML models'''
+        return '''Removing metadata'''
 
 
 setup(
-    name='metadoc',
-    packages=[
-        'metadoc',],
+    name='DMeta',
+    packages=['dmeta'],
     version='0.1',
-    description='Transportation of ML models',
+    description='Removing microsoft office files\' metadata',
     long_description=read_description(),
     long_description_content_type='text/markdown',
-    author='MetaDoc Development Team',
-    author_email='info@pycm.io',
-    url='https://github.com/openscilab/metadoc',
-    download_url='https://github.com/openscilab/metadoc/tarball/v0.1',
-    keywords="python3 python machine_learning ML",
+    author='DMeta Development Team',
+    author_email='dmeta@openscilab.com',
+    url='https://github.com/openscilab/dmeta',
+    download_url='https://github.com/openscilab/dmeta/tarball/v0.1',
+    keywords="python3 python metadata remove",
     project_urls={
-            'Source': 'https://github.com/openscilab/metadoc',
+            'Source': 'https://github.com/openscilab/dmeta',
     },
     install_requires=get_requires(),
     python_requires='>=3.6',
@@ -62,13 +61,8 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Manufacturing',
         'Intended Audience :: Science/Research',
-        'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Education',
-        'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'Topic :: Scientific/Engineering :: Human Machine Interfaces',
-        'Topic :: Scientific/Engineering :: Mathematics',
-        'Topic :: Scientific/Engineering :: Physics',
+        'Topic :: Security',
+        'Topic :: Utilities',
     ],
     license='MIT',
 )

@@ -4,20 +4,20 @@ import os
 import sys
 import codecs
 Failed = 0
-METADOC_VERSION = "0.1"
+DMETA_VERSION = "0.1"
 
 
 SETUP_ITEMS = [
     "version='{0}'",
-    'https://github.com/openscilab/metadoc/tarball/v{0}']
+    'https://github.com/openscilab/dmeta/tarball/v{0}']
 README_ITEMS = [
-    "[Version {0}](https://github.com/openscilab/metadoc/archive/v{0}.zip)",
-    "pip install metadoc=={0}"]
+    "[Version {0}](https://github.com/openscilab/dmeta/archive/v{0}.zip)",
+    "pip install dmeta=={0}"]
 CHANGELOG_ITEMS = [
     "## [{0}]",
-    "https://github.com/openscilab/metadoc/compare/v{0}...dev",
+    "https://github.com/openscilab/dmeta/compare/v{0}...dev",
     "[{0}]:"]
-PARAMS_ITEMS = ['METADOC_VERSION = "{0}"']
+PARAMS_ITEMS = ['DMETA_VERSION = "{0}"']
 META_ITEMS = ['% set version = "{0}" %']
 
 FILES = {
@@ -25,7 +25,7 @@ FILES = {
     "setup.py": SETUP_ITEMS,
     "README.md": README_ITEMS,
     "CHANGELOG.md": CHANGELOG_ITEMS,
-    os.path.join("metadoc", "metadoc_param.py"): PARAMS_ITEMS,
+    os.path.join("dmeta", "dmeta_param.py"): PARAMS_ITEMS,
 }
 
 TEST_NUMBER = len(FILES)
@@ -53,7 +53,7 @@ if __name__ == "__main__":
             file_content = codecs.open(
                 file_name, "r", "utf-8", 'ignore').read()
             for test_item in FILES[file_name]:
-                if file_content.find(test_item.format(METADOC_VERSION)) == -1:
+                if file_content.find(test_item.format(DMETA_VERSION)) == -1:
                     print("Incorrect version tag in " + file_name)
                     Failed += 1
                     break

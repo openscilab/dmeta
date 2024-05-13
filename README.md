@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="https://github.com/openscilab/metadoc/raw/main/otherfiles/logo.png" width="280" height="400">
+    <img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/logo.png" width="280" height="400">
     <br/>
     <br/>
-    <a href="https://codecov.io/gh/openscilab/metadoc">
-        <img src="https://codecov.io/gh/openscilab/metadoc/branch/main/graph/badge.svg" alt="Codecov"/>
+    <a href="https://codecov.io/gh/openscilab/dmeta">
+        <img src="https://codecov.io/gh/openscilab/dmeta/branch/main/graph/badge.svg" alt="Codecov"/>
     </a>
     <a href="TODO">
         <img src="TODO" alt="PyPI version" height="18">
@@ -20,22 +20,22 @@
 
 ## Table of contents
 
-* [Overview](https://github.com/openscilab/metadoc#overview)
-* [Installation](https://github.com/openscilab/metadoc#installation)
-* [Usage](https://github.com/openscilab/metadoc#usage)
-* [Issues & Bug Reports](https://github.com/openscilab/metadoc#issues--bug-reports)
-* [Todo](https://github.com/openscilab/metadoc/blob/main/TODO.md)
-* [Contribution](https://github.com/openscilab/metadoc/blob/main/.github/CONTRIBUTING.md)
-* [Authors](https://github.com/openscilab/metadoc/blob/main/AUTHORS.md)
-* [License](https://github.com/openscilab/metadoc/blob/main/LICENSE)
-* [Show Your Support](https://github.com/openscilab/metadoc#show-your-support)
-* [Changelog](https://github.com/openscilab/metadoc/blob/main/CHANGELOG.md)
-* [Code of Conduct](https://github.com/openscilab/metadoc/blob/main/.github/CODE_OF_CONDUCT.md)
+* [Overview](https://github.com/openscilab/dmeta#overview)
+* [Installation](https://github.com/openscilab/dmeta#installation)
+* [Usage](https://github.com/openscilab/dmeta#usage)
+* [Issues & Bug Reports](https://github.com/openscilab/dmeta#issues--bug-reports)
+* [Todo](https://github.com/openscilab/dmeta/blob/main/TODO.md)
+* [Contribution](https://github.com/openscilab/dmeta/blob/main/.github/CONTRIBUTING.md)
+* [Authors](https://github.com/openscilab/dmeta/blob/main/AUTHORS.md)
+* [License](https://github.com/openscilab/dmeta/blob/main/LICENSE)
+* [Show Your Support](https://github.com/openscilab/dmeta#show-your-support)
+* [Changelog](https://github.com/openscilab/dmeta/blob/main/CHANGELOG.md)
+* [Code of Conduct](https://github.com/openscilab/dmeta/blob/main/.github/CODE_OF_CONDUCT.md)
 
 
 ## Overview
 <p align="justify">
-MetaDoc is an open source Python package that provides ... TODO
+DMeta is an open source Python package that provides ... TODO
 </p>
 <table>
     <tr>
@@ -49,7 +49,7 @@ MetaDoc is an open source Python package that provides ... TODO
     <tr>
         <td align="center">Github Stars</td>
         <td align="center">
-            <a href="https://github.com/openscilab/metadoc">
+            <a href="https://github.com/openscilab/dmeta">
                 <img src="TODO">
             </a>
         </td>
@@ -64,10 +64,10 @@ MetaDoc is an open source Python package that provides ... TODO
     <tr>
         <td align="center">CI</td>
         <td align="center">
-            <img src="https://github.com/openscilab/metadoc/workflows/CI/badge.svg?branch=main">
+            <img src="https://github.com/openscilab/dmeta/workflows/CI/badge.svg?branch=main">
         </td>
         <td align="center">
-            <img src="https://github.com/openscilab/metadoc/workflows/CI/badge.svg?branch=dev">
+            <img src="https://github.com/openscilab/dmeta/workflows/CI/badge.svg?branch=dev">
             </td>
     </tr>
 </table>
@@ -78,9 +78,9 @@ MetaDoc is an open source Python package that provides ... TODO
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install metadoc==0.1`
+- Run `pip install dmeta==0.1`
 ### Source code
-- Download [Version 0.1](https://github.com/openscilab/metadoc/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/metadoc/archive/dev.zip)
+- Download [Version 0.1](https://github.com/openscilab/dmeta/archive/v0.1.zip) or [Latest Source](https://github.com/openscilab/dmeta/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
@@ -131,4 +131,4 @@ Give a ⭐️ if this project helped you!
 ### Donate to our project
 If you do like our project and we hope that you do, can you please support us? Our project is not and is never going to be working for profit. We need the money just so we can continue doing what we do ;-) .			
 
-<a href="https://openscilab.com/#donation" target="_blank"><img src="https://github.com/openscilab/metadoc/raw/main/otherfiles/donation.png" height="90px" width="270px" alt="MetaDoc Donation"></a>
+<a href="https://openscilab.com/#donation" target="_blank"><img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/donation.png" height="90px" width="270px" alt="DMeta Donation"></a>
