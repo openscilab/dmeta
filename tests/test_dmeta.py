@@ -4,14 +4,14 @@ import os
 TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
 
 def test_clear():
-    clear(os.path.join(TESTS_DIR_PATH, "test_a.docx"))
     # check the clearance
+    clear(os.path.join(TESTS_DIR_PATH, "test_a.docx"))
 
 
 def test_clear_all():
+    # check all files clearance
     os.chdir(TESTS_DIR_PATH)
     clear_all()
-    # check all files clearance
 
 
 def test_update():
