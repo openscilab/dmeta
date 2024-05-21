@@ -50,7 +50,7 @@ def extract_docx(docx_file_name):
     """
     docx_file_name = remove_format(docx_file_name)
     source_file = ZipFile(docx_file_name + ".docx")
-    unzipped_dir = os.path.join(os.getcwd(), "unzipped_" + docx_file_name)
+    unzipped_dir = os.path.join(docx_file_name + "_unzipped")
     rmtree(unzipped_dir, ignore_errors=True)
     os.mkdir(unzipped_dir)
     source_file.extractall(unzipped_dir)
