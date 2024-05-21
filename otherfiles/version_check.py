@@ -25,7 +25,7 @@ FILES = {
     "setup.py": SETUP_ITEMS,
     "README.md": README_ITEMS,
     "CHANGELOG.md": CHANGELOG_ITEMS,
-    os.path.join("dmeta", "dmeta_param.py"): PARAMS_ITEMS,
+    os.path.join("dmeta", "params.py"): PARAMS_ITEMS,
 }
 
 TEST_NUMBER = len(FILES)
