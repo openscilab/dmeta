@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Changed
+## [0.1] - 2024-05-29
+### Added
 - `main` function in `__main__.py`
 - `README.md`
 - `clear` function `functions.py`
@@ -18,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `remove_format` function in `util.py`
 - `extract_docx` function in `util.py`
 - `read_json` function in `util.py`
-
 
 [Unreleased]: https://github.com/openscilab/dmeta/compare/v0.1...dev
 [0.1]: https://github.com/openscilab/dmeta/compare/9a4ad10 ...v0.1
