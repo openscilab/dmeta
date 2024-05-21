@@ -32,7 +32,7 @@ def extract_namespaces(xml_file_path):
 
 def remove_format(docx_file_name):
     """
-    Remove the format from the end of the .docx file name
+    Remove the format from the end of the .docx file name.
 
     :param docx_file_name: name of .docx file
     :type docx_file_name: str
