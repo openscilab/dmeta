@@ -9,6 +9,7 @@ def test_clear():
 
 
 def test_clear_all():
+    os.chdir(TESTS_DIR_PATH)
     clear_all()
     # check all files clearance
 
@@ -20,4 +21,5 @@ def test_update():
 
 def test_update_all():
     # test all files meta-data are updated
+    os.chdir(TESTS_DIR_PATH)
     update_all(os.path.join(TESTS_DIR_PATH, "config.json"))
