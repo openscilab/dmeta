@@ -3,7 +3,7 @@
 import os
 import shutil
 import zipfile
-from .util import remove_format, extract_docx, extract_namespaces, read_json
+from .util import remove_format, extract_docx, read_json
 import defusedxml.ElementTree as ET
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW
 
