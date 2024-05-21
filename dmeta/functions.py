@@ -108,7 +108,7 @@ def update(config_file_name, docx_file_name):
                     xml_element.text = config[personal_field]
         e_app.write(app_xml_path, "utf-8", True, None, "xml")
 
-    modified_docx = docx_file_name + "_updated" 
+    modified_docx = docx_file_name + "_updated"
     with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
         for filename in source_file.namelist():
             docx.write(os.path.join(unzipped_dir, filename), filename)

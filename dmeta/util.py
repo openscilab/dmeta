@@ -6,6 +6,7 @@ from shutil import rmtree
 from zipfile import ZipFile
 import defusedxml.ElementTree as ET
 
+
 def extract_namespaces(xml_file_path):
     """
     Return used namespaces in the associated xml file.
