@@ -48,7 +48,7 @@ def clear(docx_file_name):
                 xml_element.text = ""
     e_app.write(app_xml_path, "utf-8", True, None, "xml")
 
-    modified_docx = "cleared_" + docx_file_name
+    modified_docx = docx_file_name + "_cleared"
     with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
         for file_name in source_file.namelist():
             docx.write(os.path.join(unzipped_dir, file_name), file_name)
@@ -124,7 +124,7 @@ def update(config_file_name, docx_file_name):
                     xml_element.text = config[personal_field]
         e_app.write(app_xml_path, "utf-8", True, None, "xml")
 
-    modified_docx = "updated_" + docx_file_name
+    modified_docx = docx_file_name + "_updated" 
     with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
         for filename in source_file.namelist():
             docx.write(os.path.join(unzipped_dir, filename), filename)
