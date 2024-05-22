@@ -4,7 +4,7 @@ import os
 import json
 from shutil import rmtree
 from zipfile import ZipFile
-import xml.dom.minidom as minidom
+import defusedxml.ElementTree as ET
 
 
 def extract_namespaces(xml_file_path):
@@ -16,19 +16,23 @@ def extract_namespaces(xml_file_path):
     :return: dict of namespaces[name: value]
     """
     namespaces = {}
-    doc = minidom.parse(xml_file_path)
-    root_child = doc.firstChild
-    for namespace_name in root_child._attrs:
-        xmlns, _, cropped_name = namespace_name.partition(":")
-        if not xmlns == "xmlns":
-            cropped_name = namespace_name
-        namespaces[cropped_name] = root_child._attrs[namespace_name].value
+    tree = ET.parse(xml_file_path)
+    root = tree.getroot()
+
+    # Extract namespaces from the root element
+    for key, value in root.attrib.items():
+        if key.startswith('xmlns:'):
+            _, _, cropped_name = key.partition(':')
+            namespaces[cropped_name] = value
+        elif key == 'xmlns':
+            namespaces['xmlns'] = value
+
     return namespaces
 
 
 def remove_format(docx_file_name):
     """
-    Remove the format from the end of the .docx file name
+    Remove the format from the end of the .docx file name.
 
     :param docx_file_name: name of .docx file
     :type docx_file_name: str
@@ -50,7 +54,7 @@ def extract_docx(docx_file_name):
     """
     docx_file_name = remove_format(docx_file_name)
     source_file = ZipFile(docx_file_name + ".docx")
-    unzipped_dir = os.path.join(os.getcwd(), "unzipped_" + docx_file_name)
+    unzipped_dir = os.path.join(docx_file_name + "_unzipped")
     rmtree(unzipped_dir, ignore_errors=True)
     os.mkdir(unzipped_dir)
     source_file.extractall(unzipped_dir)

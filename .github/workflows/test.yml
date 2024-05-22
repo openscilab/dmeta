@@ -31,9 +31,9 @@ jobs:
         run: |
           python otherfiles/requirements-splitter.py
           pip install --upgrade --upgrade-strategy=only-if-needed -r test-requirements.txt
-      # - name: Test with pytest 
-      #   run: |
-      #     python -m pytest . --cov=dmeta --cov-report=term
+      - name: Test with pytest 
+        run: |
+          python -m pytest . --cov=dmeta --cov-report=term
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
