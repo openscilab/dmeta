@@ -22,22 +22,23 @@ def clear(docx_file_name):
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
-    e_core = ET.parse(core_xml_path)
-    e_app = ET.parse(app_xml_path)
+    if os.path.exists(core_xml_path):
+        e_core = ET.parse(core_xml_path)
+        for xml_element in e_core.iter():
+            for personal_field in CORE_XML_MAP.keys():
+                associated_xml_tag = CORE_XML_MAP[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    xml_element.text = ""
+        e_core.write(core_xml_path, "utf-8", True, None, "xml")
 
-    for xml_element in e_core.iter():
-        for personal_field in CORE_XML_MAP.keys():
-            associated_xml_tag = CORE_XML_MAP[personal_field]
-            if (associated_xml_tag in xml_element.tag):
-                xml_element.text = ""
-    e_core.write(core_xml_path, "utf-8", True, None, "xml")
-
-    for xml_element in e_app.iter():
-        for personal_field in APP_XML_MAP.keys():
-            associated_xml_tag = APP_XML_MAP[personal_field]
-            if (associated_xml_tag in xml_element.tag):
-                xml_element.text = ""
-    e_app.write(app_xml_path, "utf-8", True, None, "xml")
+    if os.path.exists(app_xml_path):
+        e_app = ET.parse(app_xml_path)
+        for xml_element in e_app.iter():
+            for personal_field in APP_XML_MAP.keys():
+                associated_xml_tag = APP_XML_MAP[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    xml_element.text = ""
+        e_app.write(app_xml_path, "utf-8", True, None, "xml")
 
     modified_docx = docx_file_name + "_cleared"
     with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
@@ -91,22 +92,24 @@ def update(config_file_name, docx_file_name):
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     if has_core_tags:
-        e_core = ET.parse(core_xml_path)
-        for xml_element in e_core.iter():
-            for personal_field in personal_fields_core_xml:
-                associated_xml_tag = CORE_XML_MAP[personal_field]
-                if (associated_xml_tag in xml_element.tag):
-                    xml_element.text = config[personal_field]
-        e_core.write(core_xml_path, "utf-8", True, None, "xml")
+        if os.path.exists(core_xml_path):
+            e_core = ET.parse(core_xml_path)
+            for xml_element in e_core.iter():
+                for personal_field in personal_fields_core_xml:
+                    associated_xml_tag = CORE_XML_MAP[personal_field]
+                    if (associated_xml_tag in xml_element.tag):
+                        xml_element.text = config[personal_field]
+            e_core.write(core_xml_path, "utf-8", True, None, "xml")
 
     if has_app_tags:
-        e_app = ET.parse(app_xml_path)
-        for xml_element in e_app.iter():
-            for personal_field in personal_fields_app_xml:
-                associated_xml_tag = APP_XML_MAP[personal_field]
-                if (associated_xml_tag in xml_element.tag):
-                    xml_element.text = config[personal_field]
-        e_app.write(app_xml_path, "utf-8", True, None, "xml")
+        if os.path.exists(app_xml_path):
+            e_app = ET.parse(app_xml_path)
+            for xml_element in e_app.iter():
+                for personal_field in personal_fields_app_xml:
+                    associated_xml_tag = APP_XML_MAP[personal_field]
+                    if (associated_xml_tag in xml_element.tag):
+                        xml_element.text = config[personal_field]
+            e_app.write(app_xml_path, "utf-8", True, None, "xml")
 
     modified_docx = docx_file_name + "_updated"
     with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
