@@ -65,4 +65,9 @@ setup(
         'Topic :: Utilities',
     ],
     license='MIT',
+    entry_points={
+            'console_scripts': [
+                'dmeta = dmeta.__main__:main',
+            ]
+    }
 )
