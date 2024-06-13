@@ -1,7 +1,6 @@
 """DMeta main."""
 import argparse
-from art import tprint
-from dmeta.functions import run_dmeta, dmeta_help
+from dmeta.functions import run_dmeta
 from dmeta.params import DMETA_VERSION
 
 
@@ -11,9 +10,6 @@ def main():
 
     :return: None
     """
-    tprint("DMeta")
-    tprint("V:" + DMETA_VERSION)
-    dmeta_help()
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--clear',
@@ -48,16 +44,14 @@ def main():
         type=str,
         help="the `config` command specifices the way metadata in the .docx files get updated."
     )
-    # parse the arguments from the standard input
-    args = parser.parse_args()
+    parser.add_argument('--version', help="version", action='store_true', default=False)
+    parser.add_argument('-v', help="version", action='store_true', default=False)
+    args = parser.parse_known_args()[0]
+    if args.version or args.v:
+        print(DMETA_VERSION)
+        return
     run_dmeta(args)
 
 
 if __name__ == "__main__":
     main()
-
-# testcases:
-# dmeta --clear "test.docx"
-# dmeta --clear-all
-# dmeta --update "test.docx" --config "cnf.json"
-# dmeta --update-all --config "cnf.json"
