@@ -35,7 +35,7 @@
 
 ## Overview
 <p align="justify">
-DMeta is an open source Python package that provides ... TODO
+DMeta is an open source Python package that removes metadata of microsoft office files.
 </p>
 <table>
     <tr>
@@ -84,29 +84,67 @@ DMeta is an open source Python package that provides ... TODO
 - Run `pip install .`
 
 ## Usage
-### Clear metadata for a .docx file
-```pycon
->>> TODO
+### Programmatically 
+#### Clear metadata for a .docx file
+```python
+import os
+from dmeta.functions import clear
+
+DOCX_FILE_PATH = os.path.join(os.getcwd(), "SAMPLE.docx")
+clear(DOCX_FILE_PATH)
 ```
-### Clear metadata for all existing .docx files
-```pycon
->>> TODO
+#### Clear metadata for all existing .docx files in the current directory
+```python
+from dmeta.functions import clear_all
+clear_all()
 ```
-### Update metadata for a .docx file
-```pycon
->>> TODO
-```
-### Update metadata for all existing .docx files
-```pycon
->>> TODO
+#### Update metadata for a .docx file
+```python
+import os
+from dmeta.functions import update
+
+CONFIG_FILE_PATH = os.path.join(os.getcwd(), "CONFIG.json") 
+DOCX_FILE_PATH = os.path.join(os.getcwd(), "SAMPLE.docx")
+update(DOCX_FILE_PATH, DOCX_FILE_PATH)
 ```
 
+### Update metadata for all existing .docx files in the current directory
+```python
+import os
+from dmeta.functions import update_all
+
+CONFIG_FILE_PATH = os.path.join(os.getcwd(), "CONFIG.json") 
+update_all(CONFIG_FILE_PATH)
+```
+
+### CLI
+⚠️ You can use `dmeta` or `python -m dmeta` to run this program
+#### Version
+```console
+dmeta -v
+dmeta --version
+```
+### Clear metadata for a .docx file
+```console
+dmeta --clear "./test_a.docx"
+```
+### Clear metadata for all existing .docx files in the current directory
+```console
+dmeta --clear-all
+```
+### Update metadata for a .docx file
+```console
+dmeta --update "./test_a.docx" --config "./config.json"
+```
+### Update metadata for all existing .docx files in the current directory
+```console
+dmeta --update-all --config "./config.json"
+```
 
 ## Supported files
 | File format | support | 
 | ---------------- | ---------------- | 
 | Microsoft word office(.docx) | &#x2705; | 
-
 
 ## Issues & bug reports
 
