@@ -37,16 +37,20 @@ jobs:
           dir ./tests
       - name: CLI Tests - Clear all .docx files
         run: |
-          dmeta --clear-all
-          dir ./tests
+          cd ./tests
+          dmeta --clear-all 
+          dir .
+          cd -
       - name: CLI Tests - Update single .docx file
         run: |
           dmeta --update "tests/test_a.docx" --config "tests/config.json"
           dir ./tests
       - name: CLI Tests - Update all .docx files
         run: |
+          cd ./tests
           dmeta --update-all --config "tests/config.json"
-          dir ./tests
+          dir .
+          cd -
       - name: Test requirements Installation
         run: |
           python otherfiles/requirements-splitter.py
