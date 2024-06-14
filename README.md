@@ -35,7 +35,7 @@
 
 ## Overview
 <p align="justify">
-DMeta is an open source Python package that removes metadata of microsoft office files.
+DMeta is an open source Python package that removes metadata of Microsoft Office files.
 </p>
 <table>
     <tr>
@@ -105,7 +105,7 @@ from dmeta.functions import update
 
 CONFIG_FILE_PATH = os.path.join(os.getcwd(), "CONFIG.json") 
 DOCX_FILE_PATH = os.path.join(os.getcwd(), "SAMPLE.docx")
-update(DOCX_FILE_PATH, DOCX_FILE_PATH)
+update(CONFIG_FILE_PATH, DOCX_FILE_PATH)
 ```
 
 ### Update metadata for all existing .docx files in the current directory
