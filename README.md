@@ -5,14 +5,14 @@
     <a href="https://codecov.io/gh/openscilab/dmeta">
         <img src="https://codecov.io/gh/openscilab/dmeta/branch/main/graph/badge.svg" alt="Codecov"/>
     </a>
-    <a href="TODO">
-        <img src="TODO" alt="PyPI version" height="18">
+    <a href="https://badge.fury.io/py/dmeta">
+        <img src="https://badge.fury.io/py/dmeta.svg" alt="PyPI version" height="18">
     </a>
     <a href="https://www.python.org/">
         <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
     </a>
-    <a href="TODO">
-        <img src="TODO" alt="Discord Channel">
+    <a href="https://discord.gg/626twyuPZG">
+        <img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel">
     </a>
 </div>
 
@@ -41,8 +41,8 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
     <tr>
         <td align="center">PyPI Counter</td>
         <td align="center">
-            <a href="TODO">
-                <img src="TODO">
+            <a href="http://pepy.tech/project/dmeta">
+                <img src="http://pepy.tech/badge/dmeta">
             </a>
         </td>
     </tr>
@@ -50,7 +50,7 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
         <td align="center">Github Stars</td>
         <td align="center">
             <a href="https://github.com/openscilab/dmeta">
-                <img src="TODO">
+                <img src="https://img.shields.io/github/stars/openscilab/dmeta.svg?style=social&label=Stars">
             </a>
         </td>
     </tr>
@@ -154,8 +154,8 @@ Just fill an issue and describe it. We'll check it ASAP! or send an email to [in
  
 You can also join our discord server
 
-<a href="TODO">
-  <img src="TODO" alt="Discord Channel">
+<a href="https://discord.gg/626twyuPZG">
+  <img src="https://img.shields.io/discord/1064533716615049236.svg?style=for-the-badge" alt="Discord Channel">
 </a>
 
 
