@@ -84,13 +84,13 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
 - Run `pip install .`
 
 ## Usage
-### Programmatically 
+### In Python
 #### Clear metadata for a .docx file
 ```python
 import os
 from dmeta.functions import clear
 
-DOCX_FILE_PATH = os.path.join(os.getcwd(), "SAMPLE.docx")
+DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
 clear(DOCX_FILE_PATH)
 ```
 #### Clear metadata for all existing .docx files in the current directory
@@ -103,8 +103,8 @@ clear_all()
 import os
 from dmeta.functions import update
 
-CONFIG_FILE_PATH = os.path.join(os.getcwd(), "CONFIG.json") 
-DOCX_FILE_PATH = os.path.join(os.getcwd(), "SAMPLE.docx")
+CONFIG_FILE_PATH = os.path.join(os.getcwd(), "config.json") 
+DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
 update(CONFIG_FILE_PATH, DOCX_FILE_PATH)
 ```
 
@@ -113,7 +113,7 @@ update(CONFIG_FILE_PATH, DOCX_FILE_PATH)
 import os
 from dmeta.functions import update_all
 
-CONFIG_FILE_PATH = os.path.join(os.getcwd(), "CONFIG.json") 
+CONFIG_FILE_PATH = os.path.join(os.getcwd(), "config.json") 
 update_all(CONFIG_FILE_PATH)
 ```
 
