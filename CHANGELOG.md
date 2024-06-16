@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 ## [0.1] - 2024-05-29
 ### Added
+- `CLI` handler
 - `main` function in `__main__.py`
 - `README.md`
 - `clear` function `functions.py`

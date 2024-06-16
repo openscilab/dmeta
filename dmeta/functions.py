@@ -3,9 +3,10 @@
 import os
 import shutil
 import zipfile
+from art import tprint
 from .util import remove_format, extract_docx, read_json
 import defusedxml.ElementTree as ET
-from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW
+from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION
 
 
 def clear(docx_file_name):
@@ -169,3 +170,7 @@ def run_dmeta(args):
             print("when using the `update-all` command, you should set the .json config file through the --config command")
         else:
             update_all(args.config[0])
+    else:
+        tprint("DMeta")
+        tprint("V:" + DMETA_VERSION)
+        dmeta_help()

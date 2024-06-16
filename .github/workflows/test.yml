@@ -27,6 +27,30 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install .
+      - name: CLI Tests - Version Check
+        run: |
+          python -m dmeta --version
+          dmeta -v
+      - name: CLI Tests - Clear single .docx file
+        run: |
+          dmeta --clear "tests/test_a.docx"
+          ls ./tests
+      - name: CLI Tests - Clear all .docx files
+        run: |
+          cd ./tests
+          dmeta --clear-all 
+          ls .
+          cd -
+      - name: CLI Tests - Update single .docx file
+        run: |
+          dmeta --update "tests/test_a.docx" --config "tests/config.json"
+          ls ./tests
+      - name: CLI Tests - Update all .docx files
+        run: |
+          cd ./tests
+          dmeta --update-all --config "./config.json"
+          ls .
+          cd -
       - name: Test requirements Installation
         run: |
           python otherfiles/requirements-splitter.py
