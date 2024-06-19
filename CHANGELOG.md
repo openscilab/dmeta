@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
-## [0.1] - 2024-05-29
+## [0.1] - 2024-06-19
 ### Added
 - `CLI` handler
 - `main` function in `__main__.py`
