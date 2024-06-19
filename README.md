@@ -148,7 +148,7 @@ dmeta --update-all --config "./config.json"
 
 ## Issues & bug reports
 
-Just fill an issue and describe it. We'll check it ASAP! or send an email to [info@openscilab.com](mailto:info@openscilab.com "info@openscilab.com"). 
+Just fill an issue and describe it. We'll check it ASAP! or send an email to [dmeta@openscilab.com](mailto:dmeta@openscilab.com "dmeta@openscilab.com"). 
 
 - Please complete the issue template
  
