@@ -4,48 +4,48 @@ import os
 import shutil
 import zipfile
 from art import tprint
-from .util import remove_format, extract_docx, read_json
-import defusedxml.ElementTree as ET
+from .util import get_microsoft_format, extract, read_json
+import defusedxml.lxml as lxml
+
+
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION
 
 
-def clear(docx_file_name):
+def clear(microsoft_file_name):
     """
-    Clear all the editable metadata in the given .docx file.
+    Clear all the editable metadata in the given microsoft file.
 
-    :param docx_file_name: name of .docx file
-    :type docx_file_name: str
+    :param microsoft_file_name: name of microsoft file
+    :type microsoft_file_name: str
     :return: None
     """
-    docx_file_name = remove_format(docx_file_name)
-    unzipped_dir, source_file = extract_docx(docx_file_name)
+    microsoft_format = get_microsoft_format(microsoft_file_name)
+    unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     if os.path.exists(core_xml_path):
-        e_core = ET.parse(core_xml_path)
+        e_core = lxml.parse(core_xml_path)
         for xml_element in e_core.iter():
-            for personal_field in CORE_XML_MAP.keys():
-                associated_xml_tag = CORE_XML_MAP[personal_field]
-                if (associated_xml_tag in xml_element.tag):
+            for personal_field in CORE_XML_MAP.values():
+                if (personal_field in xml_element.tag):
                     xml_element.text = ""
-        e_core.write(core_xml_path, "utf-8", True, None, "xml")
+        e_core.write(core_xml_path)
 
     if os.path.exists(app_xml_path):
-        e_app = ET.parse(app_xml_path)
+        e_app = lxml.parse(app_xml_path)
         for xml_element in e_app.iter():
-            for personal_field in APP_XML_MAP.keys():
-                associated_xml_tag = APP_XML_MAP[personal_field]
-                if (associated_xml_tag in xml_element.tag):
+            for personal_field in APP_XML_MAP.values():
+                if (personal_field in xml_element.tag):
                     xml_element.text = ""
-        e_app.write(app_xml_path, "utf-8", True, None, "xml")
+        e_app.write(app_xml_path)
 
-    modified_docx = docx_file_name + "_cleared"
-    with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
+    modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared"
+    with zipfile.ZipFile(modified + "." + microsoft_format, "w") as file:
         for file_name in source_file.namelist():
-            docx.write(os.path.join(unzipped_dir, file_name), file_name)
-        docx.close()
+            file.write(os.path.join(unzipped_dir, file_name), file_name)
+        file.close()
     shutil.rmtree(unzipped_dir)
 
 
