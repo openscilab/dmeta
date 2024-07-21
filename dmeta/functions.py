@@ -121,7 +121,7 @@ def update(config_file_name, docx_file_name):
 
 def update_all(config_file_name):
     """
-    Update all the editable metadata in any .docx file in the current directory according to the given config file.
+    Update all the editable metadata in any microsoft file in the current directory according to the given config file.
 
     :param config_file_name: name of .json config file
     :type config_file_name: str
@@ -129,12 +129,12 @@ def update_all(config_file_name):
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
-    docx_files = []
+    microsoft_files = []
     for item in dir_list:
-        if ".docx" in item:
-            docx_files.append(item)
-    for docx_file in docx_files:
-        update(config_file_name, docx_file)
+        if get_microsoft_format(item) != None:
+            microsoft_files.append(item)
+    for microsoft_file in microsoft_files:
+        update(config_file_name, microsoft_file)
 
 
 def dmeta_help():
