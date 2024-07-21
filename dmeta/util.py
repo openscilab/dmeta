@@ -41,7 +41,7 @@ def get_microsoft_format(file_name):
     if (last_dot_index == -1):
         return None
     format = file_name[last_dot_index + 1:]
-    if not format in SUPPORTED_MICROSOFT_FORMATS:
+    if format not in SUPPORTED_MICROSOFT_FORMATS:
         return None
     return format
 

@@ -59,7 +59,7 @@ def clear_all():
     dir_list = os.listdir(path)
     microsoft_files = []
     for item in dir_list:
-        if get_microsoft_format(item) != None:
+        if get_microsoft_format(item) is not None:
             microsoft_files.append(item)
     for microsoft_file in microsoft_files:
         clear(microsoft_file)
@@ -132,7 +132,7 @@ def update_all(config_file_name):
     dir_list = os.listdir(path)
     microsoft_files = []
     for item in dir_list:
-        if get_microsoft_format(item) != None:
+        if get_microsoft_format(item) is not None:
             microsoft_files.append(item)
     for microsoft_file in microsoft_files:
         update(config_file_name, microsoft_file)
