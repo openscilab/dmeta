@@ -1,5 +1,5 @@
 from dmeta.functions import update, update_all, clear, clear_all
-import os 
+import os
 
 TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
 
