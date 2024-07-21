@@ -28,21 +28,23 @@ def extract_namespaces(xml_file_path):
     return namespaces
 
 
-def remove_format(docx_file_name):
+def get_microsoft_format(file_name):
     """
-    Remove the format from the end of the .docx file name.
+    Extract format from the end of the given microsoft file name.
 
-    :param docx_file_name: name of .docx file
-    :type docx_file_name: str
-    :return: str (the .docx file name without format at the end)
+    :param file_name: name of the microsoft file name
+    :type file_name: str
+    :return: str
     """
-    last_dot_index = docx_file_name.rfind('.')
-    if (last_dot_index != -1):
-        docx_file_name = docx_file_name[:last_dot_index]
-    return docx_file_name
+    last_dot_index = file_name.rfind('.')
+    if (last_dot_index == -1):
+        return None
+    format = file_name[last_dot_index + 1:]
+    if not format in SUPPORTED_MICROSOFT_FORMATS:
+        return None
+    return format
 
 
-def extract_docx(docx_file_name):
     """
     Zip and extract the .docx file.
 
