@@ -144,7 +144,10 @@ dmeta --update-all --config "./config.json"
 ## Supported files
 | File format | support | 
 | ---------------- | ---------------- | 
-| Microsoft word office(.docx) | &#x2705; | 
+| Microsoft Word (.docx) | &#x2705; |
+| Microsoft PowerPoint (.pptx) | &#x2705; |
+| Microsoft Excel (.xlsx) | &#x2705; |
+
 
 ## Issues & bug reports
 
