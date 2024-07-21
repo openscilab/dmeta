@@ -1,2 +1,2 @@
 art>=1.8
-defusedxml>=0.5.0
+defusedxml>=0.7.1
