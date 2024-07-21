@@ -65,14 +65,14 @@ def clear_all():
         clear(docx_file)
 
 
-def update(config_file_name, docx_file_name):
+def update(config_file_name, microsoft_file_name):
     """
-    Update all the editable metadata in the given .docx file according to the given config file.
+    Update all the editable metadata in the given microsoft file according to the given config file.
 
     :param config_file_name: name of .json config file
     :type config_file_name: str
-    :param docx_file_name: name of .docx file
-    :type docx_file_name: str
+    :param microsoft_file_name: name of microsoft file
+    :type microsoft_file_name: str
     :return: None
     """
     config = read_json(config_file_name)
@@ -86,36 +86,37 @@ def update(config_file_name, docx_file_name):
         print("There isn't any chosen personal field to remove")
         return
 
-    docx_file_name = remove_format(docx_file_name)
-    unzipped_dir, source_file = extract_docx(docx_file_name)
+    microsoft_format = get_microsoft_format(microsoft_file_name)
+    unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     if has_core_tags:
         if os.path.exists(core_xml_path):
-            e_core = ET.parse(core_xml_path)
+            e_core = lxml.parse(core_xml_path)
             for xml_element in e_core.iter():
                 for personal_field in personal_fields_core_xml:
                     associated_xml_tag = CORE_XML_MAP[personal_field]
                     if (associated_xml_tag in xml_element.tag):
                         xml_element.text = config[personal_field]
-            e_core.write(core_xml_path, "utf-8", True, None, "xml")
+            e_core.write(core_xml_path)
 
     if has_app_tags:
         if os.path.exists(app_xml_path):
-            e_app = ET.parse(app_xml_path)
+            e_app = lxml.parse(app_xml_path)
             for xml_element in e_app.iter():
                 for personal_field in personal_fields_app_xml:
                     associated_xml_tag = APP_XML_MAP[personal_field]
                     if (associated_xml_tag in xml_element.tag):
                         xml_element.text = config[personal_field]
-            e_app.write(app_xml_path, "utf-8", True, None, "xml")
+            e_app.write(app_xml_path)
 
-    modified_docx = docx_file_name + "_updated"
-    with zipfile.ZipFile(modified_docx + ".docx", "w") as docx:
-        for filename in source_file.namelist():
-            docx.write(os.path.join(unzipped_dir, filename), filename)
+    modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_updated"
+    with zipfile.ZipFile(modified + "." + microsoft_format, "w") as file:
+        for file_name in source_file.namelist():
+            file.write(os.path.join(unzipped_dir, file_name), file_name)
+        file.close()
     shutil.rmtree(unzipped_dir)
 
 
