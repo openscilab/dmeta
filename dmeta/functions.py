@@ -51,18 +51,18 @@ def clear(docx_file_name):
 
 def clear_all():
     """
-    Clear all the editable metadata in any .docx file in the current directory.
+    Clear all the editable metadata in any microsoft file in the current directory.
 
     :return: None
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
-    docx_files = []
+    microsoft_files = []
     for item in dir_list:
-        if ".docx" in item:
-            docx_files.append(item)
-    for docx_file in docx_files:
-        clear(docx_file)
+        if get_microsoft_format(item) != None:
+            microsoft_files.append(item)
+    for microsoft_file in microsoft_files:
+        clear(microsoft_file)
 
 
 def update(config_file_name, microsoft_file_name):
