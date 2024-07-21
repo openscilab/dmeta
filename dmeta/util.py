@@ -5,6 +5,7 @@ import json
 from shutil import rmtree
 from zipfile import ZipFile
 import defusedxml.ElementTree as ET
+from .params import SUPPORTED_MICROSOFT_FORMATS
 
 
 def extract_namespaces(xml_file_path):
@@ -45,16 +46,16 @@ def get_microsoft_format(file_name):
     return format
 
 
+def extract(file_name):
     """
-    Zip and extract the .docx file.
+    Zip and extract the microsoft file.
 
-    :param docx_file_name: name of .docx file
-    :type docx_file_name: str
+    :param file_name: name of microsoft file
+    :type file_name: str
     :return: (str, ZipFile) as (unzipped directory, ZipFile instance to work with the extracted content)
     """
-    docx_file_name = remove_format(docx_file_name)
-    source_file = ZipFile(docx_file_name + ".docx")
-    unzipped_dir = os.path.join(docx_file_name + "_unzipped")
+    source_file = ZipFile(file_name)
+    unzipped_dir = os.path.join(file_name[:file_name.rfind(".")] + "_unzipped")
     rmtree(unzipped_dir, ignore_errors=True)
     os.mkdir(unzipped_dir)
     source_file.extractall(unzipped_dir)
