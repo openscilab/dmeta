@@ -18,7 +18,6 @@ def extract_namespaces(xml_file_path):
     namespaces = {}
     tree = ET.parse(xml_file_path)
     root = tree.getroot()
-
     # Extract namespaces from the root element
     for key, value in root.attrib.items():
         if key.startswith('xmlns:'):
@@ -26,7 +25,6 @@ def extract_namespaces(xml_file_path):
             namespaces[cropped_name] = value
         elif key == 'xmlns':
             namespaces['xmlns'] = value
-
     return namespaces
 
 
