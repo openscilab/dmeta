@@ -3,7 +3,7 @@
     <br/>
     <br/>
     <a href="https://codecov.io/gh/openscilab/dmeta">
-        <img src="https://codecov.io/gh/openscilab/dmeta/branch/main/graph/badge.svg" alt="Codecov"/>
+        <img src="https://codecov.io/gh/openscilab/dmeta/branch/dev/graph/badge.svg" alt="Codecov"/>
     </a>
     <a href="https://badge.fury.io/py/dmeta">
         <img src="https://badge.fury.io/py/dmeta.svg" alt="PyPI version" height="18">
