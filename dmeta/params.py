@@ -31,3 +31,8 @@ APP_XML_MAP = {
     "company": "Company",
     "manager": "Manager"
 }
+SUPPORTED_MICROSOFT_FORMATS = [
+    "docx",
+    "pptx",
+    "xlsx"
+]

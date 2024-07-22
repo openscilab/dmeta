@@ -6,18 +6,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `pptx` and `xlsx` support
+- `get_microsoft_format` function in `util.py`
 ### Changed
+- `extract` function in `util.py`
+- `remove_format` function in `util.py`
+- `clear` function in `functions.py`
+- `clear_all` function in `functions.py`
+- `update` function in `functions.py`
+- `update_all` function in `functions.py`
+- `extract_namespaces` function in `util.py`
 ## [0.1] - 2024-06-19
 ### Added
 - `CLI` handler
 - `main` function in `__main__.py`
 - `README.md`
-- `clear` function `functions.py`
+- `clear` function in `functions.py`
 - `clear_all` function in `functions.py`
-- `update` function `functions.py`
-- `update_all` function `functions.py`
-- `run_dmeta` function `functions.py`
-- `dmeta_help` function `functions.py`
+- `update` function in `functions.py`
+- `update_all` function in `functions.py`
+- `run_dmeta` function in `functions.py`
+- `dmeta_help` function in `functions.py`
 - `extract_namespaces` function in `util.py`
 - `remove_format` function in `util.py`
 - `extract_docx` function in `util.py`

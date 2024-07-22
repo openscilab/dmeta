@@ -5,6 +5,7 @@ import json
 from shutil import rmtree
 from zipfile import ZipFile
 import defusedxml.ElementTree as ET
+from .params import SUPPORTED_MICROSOFT_FORMATS
 
 
 def extract_namespaces(xml_file_path):
@@ -18,7 +19,6 @@ def extract_namespaces(xml_file_path):
     namespaces = {}
     tree = ET.parse(xml_file_path)
     root = tree.getroot()
-
     # Extract namespaces from the root element
     for key, value in root.attrib.items():
         if key.startswith('xmlns:'):
@@ -26,35 +26,36 @@ def extract_namespaces(xml_file_path):
             namespaces[cropped_name] = value
         elif key == 'xmlns':
             namespaces['xmlns'] = value
-
     return namespaces
 
 
-def remove_format(docx_file_name):
+def get_microsoft_format(file_name):
     """
-    Remove the format from the end of the .docx file name.
+    Extract format from the end of the given microsoft file name.
 
-    :param docx_file_name: name of .docx file
-    :type docx_file_name: str
-    :return: str (the .docx file name without format at the end)
+    :param file_name: name of the microsoft file name
+    :type file_name: str
+    :return: str
     """
-    last_dot_index = docx_file_name.rfind('.')
-    if (last_dot_index != -1):
-        docx_file_name = docx_file_name[:last_dot_index]
-    return docx_file_name
+    last_dot_index = file_name.rfind('.')
+    if (last_dot_index == -1):
+        return None
+    format = file_name[last_dot_index + 1:]
+    if format not in SUPPORTED_MICROSOFT_FORMATS:
+        return None
+    return format
 
 
-def extract_docx(docx_file_name):
+def extract(file_name):
     """
-    Zip and extract the .docx file.
+    Zip and extract the microsoft file.
 
-    :param docx_file_name: name of .docx file
-    :type docx_file_name: str
+    :param file_name: name of microsoft file
+    :type file_name: str
     :return: (str, ZipFile) as (unzipped directory, ZipFile instance to work with the extracted content)
     """
-    docx_file_name = remove_format(docx_file_name)
-    source_file = ZipFile(docx_file_name + ".docx")
-    unzipped_dir = os.path.join(docx_file_name + "_unzipped")
+    source_file = ZipFile(file_name)
+    unzipped_dir = os.path.join(file_name[:file_name.rfind(".")] + "_unzipped")
     rmtree(unzipped_dir, ignore_errors=True)
     os.mkdir(unzipped_dir)
     source_file.extractall(unzipped_dir)
