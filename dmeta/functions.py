@@ -4,11 +4,11 @@ import os
 import shutil
 import zipfile
 from art import tprint
-from .util import get_microsoft_format, extract, read_json
 import defusedxml.lxml as lxml
-
-
-from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION
+from .errors import DMetaBaseError
+from .util import get_microsoft_format, extract, read_json
+from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
+      UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR
 
 
 def clear(microsoft_file_name):
@@ -163,12 +163,12 @@ def run_dmeta(args):
         clear_all()
     elif args.update:
         if not args.config:
-            print("when using the `update` command, you should set the .json config file through the --config command")
+            raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
             update(args.config[0], args.update[0])
     elif args.update_all:
         if not args.config:
-            print("when using the `update-all` command, you should set the .json config file through the --config command")
+            raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
             update_all(args.config[0])
     else:
