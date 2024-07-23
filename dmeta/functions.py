@@ -57,13 +57,11 @@ def clear_all():
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
-    microsoft_files = []
-    for item in dir_list:
-        if get_microsoft_format(item) is not None:
-            microsoft_files.append(item)
-    for microsoft_file in microsoft_files:
-        clear(microsoft_file)
-
+    for file in dir_list:
+        try:
+            clear(file)
+        except DMetaBaseError as e:
+            pass
 
 def update(config_file_name, microsoft_file_name):
     """
