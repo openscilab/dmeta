@@ -128,12 +128,11 @@ def update_all(config_file_name):
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
-    microsoft_files = []
-    for item in dir_list:
-        if get_microsoft_format(item) is not None:
-            microsoft_files.append(item)
-    for microsoft_file in microsoft_files:
-        update(config_file_name, microsoft_file)
+    for file in dir_list:
+        try:
+            update(config_file_name, file)
+        except DMetaBaseError as e:
+            pass
 
 
 def dmeta_help():
