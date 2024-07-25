@@ -67,12 +67,13 @@ def clear_all():
             clear(file)
             counter[format] += 1
         except DMetaBaseError as e:
-            if e.message == NOT_IMPLEMENTED_ERROR:
-                print("DMeta couldn't clear the metadata of {file} since {NOT_IMPLEMENTED_ERROR}")
-            if e.message == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                print("Clearing the metadata of {file} failed because DMeta {FILE_FORMAT_DOES_NOT_EXIST_ERROR}")
+            e = e.__str__()
+            if e == NOT_IMPLEMENTED_ERROR:
+                print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
+            if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                print("Clearing the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
     for format in counter.keys():
-        print("Metadata of {counter[format]} files with the format of {format} has been cleared.")
+        print("Metadata of {} files with the format of {} has been cleared.".format(counter[format], format))
 
 
 def update(config_file_name, microsoft_file_name):
@@ -149,12 +150,13 @@ def update_all(config_file_name):
             update(config_file_name, file)
             counter[format] += 1
         except DMetaBaseError as e:
-            if e.message == NOT_IMPLEMENTED_ERROR:
-                print("DMeta couldn't update the metadata of {file} since {NOT_IMPLEMENTED_ERROR}")
-            if e.message == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                print("Updating the metadata of {file} failed because DMeta {FILE_FORMAT_DOES_NOT_EXIST_ERROR}")
+            e = e.__str__()
+            if e == NOT_IMPLEMENTED_ERROR:
+                print("DMeta couldn't update the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
+            if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                print("Updating the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
     for format in counter.keys():
-        print("Metadata of {counter[format]} files with the format of {format} has been updated.")
+        print("Metadata of {} files with the format of {} has been updated.".format(counter[format], format))
 
 
 def dmeta_help():
