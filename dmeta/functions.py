@@ -4,11 +4,12 @@ import os
 import shutil
 import zipfile
 from art import tprint
-from .util import get_microsoft_format, extract, read_json
 import defusedxml.lxml as lxml
-
-
-from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION
+from .errors import DMetaBaseError
+from .util import get_microsoft_format, extract, read_json
+from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
+    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS, \
+    NOT_IMPLEMENTED_ERROR, FILE_FORMAT_DOES_NOT_EXIST_ERROR
 
 
 def clear(microsoft_file_name):
@@ -57,12 +58,22 @@ def clear_all():
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
-    microsoft_files = []
-    for item in dir_list:
-        if get_microsoft_format(item) is not None:
-            microsoft_files.append(item)
-    for microsoft_file in microsoft_files:
-        clear(microsoft_file)
+    counter = {
+        format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
+    }
+    for file in dir_list:
+        try:
+            format = get_microsoft_format(file)
+            clear(file)
+            counter[format] += 1
+        except DMetaBaseError as e:
+            e = e.__str__()
+            if e == NOT_IMPLEMENTED_ERROR:
+                print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
+            if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                print("Clearing the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+    for format in counter.keys():
+        print("Metadata of {} files with the format of {} has been cleared.".format(counter[format], format))
 
 
 def update(config_file_name, microsoft_file_name):
@@ -83,7 +94,7 @@ def update(config_file_name, microsoft_file_name):
     has_app_tags = len(personal_fields_core_xml) > 0
 
     if not (has_core_tags or has_app_tags):
-        print("There isn't any chosen personal field to remove")
+        print("There isn't any chosen personal field to remove.")
         return
 
     microsoft_format = get_microsoft_format(microsoft_file_name)
@@ -130,12 +141,22 @@ def update_all(config_file_name):
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
-    microsoft_files = []
-    for item in dir_list:
-        if get_microsoft_format(item) is not None:
-            microsoft_files.append(item)
-    for microsoft_file in microsoft_files:
-        update(config_file_name, microsoft_file)
+    counter = {
+        format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
+    }
+    for file in dir_list:
+        try:
+            format = get_microsoft_format(file)
+            update(config_file_name, file)
+            counter[format] += 1
+        except DMetaBaseError as e:
+            e = e.__str__()
+            if e == NOT_IMPLEMENTED_ERROR:
+                print("DMeta couldn't update the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
+            if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                print("Updating the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+    for format in counter.keys():
+        print("Metadata of {} files with the format of {} has been updated.".format(counter[format], format))
 
 
 def dmeta_help():
@@ -146,7 +167,7 @@ def dmeta_help():
     """
     print(OVERVIEW)
     print("Repo : https://github.com/openscilab/dmeta")
-    print("Webpage : https://openscilab.com/")
+    print("Webpage : https://openscilab.com")
 
 
 def run_dmeta(args):
@@ -163,12 +184,12 @@ def run_dmeta(args):
         clear_all()
     elif args.update:
         if not args.config:
-            print("when using the `update` command, you should set the .json config file through the --config command")
+            raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
             update(args.config[0], args.update[0])
     elif args.update_all:
         if not args.config:
-            print("when using the `update-all` command, you should set the .json config file through the --config command")
+            raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
             update_all(args.config[0])
     else:

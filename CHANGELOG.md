@@ -6,9 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `dmeta/errors.py`
 - `pptx` and `xlsx` support
 - `get_microsoft_format` function in `util.py`
 ### Changed
+- `run_dmeta` in `functions.py`
+- `read_json` in `util.py`
+- `get_microsoft_format` in `util.py`
+- error messages in `params.py`
+- `clear` function in `functions.py`
 - `extract` function in `util.py`
 - `remove_format` function in `util.py`
 - `clear` function in `functions.py`
