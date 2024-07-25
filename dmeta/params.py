@@ -36,8 +36,8 @@ SUPPORTED_MICROSOFT_FORMATS = [
     "pptx",
     "xlsx"
 ]
-NOT_IMPLEMENTED_ERROR = "Removing the meta data of this format is not yet supported by DMeta."
-FILE_FORMAT_DOES_NOT_EXIST_ERROR = "Given file name doesn't have a specific format at the end."
-INVALID_CONFIG_FILE_NAME_ERROR = "Given config file name should be str not the other type."
+NOT_IMPLEMENTED_ERROR = "The file format is not supported."
+FILE_FORMAT_DOES_NOT_EXIST_ERROR = "Failed to detect file format. Make sure the file has proper extension (.docx, .pptx, etc.)."
+INVALID_CONFIG_FILE_NAME_ERROR = "Config file name is not a string."
 CONFIG_FILE_DOES_NOT_EXIST_ERROR = "Given config file doesn't exist."
-UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR = "when using the `update`/`update-all` command, you should set the .json config file through the --config command"
+UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR = "No config file provided. Set the .json config file with --config command."
