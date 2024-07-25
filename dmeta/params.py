@@ -37,7 +37,7 @@ SUPPORTED_MICROSOFT_FORMATS = [
     "xlsx"
 ]
 NOT_IMPLEMENTED_ERROR = "The file format is not supported."
-FILE_FORMAT_DOES_NOT_EXIST_ERROR = "Failed to detect file format. Make sure the file has proper extension (.docx, .pptx, etc.)."
+FILE_FORMAT_DOES_NOT_EXIST_ERROR = "Failed to detect the file format. Make sure associated file has a proper extension (.docx, .pptx, etc.)."
 INVALID_CONFIG_FILE_NAME_ERROR = "Config file name is not a string."
 CONFIG_FILE_DOES_NOT_EXIST_ERROR = "Given config file doesn't exist."
 UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR = "No config file provided. Set the .json config file with --config command."
