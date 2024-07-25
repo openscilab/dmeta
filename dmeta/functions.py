@@ -8,7 +8,8 @@ import defusedxml.lxml as lxml
 from .errors import DMetaBaseError
 from .util import get_microsoft_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
-      UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR
+      UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS, \
+      NOT_IMPLEMENTED_ERROR, FILE_FORMAT_DOES_NOT_EXIST_ERROR
 
 
 def clear(microsoft_file_name):
@@ -57,11 +58,22 @@ def clear_all():
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
+    counter = {
+        format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
+    }
     for file in dir_list:
         try:
+            format = get_microsoft_format(file)
             clear(file)
+            counter[format] += 1
         except DMetaBaseError as e:
-            pass
+            if e.message == NOT_IMPLEMENTED_ERROR:
+                print("DMeta couldn't clear the metadata of {file} since {NOT_IMPLEMENTED_ERROR}")
+            if e.message == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                print("Clearing the metadata of {file} failed because DMeta {FILE_FORMAT_DOES_NOT_EXIST_ERROR}")
+    for format in counter.keys():
+        print("Metadata of {counter[format]} files with the format of {format} has been cleared.")
+
 
 def update(config_file_name, microsoft_file_name):
     """
@@ -81,7 +93,7 @@ def update(config_file_name, microsoft_file_name):
     has_app_tags = len(personal_fields_core_xml) > 0
 
     if not (has_core_tags or has_app_tags):
-        print("There isn't any chosen personal field to remove")
+        print("There isn't any chosen personal field to remove.")
         return
 
     microsoft_format = get_microsoft_format(microsoft_file_name)
@@ -128,11 +140,21 @@ def update_all(config_file_name):
     """
     path = os.getcwd()
     dir_list = os.listdir(path)
+    counter = {
+        format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
+    }
     for file in dir_list:
         try:
+            format = get_microsoft_format(file)
             update(config_file_name, file)
+            counter[format] += 1
         except DMetaBaseError as e:
-            pass
+            if e.message == NOT_IMPLEMENTED_ERROR:
+                print("DMeta couldn't update the metadata of {file} since {NOT_IMPLEMENTED_ERROR}")
+            if e.message == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                print("Updating the metadata of {file} failed because DMeta {FILE_FORMAT_DOES_NOT_EXIST_ERROR}")
+    for format in counter.keys():
+        print("Metadata of {counter[format]} files with the format of {format} has been updated.")
 
 
 def dmeta_help():
@@ -143,7 +165,7 @@ def dmeta_help():
     """
     print(OVERVIEW)
     print("Repo : https://github.com/openscilab/dmeta")
-    print("Webpage : https://openscilab.com/")
+    print("Webpage : https://openscilab.com")
 
 
 def run_dmeta(args):
