@@ -10,21 +10,6 @@
 
 ----------
 
-## Table of contents
-
-* [Overview](https://github.com/openscilab/dmeta#overview)
-* [Installation](https://github.com/openscilab/dmeta#installation)
-* [Usage](https://github.com/openscilab/dmeta#usage)
-* [Issues & Bug Reports](https://github.com/openscilab/dmeta#issues--bug-reports)
-* [Todo](https://github.com/openscilab/dmeta/blob/main/TODO.md)
-* [Contribution](https://github.com/openscilab/dmeta/blob/main/.github/CONTRIBUTING.md)
-* [Authors](https://github.com/openscilab/dmeta/blob/main/AUTHORS.md)
-* [License](https://github.com/openscilab/dmeta/blob/main/LICENSE)
-* [Show Your Support](https://github.com/openscilab/dmeta#show-your-support)
-* [Changelog](https://github.com/openscilab/dmeta/blob/main/CHANGELOG.md)
-* [Code of Conduct](https://github.com/openscilab/dmeta/blob/main/.github/CODE_OF_CONDUCT.md)
-
-
 ## Overview
 <p align="justify">
 DMeta is an open source Python package that removes metadata of Microsoft Office files.
