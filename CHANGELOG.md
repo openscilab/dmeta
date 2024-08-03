@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `update` function in `functions.py`
 - `update_all` function in `functions.py`
 - `extract_namespaces` function in `util.py`
+- `README.md` updated
 ## [0.1] - 2024-06-19
 ### Added
 - `CLI` handler

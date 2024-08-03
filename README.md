@@ -2,36 +2,13 @@
     <img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/logo.png" width="280" height="400">
     <br/>
     <br/>
-    <a href="https://codecov.io/gh/openscilab/dmeta">
-        <img src="https://codecov.io/gh/openscilab/dmeta/branch/dev/graph/badge.svg" alt="Codecov"/>
-    </a>
-    <a href="https://badge.fury.io/py/dmeta">
-        <img src="https://badge.fury.io/py/dmeta.svg" alt="PyPI version" height="18">
-    </a>
-    <a href="https://www.python.org/">
-        <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
-    </a>
-    <a href="https://discord.gg/626twyuPZG">
-        <img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel">
-    </a>
+    <a href="https://codecov.io/gh/openscilab/dmeta"><img src="https://codecov.io/gh/openscilab/dmeta/branch/dev/graph/badge.svg" alt="Codecov"></a>
+    <a href="https://badge.fury.io/py/dmeta"><img src="https://badge.fury.io/py/dmeta.svg" alt="PyPI version" height="18"></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
+    <a href="https://discord.gg/626twyuPZG"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
 </div>
 
 ----------
-
-## Table of contents
-
-* [Overview](https://github.com/openscilab/dmeta#overview)
-* [Installation](https://github.com/openscilab/dmeta#installation)
-* [Usage](https://github.com/openscilab/dmeta#usage)
-* [Issues & Bug Reports](https://github.com/openscilab/dmeta#issues--bug-reports)
-* [Todo](https://github.com/openscilab/dmeta/blob/main/TODO.md)
-* [Contribution](https://github.com/openscilab/dmeta/blob/main/.github/CONTRIBUTING.md)
-* [Authors](https://github.com/openscilab/dmeta/blob/main/AUTHORS.md)
-* [License](https://github.com/openscilab/dmeta/blob/main/LICENSE)
-* [Show Your Support](https://github.com/openscilab/dmeta#show-your-support)
-* [Changelog](https://github.com/openscilab/dmeta/blob/main/CHANGELOG.md)
-* [Code of Conduct](https://github.com/openscilab/dmeta/blob/main/.github/CODE_OF_CONDUCT.md)
-
 
 ## Overview
 <p align="justify">
@@ -64,10 +41,10 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
     <tr>
         <td align="center">CI</td>
         <td align="center">
-            <img src="https://github.com/openscilab/dmeta/workflows/CI/badge.svg?branch=main">
+            <img src="https://github.com/openscilab/dmeta/actions/workflows/test.yml/badge.svg?branch=main">
         </td>
         <td align="center">
-            <img src="https://github.com/openscilab/dmeta/workflows/CI/badge.svg?branch=dev">
+            <img src="https://github.com/openscilab/dmeta/actions/workflows/test.yml/badge.svg?branch=dev">
             </td>
     </tr>
 </table>
