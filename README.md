@@ -41,10 +41,10 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
     <tr>
         <td align="center">CI</td>
         <td align="center">
-            <img src="https://github.com/openscilab/dmeta/workflows/CI/badge.svg?branch=main">
+            <img src="https://github.com/openscilab/dmeta/actions/workflows/test.yml/badge.svg?branch=main">
         </td>
         <td align="center">
-            <img src="https://github.com/openscilab/dmeta/workflows/CI/badge.svg?branch=dev">
+            <img src="https://github.com/openscilab/dmeta/actions/workflows/test.yml/badge.svg?branch=dev">
             </td>
     </tr>
 </table>
