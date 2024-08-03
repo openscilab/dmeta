@@ -2,18 +2,10 @@
     <img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/logo.png" width="280" height="400">
     <br/>
     <br/>
-    <a href="https://codecov.io/gh/openscilab/dmeta">
-        <img src="https://codecov.io/gh/openscilab/dmeta/branch/dev/graph/badge.svg" alt="Codecov"/>
-    </a>
-    <a href="https://badge.fury.io/py/dmeta">
-        <img src="https://badge.fury.io/py/dmeta.svg" alt="PyPI version" height="18">
-    </a>
-    <a href="https://www.python.org/">
-        <img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3">
-    </a>
-    <a href="https://discord.gg/626twyuPZG">
-        <img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel">
-    </a>
+    <a href="https://codecov.io/gh/openscilab/dmeta"><img src="https://codecov.io/gh/openscilab/dmeta/branch/dev/graph/badge.svg" alt="Codecov"></a>
+    <a href="https://badge.fury.io/py/dmeta"><img src="https://badge.fury.io/py/dmeta.svg" alt="PyPI version" height="18"></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/built%20with-Python3-green.svg" alt="built with Python3"></a>
+    <a href="https://discord.gg/626twyuPZG"><img src="https://img.shields.io/discord/1064533716615049236.svg" alt="Discord Channel"></a>
 </div>
 
 ----------
