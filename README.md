@@ -139,7 +139,7 @@ You can also join our discord server
 </a>
 
 
-## Show Your Support
+## Show your support
 
 
 ### Star this repo
