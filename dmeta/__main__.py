@@ -38,6 +38,12 @@ def main():
         help='the `update-all` command updates all metadata in any `.docx` file in the current directory according to the given .json config file.',
     )
     parser.add_argument(
+        '--inplace',
+        action="store_true",
+        default=False,
+        help="the `inplace` command specifies whether the requested action should be taken in place."
+    )
+    parser.add_argument(
         '--config',
         nargs=1,
         metavar=".json config file",
