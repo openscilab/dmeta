@@ -34,21 +34,25 @@ jobs:
       - name: CLI Tests - Clear single .docx file
         run: |
           dmeta --clear "tests/test_a.docx"
+          dmeta --clear "tests/test_a.docx" --inplace
           ls ./tests
       - name: CLI Tests - Clear all .docx files
         run: |
           cd ./tests
-          dmeta --clear-all 
+          dmeta --clear-all
+          dmeta --clear-all --inplace
           ls .
           cd -
       - name: CLI Tests - Update single .docx file
         run: |
           dmeta --update "tests/test_a.docx" --config "tests/config.json"
+          dmeta --update "tests/test_a.docx" --config "tests/config.json" --inplace
           ls ./tests
       - name: CLI Tests - Update all .docx files
         run: |
           cd ./tests
           dmeta --update-all --config "./config.json"
+          dmeta --update-all --config "./config.json" --inplace
           ls .
           cd -
       - name: Test requirements Installation
