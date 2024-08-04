@@ -12,12 +12,14 @@ from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     NOT_IMPLEMENTED_ERROR, FILE_FORMAT_DOES_NOT_EXIST_ERROR
 
 
-def clear(microsoft_file_name):
+def clear(microsoft_file_name, in_place=False):
     """
     Clear all the editable metadata in the given microsoft file.
 
     :param microsoft_file_name: name of microsoft file
     :type microsoft_file_name: str
+    :param in_place: a flag specifies whether clearance should be taken in place
+    :type in_place: bool
     :return: None
     """
     microsoft_format = get_microsoft_format(microsoft_file_name)
@@ -42,18 +44,23 @@ def clear(microsoft_file_name):
                     xml_element.text = ""
         e_app.write(app_xml_path)
 
-    modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared"
-    with zipfile.ZipFile(modified + "." + microsoft_format, "w") as file:
+    
+    modified = microsoft_file_name
+    if not in_place:
+        modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared" + "." + microsoft_format
+    with zipfile.ZipFile(modified, "w") as file:
         for file_name in source_file.namelist():
             file.write(os.path.join(unzipped_dir, file_name), file_name)
         file.close()
     shutil.rmtree(unzipped_dir)
 
 
-def clear_all():
+def clear_all(in_place=False):
     """
     Clear all the editable metadata in any microsoft file in the current directory.
-
+    
+    :param in_place: a flag specifies whether clearances should be taken in place
+    :type in_place: bool
     :return: None
     """
     path = os.getcwd()
@@ -64,7 +71,7 @@ def clear_all():
     for file in dir_list:
         try:
             format = get_microsoft_format(file)
-            clear(file)
+            clear(file, in_place)
             counter[format] += 1
         except DMetaBaseError as e:
             e = e.__str__()
@@ -76,7 +83,7 @@ def clear_all():
         print("Metadata of {} files with the format of {} has been cleared.".format(counter[format], format))
 
 
-def update(config_file_name, microsoft_file_name):
+def update(config_file_name, microsoft_file_name, in_place=False):
     """
     Update all the editable metadata in the given microsoft file according to the given config file.
 
@@ -84,6 +91,8 @@ def update(config_file_name, microsoft_file_name):
     :type config_file_name: str
     :param microsoft_file_name: name of microsoft file
     :type microsoft_file_name: str
+    :param in_place: a flag specifies whether update should be taken in place
+    :type in_place: bool
     :return: None
     """
     config = read_json(config_file_name)
@@ -123,20 +132,24 @@ def update(config_file_name, microsoft_file_name):
                         xml_element.text = config[personal_field]
             e_app.write(app_xml_path)
 
-    modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_updated"
-    with zipfile.ZipFile(modified + "." + microsoft_format, "w") as file:
+    modified = microsoft_file_name
+    if not in_place:
+        modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_updated" + "." + microsoft_format
+    with zipfile.ZipFile(modified, "w") as file:
         for file_name in source_file.namelist():
             file.write(os.path.join(unzipped_dir, file_name), file_name)
         file.close()
     shutil.rmtree(unzipped_dir)
 
 
-def update_all(config_file_name):
+def update_all(config_file_name, in_place=False):
     """
     Update all the editable metadata in any microsoft file in the current directory according to the given config file.
 
     :param config_file_name: name of .json config file
     :type config_file_name: str
+    :param in_place: a flag specifies whether update should be taken in place
+    :type in_place: bool
     :return: None
     """
     path = os.getcwd()
@@ -147,7 +160,7 @@ def update_all(config_file_name):
     for file in dir_list:
         try:
             format = get_microsoft_format(file)
-            update(config_file_name, file)
+            update(config_file_name, file, in_place)
             counter[format] += 1
         except DMetaBaseError as e:
             e = e.__str__()
@@ -179,19 +192,19 @@ def run_dmeta(args):
     :return: None
     """
     if args.clear:
-        clear(args.clear[0])
+        clear(args.clear[0], args.inplace)
     elif args.clear_all:
-        clear_all()
+        clear_all(args.inplace)
     elif args.update:
         if not args.config:
             raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
-            update(args.config[0], args.update[0])
+            update(args.config[0], args.update[0], args.inplace)
     elif args.update_all:
         if not args.config:
             raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
-            update_all(args.config[0])
+            update_all(args.config[0], args.inplace)
     else:
         tprint("DMeta")
         tprint("V:" + DMETA_VERSION)
