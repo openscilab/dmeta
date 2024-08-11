@@ -18,7 +18,7 @@ def clear(microsoft_file_name, in_place=False):
 
     :param microsoft_file_name: name of microsoft file
     :type microsoft_file_name: str
-    :param in_place: a flag specifies whether clearance should be taken in place
+    :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
     :return: None
     """
@@ -59,7 +59,7 @@ def clear_all(in_place=False):
     """
     Clear all the editable metadata in any microsoft file in the current directory.
     
-    :param in_place: a flag specifies whether clearances should be taken in place
+    :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
     :return: None
     """
@@ -91,7 +91,7 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     :type config_file_name: str
     :param microsoft_file_name: name of microsoft file
     :type microsoft_file_name: str
-    :param in_place: a flag specifies whether update should be taken in place
+    :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
     :return: None
     """
@@ -148,7 +148,7 @@ def update_all(config_file_name, in_place=False):
 
     :param config_file_name: name of .json config file
     :type config_file_name: str
-    :param in_place: a flag specifies whether update should be taken in place
+    :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
     :return: None
     """
