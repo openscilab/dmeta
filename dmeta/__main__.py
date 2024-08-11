@@ -41,7 +41,7 @@ def main():
         '--inplace',
         action="store_true",
         default=False,
-        help="the `inplace` command specifies whether the requested action should be taken in place."
+        help="the `in_place` flag applies the changes directly to the original file."
     )
     parser.add_argument(
         '--config',
