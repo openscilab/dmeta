@@ -62,7 +62,7 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
 
 ## Usage
 ### In Python
-⚠️ You can use the `in_place` flag in functions to indicate if the action should affect the original file(s).
+⚠️ Use `in_place` to apply the changes directly to the original file.
 
 ⚠️`in_place` flag is `False` by default.
 
@@ -99,7 +99,9 @@ update_all(CONFIG_FILE_PATH)
 
 ### CLI
 ⚠️ You can use `dmeta` or `python -m dmeta` to run this program
-⚠️ You can use the `inplace` flag in CLI to indicate if the action should affect the original file(s).
+
+⚠️ Use `--inplace` to apply the changes directly to the original file.
+
 
 #### Version
 ```console
