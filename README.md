@@ -62,30 +62,33 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
 
 ## Usage
 ### In Python
-#### Clear metadata for a .docx file
+⚠️ Use `in_place` to apply the changes directly to the original file.
+
+⚠️`in_place` flag is `False` by default.
+
+#### Clear metadata for a .docx file in place
 ```python
 import os
 from dmeta.functions import clear
 
 DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
-clear(DOCX_FILE_PATH)
+clear(DOCX_FILE_PATH, in_place=True)
 ```
 #### Clear metadata for all existing .docx files in the current directory
 ```python
 from dmeta.functions import clear_all
 clear_all()
 ```
-#### Update metadata for a .docx file
+#### Update metadata for a .docx file in place
 ```python
 import os
 from dmeta.functions import update
 
 CONFIG_FILE_PATH = os.path.join(os.getcwd(), "config.json") 
 DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
-update(CONFIG_FILE_PATH, DOCX_FILE_PATH)
+update(CONFIG_FILE_PATH, DOCX_FILE_PATH, in_place=True)
 ```
-
-### Update metadata for all existing .docx files in the current directory
+#### Update metadata for all existing .docx files in the current directory
 ```python
 import os
 from dmeta.functions import update_all
@@ -96,24 +99,28 @@ update_all(CONFIG_FILE_PATH)
 
 ### CLI
 ⚠️ You can use `dmeta` or `python -m dmeta` to run this program
+
+⚠️ Use `--inplace` to apply the changes directly to the original file.
+
+
 #### Version
 ```console
 dmeta -v
 dmeta --version
 ```
-### Clear metadata for a .docx file
+#### Clear metadata for a .docx file in place
 ```console
-dmeta --clear "./test_a.docx"
+dmeta --clear "./test_a.docx" --inplace
 ```
-### Clear metadata for all existing .docx files in the current directory
+#### Clear metadata for all existing .docx files in the current directory
 ```console
 dmeta --clear-all
 ```
-### Update metadata for a .docx file
+#### Update metadata for a .docx file in place
 ```console
-dmeta --update "./test_a.docx" --config "./config.json"
+dmeta --update "./test_a.docx" --config "./config.json" --inplace
 ```
-### Update metadata for all existing .docx files in the current directory
+#### Update metadata for all existing .docx files in the current directory
 ```console
 dmeta --update-all --config "./config.json"
 ```

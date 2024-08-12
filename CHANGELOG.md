@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `pptx` and `xlsx` support
 - `get_microsoft_format` function in `util.py`
 - `SECURITY.md`
+- `inplace` parameter in the `clear` function in `functions.py`
+- `inplace` parameter in the `clear_all` function in `functions.py`
+- `inplace` parameter in the `update` function in `functions.py`
+- `inplace` parameter in the `update_all` function in `functions.py`
+- `inplace` parameter in CLI
+- `inplace` tests
 ### Changed
 - `run_dmeta` in `functions.py`
 - `read_json` in `util.py`
