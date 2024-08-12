@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.2] - 2024-08-14
 ### Added
 - `dmeta/errors.py`
 - `pptx` and `xlsx` support
@@ -46,5 +47,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `extract_docx` function in `util.py`
 - `read_json` function in `util.py`
 
-[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.1...dev
-[0.1]: https://github.com/openscilab/dmeta/compare/9a4ad10 ...v0.1
+[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.2...dev
+[0.1]: https://github.com/openscilab/dmeta/compare/9a4ad10...v0.1
+[0.2]: https://github.com/openscilab/dmeta/compare/v0.1...v0.2
