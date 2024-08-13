@@ -74,21 +74,21 @@ from dmeta.functions import clear
 DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
 clear(DOCX_FILE_PATH, in_place=True)
 ```
-#### Clear metadata for all existing .docx files in the current directory
+#### Clear metadata for all existing microsoft files (.docx|.pptx|.xlsx) in the current directory
 ```python
 from dmeta.functions import clear_all
 clear_all()
 ```
-#### Update metadata for a .docx file in place
+#### Update metadata for a .pptx file in place
 ```python
 import os
 from dmeta.functions import update
 
 CONFIG_FILE_PATH = os.path.join(os.getcwd(), "config.json") 
-DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
+DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.pptx")
 update(CONFIG_FILE_PATH, DOCX_FILE_PATH, in_place=True)
 ```
-#### Update metadata for all existing .docx files in the current directory
+#### Update metadata for all existing microsoft files (.docx|.pptx|.xlsx) in the current directory
 ```python
 import os
 from dmeta.functions import update_all
@@ -112,15 +112,15 @@ dmeta --version
 ```console
 dmeta --clear "./test_a.docx" --inplace
 ```
-#### Clear metadata for all existing .docx files in the current directory
+#### Clear metadata for all existing microsoft files (.docx|.pptx|.xlsx) in the current directory
 ```console
 dmeta --clear-all
 ```
-#### Update metadata for a .docx file in place
+#### Update metadata for a .xlsx file in place
 ```console
-dmeta --update "./test_a.docx" --config "./config.json" --inplace
+dmeta --update "./test_a.xlsx" --config "./config.json" --inplace
 ```
-#### Update metadata for all existing .docx files in the current directory
+#### Update metadata for all existing microsoft files (.docx|.pptx|.xlsx) files in the current directory
 ```console
 dmeta --update-all --config "./config.json"
 ```
