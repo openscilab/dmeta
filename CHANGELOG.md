@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `DMetaBaseError` added to `dmeta/__init__.py`
 ### Changed
+- Python 3.12 added to test.yml
+- Python 3.12 added to setup.py
 ## [0.2] - 2024-08-14
 ### Added
 - `dmeta/errors.py`
