@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - `DMetaBaseError` added to `dmeta/__init__.py`
 ### Changed
+- GitHub actions are limited to the `dev, main` branches
 - `Python 3.13` added to `test.yml`
 ## [0.2] - 2024-08-14
 ### Added
