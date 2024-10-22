@@ -25,7 +25,9 @@ jobs:
     steps:
       - name: Exit if draft PR
         if: ${{ github.event.pull_request.draft == true }}
-        run: echo "This is a draft pull request. Exiting." && exit 0
+        run: |
+          echo "This is a draft pull request. Exiting."
+          exit 1
   build:
     needs: check-draft
     runs-on: ${{ matrix.os }}
