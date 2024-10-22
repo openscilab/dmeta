@@ -13,7 +13,6 @@ on:
     branches:
       - dev
       - main
-    types: [opened, synchronize, reopened, ready_for_review]
 
 env:
   TEST_PYTHON_VERSION: 3.9
