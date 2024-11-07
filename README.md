@@ -18,8 +18,8 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
     <tr>
         <td align="center">PyPI Counter</td>
         <td align="center">
-            <a href="http://pepy.tech/project/dmeta">
-                <img src="http://pepy.tech/badge/dmeta">
+            <a href="https://pepy.tech/projects/dmeta">
+                <img src="https://static.pepy.tech/badge/dmeta" alt="PyPI Downloads">
             </a>
         </td>
     </tr>
