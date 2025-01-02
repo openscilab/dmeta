@@ -12,6 +12,33 @@ from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     NOT_IMPLEMENTED_ERROR, FILE_FORMAT_DOES_NOT_EXIST_ERROR
 
 
+def overwrite_metadata(
+        xml_path,
+        metadata=None,
+        is_core=True):
+    """
+    Overwrite metadata in an XML file based on a predefined mapping.
+
+    :param xml_path: Path to the XML file to be updated
+    :type xml_path: str
+    :param metadata: A dictionary containing metadata to overwrite the XML elements with, or `None` 
+                     to reset
+    :type metadata: dict
+    :param is_core: A flag that indicates whether the given XML file is the core.xml file
+    :type is_core: bool
+    :return: None
+    """
+    xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
+    if os.path.exists(xml_path):
+        e_core = lxml.parse(xml_path)
+        for xml_element in e_core.iter():
+            for personal_field in xml_map if metadata is None else metadata:
+                associated_xml_tag = xml_map[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    xml_element.text = "" if metadata is None else metadata[personal_field]
+        e_core.write(xml_path)
+
+
 def clear(microsoft_file_name, in_place=False):
     """
     Clear all the editable metadata in the given microsoft file.
