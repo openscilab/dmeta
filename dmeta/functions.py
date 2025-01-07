@@ -19,12 +19,12 @@ def overwrite_metadata(
     """
     Overwrite metadata in an XML file based on a predefined mapping.
 
-    :param xml_path: Path to the XML file to be updated
+    :param xml_path: path to the XML file to be updated
     :type xml_path: str
-    :param metadata: A dictionary containing metadata to overwrite the XML elements with, or `None` 
+    :param metadata: a dictionary containing metadata to overwrite the XML elements with, or `None` 
                      to reset
     :type metadata: dict
-    :param is_core: A flag that indicates whether the given XML file is the core.xml file
+    :param is_core: a flag that indicates whether the given XML file is the core.xml file
     :type is_core: bool
     :return: None
     """
@@ -112,8 +112,8 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     personal_fields_core_xml = {e:v for e,v in CORE_XML_MAP.items() if e in config}
     personal_fields_app_xml = {e:v for e,v in APP_XML_MAP.items() if e in config}
 
-    has_core_tags = len(personal_fields_core_xml.keys()) > 0
-    has_app_tags = len(personal_fields_core_xml.keys()) > 0
+    has_core_tags = len(personal_fields_core_xml) > 0
+    has_app_tags = len(personal_fields_core_xml) > 0
 
     if not (has_core_tags or has_app_tags):
         print("There isn't any chosen personal field to remove.")
