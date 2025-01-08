@@ -4,31 +4,9 @@ import os
 import json
 from shutil import rmtree
 from zipfile import ZipFile
-import defusedxml.ElementTree as ET
 from .params import SUPPORTED_MICROSOFT_FORMATS, NOT_IMPLEMENTED_ERROR, \
     FILE_FORMAT_DOES_NOT_EXIST_ERROR, INVALID_CONFIG_FILE_NAME_ERROR, CONFIG_FILE_DOES_NOT_EXIST_ERROR
 from .errors import DMetaBaseError
-
-
-def extract_namespaces(xml_file_path):
-    """
-    Return used namespaces in the associated xml file.
-
-    :param xml_file_path: path to the xml file
-    :type xml_file_path: str
-    :return: dict of namespaces[name: value]
-    """
-    namespaces = {}
-    tree = ET.parse(xml_file_path)
-    root = tree.getroot()
-    # Extract namespaces from the root element
-    for key, value in root.attrib.items():
-        if key.startswith('xmlns:'):
-            _, _, cropped_name = key.partition(':')
-            namespaces[cropped_name] = value
-        elif key == 'xmlns':
-            namespaces['xmlns'] = value
-    return namespaces
 
 
 def get_microsoft_format(file_name):
