@@ -44,7 +44,6 @@ def clear(microsoft_file_name, in_place=False):
                     xml_element.text = ""
         e_app.write(app_xml_path)
 
-    
     modified = microsoft_file_name
     if not in_place:
         modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared" + "." + microsoft_format
@@ -58,7 +57,7 @@ def clear(microsoft_file_name, in_place=False):
 def clear_all(in_place=False):
     """
     Clear all the editable metadata in any microsoft file in the current directory.
-    
+
     :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
     :return: None
