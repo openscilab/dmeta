@@ -12,6 +12,33 @@ from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     NOT_IMPLEMENTED_ERROR, FILE_FORMAT_DOES_NOT_EXIST_ERROR
 
 
+def overwrite_metadata(
+        xml_path,
+        metadata=None,
+        is_core=True):
+    """
+    Overwrite metadata in an XML file based on a predefined mapping.
+
+    :param xml_path: path to the XML file to be updated
+    :type xml_path: str
+    :param metadata: a dictionary containing metadata to overwrite the XML elements with, or `None` 
+                     to reset
+    :type metadata: dict
+    :param is_core: a flag that indicates whether the given XML file is the core.xml file
+    :type is_core: bool
+    :return: None
+    """
+    xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
+    if os.path.exists(xml_path):
+        e_core = lxml.parse(xml_path)
+        for xml_element in e_core.iter():
+            for personal_field in xml_map if metadata is None else metadata:
+                associated_xml_tag = xml_map[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    xml_element.text = "" if metadata is None else metadata[personal_field]
+        e_core.write(xml_path)
+
+
 def clear(microsoft_file_name, in_place=False):
     """
     Clear all the editable metadata in the given microsoft file.
@@ -28,22 +55,9 @@ def clear(microsoft_file_name, in_place=False):
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
-    if os.path.exists(core_xml_path):
-        e_core = lxml.parse(core_xml_path)
-        for xml_element in e_core.iter():
-            for personal_field in CORE_XML_MAP.values():
-                if (personal_field in xml_element.tag):
-                    xml_element.text = ""
-        e_core.write(core_xml_path)
-
-    if os.path.exists(app_xml_path):
-        e_app = lxml.parse(app_xml_path)
-        for xml_element in e_app.iter():
-            for personal_field in APP_XML_MAP.values():
-                if (personal_field in xml_element.tag):
-                    xml_element.text = ""
-        e_app.write(app_xml_path)
-
+    overwrite_metadata(core_xml_path)
+    overwrite_metadata(app_xml_path,is_core=False)
+    
     modified = microsoft_file_name
     if not in_place:
         modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared" + "." + microsoft_format
@@ -95,8 +109,8 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     :return: None
     """
     config = read_json(config_file_name)
-    personal_fields_core_xml = [e for e in CORE_XML_MAP.keys() if e in config]
-    personal_fields_app_xml = [e for e in APP_XML_MAP.keys() if e in config]
+    personal_fields_core_xml = {e:v for e,v in CORE_XML_MAP.items() if e in config}
+    personal_fields_app_xml = {e:v for e,v in APP_XML_MAP.items() if e in config}
 
     has_core_tags = len(personal_fields_core_xml) > 0
     has_app_tags = len(personal_fields_core_xml) > 0
@@ -112,24 +126,9 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     if has_core_tags:
-        if os.path.exists(core_xml_path):
-            e_core = lxml.parse(core_xml_path)
-            for xml_element in e_core.iter():
-                for personal_field in personal_fields_core_xml:
-                    associated_xml_tag = CORE_XML_MAP[personal_field]
-                    if (associated_xml_tag in xml_element.tag):
-                        xml_element.text = config[personal_field]
-            e_core.write(core_xml_path)
-
+        overwrite_metadata(core_xml_path, personal_fields_core_xml)
     if has_app_tags:
-        if os.path.exists(app_xml_path):
-            e_app = lxml.parse(app_xml_path)
-            for xml_element in e_app.iter():
-                for personal_field in personal_fields_app_xml:
-                    associated_xml_tag = APP_XML_MAP[personal_field]
-                    if (associated_xml_tag in xml_element.tag):
-                        xml_element.text = config[personal_field]
-            e_app.write(app_xml_path)
+        overwrite_metadata(app_xml_path, personal_fields_app_xml, is_core=False)
 
     modified = microsoft_file_name
     if not in_place:
