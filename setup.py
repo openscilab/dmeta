@@ -29,14 +29,14 @@ def read_description():
 setup(
     name='DMeta',
     packages=['dmeta'],
-    version='0.2',
+    version='0.3',
     description='Removing microsoft office files\' metadata',
     long_description=read_description(),
     long_description_content_type='text/markdown',
     author='DMeta Development Team',
     author_email='dmeta@openscilab.com',
     url='https://github.com/openscilab/dmeta',
-    download_url='https://github.com/openscilab/dmeta/tarball/v0.2',
+    download_url='https://github.com/openscilab/dmeta/tarball/v0.3',
     keywords="python3 python metadata remove",
     project_urls={
             'Source': 'https://github.com/openscilab/dmeta',
