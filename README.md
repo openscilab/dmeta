@@ -55,9 +55,9 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install dmeta==0.2`
+- Run `pip install dmeta==0.3`
 ### Source code
-- Download [Version 0.2](https://github.com/openscilab/dmeta/archive/v0.2.zip) or [Latest Source](https://github.com/openscilab/dmeta/archive/dev.zip)
+- Download [Version 0.3](https://github.com/openscilab/dmeta/archive/v0.3.zip) or [Latest Source](https://github.com/openscilab/dmeta/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
