@@ -41,3 +41,4 @@ FILE_FORMAT_DOES_NOT_EXIST_ERROR = "Failed to detect the file format. Make sure 
 INVALID_CONFIG_FILE_NAME_ERROR = "Config file name is not a string."
 CONFIG_FILE_DOES_NOT_EXIST_ERROR = "Given config file doesn't exist."
 UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR = "No config file provided. Set the .json config file with --config command."
+CLI_MORE_INFO = "For more information, visit the DMeta README at https://github.com/openscilab/dmeta"
