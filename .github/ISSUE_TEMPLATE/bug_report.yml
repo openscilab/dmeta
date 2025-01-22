@@ -83,7 +83,7 @@ body:
   - type: dropdown
     id: dmeta-version
     attributes:
-      label: PyMilo version
+      label: DMeta version
       description: Which version of DMeta are you using?
       options:
         - DMeta 0.3
