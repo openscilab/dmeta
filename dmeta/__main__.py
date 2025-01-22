@@ -50,6 +50,11 @@ def main():
         type=str,
         help="the `config` command specifices the way metadata in the .docx files get updated."
     )
+    parser.add_argument(
+        'files',
+        nargs='*',
+        help="Files passed directly (e.g., by pre-commit) to process.",
+    )
     parser.add_argument('--version', help="version", action='store_true', default=False)
     parser.add_argument('-v', help="version", action='store_true', default=False)
     args = parser.parse_known_args()[0]

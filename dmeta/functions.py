@@ -203,6 +203,11 @@ def run_dmeta(args):
             raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
             update_all(args.config[0], args.inplace)
+    elif args.files:
+        for file in args.files:
+            print(f"Processing file: {file}")
+            # Call your run_dmeta function with appropriate parameters for each file
+            clear(file, args.inplace)
     else:
         tprint("DMeta")
         tprint("V:" + DMETA_VERSION)
