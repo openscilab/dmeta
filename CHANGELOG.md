@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- modern issue template structure
+### Removed
+- old issue template structure
 ## [0.3] - 2025-01-13
 ### Removed
 - `extract_namespaces` function in `util.py`
