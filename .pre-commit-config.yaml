@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/openscilab/dmeta.git
+    rev: add/pre_commit_hook # main(branch name which .pre-commit-hook.yaml file exists) or release version like v0.4 (>= 0.4)
+    hooks:
+      - id: dmeta-clear-metadata
+
+# repos:
+#   - repo: local
+#     hooks:
+#       - id: dmeta-clear-metadata
+#         name: dmeta - Clear Metadata
+#         description: Use `dmeta` to clear metadata from files
+#         entry: dmeta --clear-all --inplace
+#         language: python
+#         types: [file]
+#         files: \.(docx|pptx|xlsx)$
