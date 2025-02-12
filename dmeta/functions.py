@@ -21,7 +21,7 @@ def overwrite_metadata(
 
     :param xml_path: path to the XML file to be updated
     :type xml_path: str
-    :param metadata: a dictionary containing metadata to overwrite the XML elements with, or `None` 
+    :param metadata: a dictionary containing metadata to overwrite the XML elements with, or `None`
                      to reset
     :type metadata: dict
     :param is_core: a flag that indicates whether the given XML file is the core.xml file
@@ -56,8 +56,8 @@ def clear(microsoft_file_name, in_place=False):
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     overwrite_metadata(core_xml_path)
-    overwrite_metadata(app_xml_path,is_core=False)
-    
+    overwrite_metadata(app_xml_path, is_core=False)
+
     modified = microsoft_file_name
     if not in_place:
         modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared" + "." + microsoft_format
@@ -109,8 +109,8 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     :return: None
     """
     config = read_json(config_file_name)
-    personal_fields_core_xml = {e:v for e,v in CORE_XML_MAP.items() if e in config}
-    personal_fields_app_xml = {e:v for e,v in APP_XML_MAP.items() if e in config}
+    personal_fields_core_xml = {e: v for e, v in CORE_XML_MAP.items() if e in config}
+    personal_fields_app_xml = {e: v for e, v in APP_XML_MAP.items() if e in config}
 
     has_core_tags = len(personal_fields_core_xml) > 0
     has_app_tags = len(personal_fields_core_xml) > 0

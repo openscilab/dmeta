@@ -19,6 +19,7 @@ CHANGELOG_ITEMS = [
     "[{0}]:"]
 PARAMS_ITEMS = ['DMETA_VERSION = "{0}"']
 META_ITEMS = ['% set version = "{0}" %']
+ISSUE_TEMPLATE_ITEMS = ["- DMeta {0}"]
 SECURITY_ITEMS = ["| {0}           | :white_check_mark: |", "| < {0}         | :x:                |"]
 
 FILES = {
@@ -28,6 +29,7 @@ FILES = {
     "CHANGELOG.md": CHANGELOG_ITEMS,
     "SECURITY.md": SECURITY_ITEMS,
     os.path.join("dmeta", "params.py"): PARAMS_ITEMS,
+    os.path.join(".github", "ISSUE_TEMPLATE", "bug_report.yml"): ISSUE_TEMPLATE_ITEMS,
 }
 
 TEST_NUMBER = len(FILES)
