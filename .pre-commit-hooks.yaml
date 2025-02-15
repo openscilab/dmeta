@@ -1,7 +1,7 @@
 - id: dmeta-clear-metadata
   name: DMeta
   description: Use `dmeta` to clear metadata from Microsoft Office files
-  entry: dmeta --clear-all --inplace
+  entry: python -m dmeta --clear-all --inplace
   language: python
   types: [file]
   files: \.(docx|pptx|xlsx)$
