@@ -17,7 +17,7 @@ def main():
         nargs=1,
         metavar=".docx file",
         type=str,
-        help="the `clear` command clears all matadata in the given `.docx` file.",
+        help="the `clear` command clears all metadata in the given `.docx` file.",
     )
     parser.add_argument(
         '--clear-all',
@@ -49,13 +49,19 @@ def main():
         nargs=1,
         metavar=".json config file",
         type=str,
-        help="the `config` command specifices the way metadata in the .docx files get updated."
+        help="the `config` command specifies the way metadata in the .docx files get updated."
     )
     parser.add_argument(
         '--info',
         action="store_true",
         default=False,
         help="the `info` flag gives general information about DMeta library."
+    )
+    parser.add_argument(
+        '--verbose',
+        action="store_true",
+        default=False,
+        help="the `verbose` flag enables detailed output for debugging or information purposes."
     )
     parser.add_argument('--version', help="version", action='store_true', default=False)
     parser.add_argument('-v', help="version", action='store_true', default=False)
@@ -70,7 +76,6 @@ def main():
         print(CLI_MORE_INFO)
         return
     run_dmeta(args)
-
 
 if __name__ == "__main__":
     main()
