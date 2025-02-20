@@ -121,7 +121,9 @@ def clear_all(in_place=False, verbose=False):
                 if e == NOT_IMPLEMENTED_ERROR:
                     print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
                 if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                    print("Clearing the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+                    print(
+                        "Clearing the metadata of {} failed because DMeta {}".format(
+                            file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
 
     if verbose:
         for format in counter.keys():
@@ -228,7 +230,9 @@ def update_all(config_file_name, in_place=False, verbose=False):
                 if e == NOT_IMPLEMENTED_ERROR:
                     print("DMeta couldn't update the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
                 if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                    print("Updating the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+                    print(
+                        "Updating the metadata of {} failed because DMeta {}".format(
+                            file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
 
     if verbose:
         for format in counter.keys():
