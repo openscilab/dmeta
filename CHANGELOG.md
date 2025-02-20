@@ -6,8 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- recursive search in `clear_all` and `update_all`
+- `--verbose` flag in CLI
 - modern issue template structure
 - `--info` flag in CLI
+### Changed
+- `clear` function in `functions.py` enhanced
+- `update` function in `functions.py` enhanced
 ### Removed
 - old issue template structure
 ## [0.3] - 2025-01-13
