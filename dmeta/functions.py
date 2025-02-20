@@ -39,14 +39,16 @@ def overwrite_metadata(
         e_core.write(xml_path)
 
 
-def clear(microsoft_file_name, in_place=False):
+def clear(microsoft_file_name, in_place=False, verbose=False):
     """
-    Clear all the editable metadata in the given microsoft file.
+    Clear all the editable metadata in the given Microsoft file.
 
-    :param microsoft_file_name: name of microsoft file
+    :param microsoft_file_name: name of Microsoft file
     :type microsoft_file_name: str
     :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
+    :param verbose: the `verbose` flag enables detailed output
+    :type verbose: bool
     :return: None
     """
     microsoft_format = get_microsoft_format(microsoft_file_name)
@@ -55,6 +57,26 @@ def clear(microsoft_file_name, in_place=False):
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
+    # Check if metadata is already cleared
+    def is_metadata_cleared(xml_path):
+        if not os.path.exists(xml_path):
+            return False
+        tree = lxml.parse(xml_path)
+        for element in tree.iter():
+            if element.text and element.text.strip():
+                return False
+        return True
+
+    core_cleared = is_metadata_cleared(core_xml_path)
+    app_cleared = is_metadata_cleared(app_xml_path)
+
+    if core_cleared and app_cleared:
+        if verbose:
+            print(f"Metadata is already cleared for: {microsoft_file_name}")
+        shutil.rmtree(unzipped_dir)
+        return
+
+    # Clear metadata if not already cleared
     overwrite_metadata(core_xml_path)
     overwrite_metadata(app_xml_path, is_core=False)
 
@@ -67,45 +89,57 @@ def clear(microsoft_file_name, in_place=False):
         file.close()
     shutil.rmtree(unzipped_dir)
 
+    if verbose:
+        print(f"Cleared metadata for: {microsoft_file_name}")
 
-def clear_all(in_place=False):
+
+def clear_all(in_place=False, verbose=False):
     """
-    Clear all the editable metadata in any microsoft file in the current directory.
+    Clear all the editable metadata in any Microsoft file in the current directory and its subdirectories.
 
     :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
+    :param verbose: the `verbose` flag enables detailed output
+    :type verbose: bool
     :return: None
     """
     path = os.getcwd()
-    dir_list = os.listdir(path)
     counter = {
         format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
     }
-    for file in dir_list:
-        try:
-            format = get_microsoft_format(file)
-            clear(file, in_place)
-            counter[format] += 1
-        except DMetaBaseError as e:
-            e = e.__str__()
-            if e == NOT_IMPLEMENTED_ERROR:
-                print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
-            if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                print("Clearing the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
-    for format in counter.keys():
-        print("Metadata of {} files with the format of {} has been cleared.".format(counter[format], format))
+
+    for root, _, files in os.walk(path):
+        for file in files:
+            try:
+                format = get_microsoft_format(file)
+                clear(os.path.join(root, file), in_place, verbose)
+                counter[format] += 1
+                if verbose:
+                    print(f"Cleared metadata for: {os.path.join(root, file)}")
+            except DMetaBaseError as e:
+                e = e.__str__()
+                if e == NOT_IMPLEMENTED_ERROR:
+                    print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
+                if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                    print("Clearing the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+
+    if verbose:
+        for format in counter.keys():
+            print("Metadata of {} files with the format of {} has been cleared.".format(counter[format], format))
 
 
-def update(config_file_name, microsoft_file_name, in_place=False):
+def update(config_file_name, microsoft_file_name, in_place=False, verbose=False):
     """
-    Update all the editable metadata in the given microsoft file according to the given config file.
+    Update all the editable metadata in the given Microsoft file according to the given config file.
 
     :param config_file_name: name of .json config file
     :type config_file_name: str
-    :param microsoft_file_name: name of microsoft file
+    :param microsoft_file_name: name of Microsoft file
     :type microsoft_file_name: str
     :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
+    :param verbose: the `verbose` flag enables detailed output
+    :type verbose: bool
     :return: None
     """
     config = read_json(config_file_name)
@@ -113,7 +147,7 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     personal_fields_app_xml = {e: v for e, v in APP_XML_MAP.items() if e in config}
 
     has_core_tags = len(personal_fields_core_xml) > 0
-    has_app_tags = len(personal_fields_core_xml) > 0
+    has_app_tags = len(personal_fields_app_xml) > 0
 
     if not (has_core_tags or has_app_tags):
         print("There isn't any chosen personal field to remove.")
@@ -125,6 +159,27 @@ def update(config_file_name, microsoft_file_name, in_place=False):
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
+    # Check if metadata is already up to date
+    def is_metadata_up_to_date(xml_path, metadata):
+        if not os.path.exists(xml_path):
+            return False
+        tree = lxml.parse(xml_path)
+        for element in tree.iter():
+            for field, tag in metadata.items():
+                if tag in element.tag and element.text != config[field]:
+                    return False
+        return True
+
+    core_up_to_date = is_metadata_up_to_date(core_xml_path, personal_fields_core_xml) if has_core_tags else True
+    app_up_to_date = is_metadata_up_to_date(app_xml_path, personal_fields_app_xml) if has_app_tags else True
+
+    if core_up_to_date and app_up_to_date:
+        if verbose:
+            print(f"Metadata is already up to date for: {microsoft_file_name}")
+        shutil.rmtree(unzipped_dir)
+        return
+
+    # Update metadata if not already up to date
     if has_core_tags:
         overwrite_metadata(core_xml_path, personal_fields_core_xml)
     if has_app_tags:
@@ -139,35 +194,45 @@ def update(config_file_name, microsoft_file_name, in_place=False):
         file.close()
     shutil.rmtree(unzipped_dir)
 
+    if verbose:
+        print(f"Updated metadata for: {microsoft_file_name}")
 
-def update_all(config_file_name, in_place=False):
+
+def update_all(config_file_name, in_place=False, verbose=False):
     """
-    Update all the editable metadata in any microsoft file in the current directory according to the given config file.
+    Update all the editable metadata in any Microsoft file in the current directory and its subdirectories according to the given config file.
 
     :param config_file_name: name of .json config file
     :type config_file_name: str
     :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
+    :param verbose: the `verbose` flag enables detailed output
+    :type verbose: bool
     :return: None
     """
     path = os.getcwd()
-    dir_list = os.listdir(path)
     counter = {
         format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
     }
-    for file in dir_list:
-        try:
-            format = get_microsoft_format(file)
-            update(config_file_name, file, in_place)
-            counter[format] += 1
-        except DMetaBaseError as e:
-            e = e.__str__()
-            if e == NOT_IMPLEMENTED_ERROR:
-                print("DMeta couldn't update the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
-            if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                print("Updating the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
-    for format in counter.keys():
-        print("Metadata of {} files with the format of {} has been updated.".format(counter[format], format))
+
+    for root, _, files in os.walk(path):
+        for file in files:
+            try:
+                format = get_microsoft_format(file)
+                update(config_file_name, os.path.join(root, file), in_place, verbose)
+                counter[format] += 1
+                if verbose:
+                    print(f"Updated metadata for: {os.path.join(root, file)}")
+            except DMetaBaseError as e:
+                e = e.__str__()
+                if e == NOT_IMPLEMENTED_ERROR:
+                    print("DMeta couldn't update the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
+                if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
+                    print("Updating the metadata of {} failed because DMeta {}".format(file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+
+    if verbose:
+        for format in counter.keys():
+            print("Metadata of {} files with the format of {} has been updated.".format(counter[format], format))
 
 
 def dmeta_help():
@@ -189,20 +254,21 @@ def run_dmeta(args):
     :type args: argparse.Namespace
     :return: None
     """
+    verbose = args.verbose
     if args.clear:
-        clear(args.clear[0], args.inplace)
+        clear(args.clear[0], args.inplace, verbose)
     elif args.clear_all:
-        clear_all(args.inplace)
+        clear_all(args.inplace, verbose)
     elif args.update:
         if not args.config:
             raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
-            update(args.config[0], args.update[0], args.inplace)
+            update(args.config[0], args.update[0], args.inplace, verbose)
     elif args.update_all:
         if not args.config:
             raise DMetaBaseError(UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR)
         else:
-            update_all(args.config[0], args.inplace)
+            update_all(args.config[0], args.inplace, verbose)
     else:
         tprint("DMeta")
         tprint("V:" + DMETA_VERSION)
