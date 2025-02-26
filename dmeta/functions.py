@@ -114,8 +114,6 @@ def clear_all(in_place=False, verbose=False):
                 format = get_microsoft_format(file)
                 clear(os.path.join(root, file), in_place, verbose)
                 counter[format] += 1
-                if verbose:
-                    print(f"Cleared metadata for: {os.path.join(root, file)}")
             except DMetaBaseError as e:
                 e = e.__str__()
                 if e == NOT_IMPLEMENTED_ERROR:
@@ -223,8 +221,6 @@ def update_all(config_file_name, in_place=False, verbose=False):
                 format = get_microsoft_format(file)
                 update(config_file_name, os.path.join(root, file), in_place, verbose)
                 counter[format] += 1
-                if verbose:
-                    print(f"Updated metadata for: {os.path.join(root, file)}")
             except DMetaBaseError as e:
                 e = e.__str__()
                 if e == NOT_IMPLEMENTED_ERROR:
