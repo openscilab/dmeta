@@ -103,11 +103,6 @@ update_all(CONFIG_FILE_PATH)
 ⚠️ Use `--inplace` to apply the changes directly to the original file.
 
 
-#### Version
-```console
-dmeta -v
-dmeta --version
-```
 #### Clear metadata for a .docx file in place
 ```console
 dmeta --clear "./test_a.docx" --inplace
@@ -123,6 +118,15 @@ dmeta --update "./test_a.xlsx" --config "./config.json" --inplace
 #### Update metadata for all existing microsoft files (.docx|.pptx|.xlsx) files in the current directory
 ```console
 dmeta --update-all --config "./config.json"
+```
+#### Version
+```console
+dmeta -v
+dmeta --version
+```
+#### Info
+```console
+dmeta --info
 ```
 
 ## Supported files
