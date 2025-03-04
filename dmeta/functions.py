@@ -57,18 +57,21 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
-    # Check if metadata is already cleared
-    def is_metadata_cleared(xml_path):
+    def is_metadata_cleared(xml_path, is_core=True):
         if not os.path.exists(xml_path):
             return False
         tree = lxml.parse(xml_path)
-        for element in tree.iter():
-            if element.text and element.text.strip():
-                return False
+        xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
+        for xml_element in tree.iter():
+            for personal_field in xml_map:
+                associated_xml_tag = xml_map[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    if xml_element.text and xml_element.text.strip():
+                        return False
         return True
 
     core_cleared = is_metadata_cleared(core_xml_path)
-    app_cleared = is_metadata_cleared(app_xml_path)
+    app_cleared = is_metadata_cleared(app_xml_path, is_core=False)
 
     if core_cleared and app_cleared:
         if verbose:
@@ -160,14 +163,17 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     # Check if metadata is already up to date
-    def is_metadata_up_to_date(xml_path, metadata):
+    def is_metadata_up_to_date(xml_path, metadata, is_core=True):
         if not os.path.exists(xml_path):
             return False
         tree = lxml.parse(xml_path)
-        for element in tree.iter():
-            for field, tag in metadata.items():
-                if tag in element.tag and element.text != config[field]:
-                    return False
+        xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
+        for xml_element in tree.iter():
+            for personal_field in xml_map if metadata is None else metadata:
+                associated_xml_tag = xml_map[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    if xml_element.text != metadata[personal_field]:
+                        return False
         return True
 
     core_up_to_date = is_metadata_up_to_date(core_xml_path, personal_fields_core_xml) if has_core_tags else True
