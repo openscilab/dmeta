@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - modern issue template structure
 - `--info` flag in CLI
 ### Changed
+- Update Python `3.10.0` to `3.10.5`
 - Ubuntu image version in `test.yml` & `publish_pypi.yml`
 - `clear` function in `functions.py` enhanced
 - `update` function in `functions.py` enhanced
 ### Removed
+- Python 3.6 support
 - old issue template structure
 ## [0.3] - 2025-01-13
 ### Removed
