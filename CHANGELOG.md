@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - modern issue template structure
 - `--info` flag in CLI
 ### Changed
-- `bug_report.yml`
-- Ubuntu image version in `test.yml` & `publish_pypi.yml`
 - `clear` function in `functions.py` enhanced
 - `update` function in `functions.py` enhanced
 ### Removed
