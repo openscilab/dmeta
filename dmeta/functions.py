@@ -68,7 +68,7 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
             for personal_field in xml_map:
                 associated_xml_tag = xml_map[personal_field]
                 if (associated_xml_tag in xml_element.tag):
-                    if xml_element.text or xml_element.text.strip():
+                    if xml_element.text and xml_element.text.strip():
                         return False
         return True
 
