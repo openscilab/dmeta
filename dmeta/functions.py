@@ -52,7 +52,7 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     :return: None
     """
     microsoft_format = get_microsoft_format(microsoft_file_name)
-    if microsoft_file_name is None:
+    if microsoft_format is None:
         return
     unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
@@ -152,6 +152,9 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
         return
 
     microsoft_format = get_microsoft_format(microsoft_file_name)
+    if microsoft_format is None:
+        return
+
     unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
@@ -220,6 +223,8 @@ def update_all(config_file_name, in_place=False, verbose=False):
         for file in files:
             try:
                 format = get_microsoft_format(file)
+                if format is None:
+                    return
                 update(config_file_name, os.path.join(root, file), in_place, verbose)
                 counter[format] += 1
             except DMetaBaseError as e:
