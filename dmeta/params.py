@@ -15,19 +15,19 @@ CORE_XML_MAP = {
 
     # Origin
     "authors": "creator",
-    "lastSavedBy": "lastModifiedBy",
-    "revisionNumber": "revision",
-    "versionNumber": "version",
+    "last saved by": "lastModifiedBy",
+    "revision number": "revision",
+    "version number": "version",
 
     # Content
     # we can't change "content type" field, it is automatically reset.
-    "contentStatus": "contentStatus",
+    "content status": "contentStatus",
     "language": "language",
 }
 APP_XML_MAP = {
     # Origin
     # we can't change "Application" field, it becomes a corrupted file.
-    "programName": "Application",
+    "program name": "Application",
     "company": "Company",
     "manager": "Manager"
 }
