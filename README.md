@@ -129,6 +129,50 @@ dmeta --version
 dmeta --info
 ```
 
+### Dmeta as pre-commit hook
+
+To ensure that **no Microsoft Office files ever enter your repo with embedded metadata**, you can use Dmeta’s built-in pre-commit hooks.
+
+#### 1. Install the pre-commit framework
+If you don’t already have it:
+```bash
+pip install pre-commit
+```
+
+#### 2. Add Dmeta to your project’s .pre-commit-config.yaml
+In your project root, create or update .pre-commit-config.yaml:
+```yaml
+repos:
+  - repo: https://github.com/openscilab/dmeta.git
+    rev: v0.4 # minimum v0.4 or commit SHA
+    hooks:
+      - id: clear-metadata
+```
+* `rev`: must exactly match the minimum tag supporting pre-commit hooks or the commit SHA where the targetted `.pre-commit-hooks.yaml` exists.
+
+#### 3. Install the hook
+```bash
+pre-commit install # or pre_commit install (in windows)
+```
+
+Now, every time you `git commit`, Dmeta will automatically clear metadata from any Microsoft files in-place.
+
+#### ⚠️ Important: Clean Before You Commit
+
+Do **not** stage or add Microsoft Office files **before** removing their metadata.
+
+If you run `git add` on Office files that still contain embedded metadata, the pre-commit hook will attempt to clean them **in-place**, which modifies the files after they’ve been staged. As a result, **Git will block the commit** because the content has changed mid-process.
+
+#### ✅ Suggested Correct Workflow
+
+1. Let the hook run automatically on earlier commits that didn’t add Office files, or run it manually. To do manually you can run `pre-commit run clear-metadata --all-files` 
+
+2. Then:
+   ```bash
+   git add <cleaned-files>
+   git commit -m "Your message"
+   ```
+
 ## Supported files
 | File format | support | 
 | ---------------- | ---------------- | 
