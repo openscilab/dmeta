@@ -52,6 +52,8 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     :return: None
     """
     microsoft_format = get_microsoft_format(microsoft_file_name)
+    if microsoft_file_name is None:
+        return
     unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
@@ -113,18 +115,11 @@ def clear_all(in_place=False, verbose=False):
 
     for root, _, files in os.walk(path):
         for file in files:
-            try:
-                format = get_microsoft_format(file)
-                clear(os.path.join(root, file), in_place, verbose)
-                counter[format] += 1
-            except DMetaBaseError as e:
-                e = e.__str__()
-                if e == NOT_IMPLEMENTED_ERROR:
-                    print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
-                if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                    print(
-                        "Clearing the metadata of {} failed because DMeta {}".format(
-                            file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+            format = get_microsoft_format(file)
+            if format is None:
+                continue
+            clear(os.path.join(root, file), in_place, verbose)
+            counter[format] += 1
 
     if verbose:
         for format in counter.keys():

@@ -19,10 +19,10 @@ def get_microsoft_format(file_name):
     """
     last_dot_index = file_name.rfind('.')
     if (last_dot_index == -1):
-        raise DMetaBaseError(FILE_FORMAT_DOES_NOT_EXIST_ERROR)
+        return None # raise DMetaBaseError(FILE_FORMAT_DOES_NOT_EXIST_ERROR)
     format = file_name[last_dot_index + 1:]
     if format not in SUPPORTED_MICROSOFT_FORMATS:
-        raise DMetaBaseError(NOT_IMPLEMENTED_ERROR)
+        return None # raise DMetaBaseError(NOT_IMPLEMENTED_ERROR)
     return format
 
 
