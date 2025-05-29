@@ -61,14 +61,14 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
 
     def is_metadata_cleared(xml_path, is_core=True):
         if not os.path.exists(xml_path):
-            return False
+            return True
         tree = lxml.parse(xml_path)
         xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
         for xml_element in tree.iter():
             for personal_field in xml_map:
                 associated_xml_tag = xml_map[personal_field]
                 if (associated_xml_tag in xml_element.tag):
-                    if xml_element.text and xml_element.text.strip():
+                    if xml_element.text or xml_element.text.strip():
                         return False
         return True
 
