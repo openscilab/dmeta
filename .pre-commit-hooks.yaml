@@ -1,10 +1,9 @@
-- id: dmeta-clear-metadata
-  name: DMeta
-  description: Use `dmeta` to clear metadata from Microsoft Office files
-  entry: python -m dmeta --clear-all --inplace "$@" && git add "$@"'
+- id: clear-metadata
+  name: dmeta — clear metadata from Office files
+  description: |
+    Recursively strip metadata from Microsoft Office files
+    in-place before each commit.
+  entry: dmeta --clear-all --inplace
   language: python
-  types: [file]
-  files: \.(docx|pptx|xlsx)$
-  pass_filenames: true
-  stages: [commit]
-  
+  additional_dependencies: [dmeta]
+  pass_filenames: false
