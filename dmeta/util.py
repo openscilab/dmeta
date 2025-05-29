@@ -17,6 +17,8 @@ def get_microsoft_format(file_name):
     :type file_name: str
     :return: str
     """
+    if not isinstance(file_name, str):
+        return None
     last_dot_index = file_name.rfind('.')
     if (last_dot_index == -1):
         return None # raise DMetaBaseError(FILE_FORMAT_DOES_NOT_EXIST_ERROR)
