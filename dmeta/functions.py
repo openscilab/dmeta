@@ -8,8 +8,7 @@ import defusedxml.lxml as lxml
 from .errors import DMetaBaseError
 from .util import get_microsoft_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
-    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS, \
-    NOT_IMPLEMENTED_ERROR, FILE_FORMAT_DOES_NOT_EXIST_ERROR
+    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS
 
 
 def overwrite_metadata(
@@ -52,23 +51,28 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     :return: None
     """
     microsoft_format = get_microsoft_format(microsoft_file_name)
+    if microsoft_format is None:
+        return
     unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
-    # Check if metadata is already cleared
-    def is_metadata_cleared(xml_path):
+    def is_metadata_cleared(xml_path, is_core=True):
         if not os.path.exists(xml_path):
-            return False
+            return True
         tree = lxml.parse(xml_path)
-        for element in tree.iter():
-            if element.text and element.text.strip():
-                return False
+        xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
+        for xml_element in tree.iter():
+            for personal_field in xml_map:
+                associated_xml_tag = xml_map[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    if xml_element.text and xml_element.text.strip():
+                        return False
         return True
 
     core_cleared = is_metadata_cleared(core_xml_path)
-    app_cleared = is_metadata_cleared(app_xml_path)
+    app_cleared = is_metadata_cleared(app_xml_path, is_core=False)
 
     if core_cleared and app_cleared:
         if verbose:
@@ -110,18 +114,11 @@ def clear_all(in_place=False, verbose=False):
 
     for root, _, files in os.walk(path):
         for file in files:
-            try:
-                format = get_microsoft_format(file)
-                clear(os.path.join(root, file), in_place, verbose)
-                counter[format] += 1
-            except DMetaBaseError as e:
-                e = e.__str__()
-                if e == NOT_IMPLEMENTED_ERROR:
-                    print("DMeta couldn't clear the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
-                if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                    print(
-                        "Clearing the metadata of {} failed because DMeta {}".format(
-                            file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+            format = get_microsoft_format(file)
+            if format is None:
+                continue
+            clear(os.path.join(root, file), in_place, verbose)
+            counter[format] += 1
 
     if verbose:
         for format in counter.keys():
@@ -154,20 +151,26 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
         return
 
     microsoft_format = get_microsoft_format(microsoft_file_name)
+    if microsoft_format is None:
+        return
+
     unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     # Check if metadata is already up to date
-    def is_metadata_up_to_date(xml_path, metadata):
+    def is_metadata_up_to_date(xml_path, metadata, is_core=True):
         if not os.path.exists(xml_path):
             return False
         tree = lxml.parse(xml_path)
-        for element in tree.iter():
-            for field, tag in metadata.items():
-                if tag in element.tag and element.text != config[field]:
-                    return False
+        xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
+        for xml_element in tree.iter():
+            for personal_field in xml_map if metadata is None else metadata:
+                associated_xml_tag = xml_map[personal_field]
+                if (associated_xml_tag in xml_element.tag):
+                    if xml_element.text != metadata[personal_field]:
+                        return False
         return True
 
     core_up_to_date = is_metadata_up_to_date(core_xml_path, personal_fields_core_xml) if has_core_tags else True
@@ -219,6 +222,8 @@ def update_all(config_file_name, in_place=False, verbose=False):
         for file in files:
             try:
                 format = get_microsoft_format(file)
+                if format is None:
+                    return
                 update(config_file_name, os.path.join(root, file), in_place, verbose)
                 counter[format] += 1
             except DMetaBaseError as e:

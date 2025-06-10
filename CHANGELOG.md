@@ -7,13 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `Acknowledgments` in `README.md`
+- `.pre-commit-config.yaml`
+- `.pre-commit-hooks.yaml`
+- DMeta pre-commit hook section in `README.md`
 - recursive search in `clear_all` and `update_all`
 - `--verbose` flag in CLI
 - modern issue template structure
 - `--info` flag in CLI
 ### Changed
-- `clear` function in `functions.py` enhanced
-- `update` function in `functions.py` enhanced
+- `get_microsoft_format` function in `util.py`
+- `overwrite_metadata` function in `functions.py`
+- `clear_all` function in `functions.py`
+- `clear` function in `functions.py`
+- `update_all` function in `functions.py` enhanced
+- `update` function in `functions.py` 
 ### Removed
 - Python 3.6 support
 - old issue template structure

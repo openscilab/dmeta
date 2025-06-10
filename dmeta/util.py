@@ -4,8 +4,7 @@ import os
 import json
 from shutil import rmtree
 from zipfile import ZipFile
-from .params import SUPPORTED_MICROSOFT_FORMATS, NOT_IMPLEMENTED_ERROR, \
-    FILE_FORMAT_DOES_NOT_EXIST_ERROR, INVALID_CONFIG_FILE_NAME_ERROR, CONFIG_FILE_DOES_NOT_EXIST_ERROR
+from .params import SUPPORTED_MICROSOFT_FORMATS, INVALID_CONFIG_FILE_NAME_ERROR, CONFIG_FILE_DOES_NOT_EXIST_ERROR
 from .errors import DMetaBaseError
 
 
@@ -17,12 +16,14 @@ def get_microsoft_format(file_name):
     :type file_name: str
     :return: str
     """
+    if not isinstance(file_name, str):
+        return None
     last_dot_index = file_name.rfind('.')
     if (last_dot_index == -1):
-        raise DMetaBaseError(FILE_FORMAT_DOES_NOT_EXIST_ERROR)
+        return None
     format = file_name[last_dot_index + 1:]
     if format not in SUPPORTED_MICROSOFT_FORMATS:
-        raise DMetaBaseError(NOT_IMPLEMENTED_ERROR)
+        return None
     return format
 
 
