@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `Acknowledgments` in `README.md`
 - recursive search in `clear_all` and `update_all`
 - `--verbose` flag in CLI
 - modern issue template structure
