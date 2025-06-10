@@ -4,7 +4,7 @@ import os
 import sys
 import codecs
 Failed = 0
-DMETA_VERSION = "0.3"
+DMETA_VERSION = "0.4"
 
 
 SETUP_ITEMS = [
