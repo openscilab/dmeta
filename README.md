@@ -195,7 +195,8 @@ You can also join our discord server
 
 ## Acknowledgments
 
-[Python Software Foundation (PSF)](https://www.python.org/psf/) grants DMeta library. [PSF](https://www.python.org/psf/) is the organization behind Python. Their mission is to promote, protect, and advance the Python programming language and to support and facilitate the growth of a diverse and international community of Python programmers.
+[Python Software Foundation (PSF)](https://www.python.org/psf/) granted DMeta library partially for version(s) 0.4.
+[PSF](https://www.python.org/psf/) is the organization behind Python. Their mission is to promote, protect, and advance the Python programming language and to support and facilitate the growth of a diverse and international community of Python programmers.
 
 <a href="https://www.python.org/psf/"><img src="https://github.com/openscilab/pymilo/raw/main/otherfiles/psf.png" height="65px" alt="Python Software Foundation"></a>
 
