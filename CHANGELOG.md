@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.4] - 2025-06-16
 ### Added
+- `Acknowledgments` in `README.md`
 - `.pre-commit-config.yaml`
 - `.pre-commit-hooks.yaml`
 - DMeta pre-commit hook section in `README.md`
