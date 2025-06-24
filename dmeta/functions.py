@@ -3,6 +3,7 @@
 import os
 import shutil
 import zipfile
+from PIL import Image
 from art import tprint
 import defusedxml.lxml as lxml
 from .errors import DMetaBaseError
@@ -229,6 +230,44 @@ def update_all(config_file_name, in_place=False, verbose=False):
     if verbose:
         for format in counter.keys():
             print("Metadata of {} files with the format of {} has been updated.".format(counter[format], format))
+
+
+def clear_png_metadata(input_path, in_place=False, verbose=False):
+    """
+    Remove all metadata from a PNG file using Pillow.
+
+    :param input_path: path to original PNG file
+    :type input_path: str
+    :param in_place: if True, overwrite the original file with cleaned version
+    :type in_place: bool
+    :param verbose: if True, print detailed output
+    :type verbose: bool
+    :return: path to cleaned PNG file
+    """
+    if not input_path.lower().endswith(".png"):
+        raise DMetaBaseError("The input file must be a PNG format.")
+
+    if not os.path.exists(input_path):
+        raise DMetaBaseError(f"File not found: {input_path}")
+
+    # Determine output path
+    if in_place:
+        output_path = input_path
+    else:
+        base, ext = os.path.splitext(input_path)
+        output_path = base + "_cleaned" + ext
+
+    # Remove metadata
+    with Image.open(input_path) as img:
+        clean_img = Image.new(img.mode, img.size)
+        clean_img.putdata(list(img.getdata()))
+        clean_img.save(output_path, format="PNG")
+
+    if verbose:
+        action = "overwritten" if in_place else f"saved to {output_path}"
+        print(f"Metadata cleared for: {input_path} ({action})")
+
+    return output_path
 
 
 def dmeta_help():
