@@ -220,20 +220,11 @@ def update_all(config_file_name, in_place=False, verbose=False):
 
     for root, _, files in os.walk(path):
         for file in files:
-            try:
-                format = get_microsoft_format(file)
-                if format is None:
-                    return
-                update(config_file_name, os.path.join(root, file), in_place, verbose)
-                counter[format] += 1
-            except DMetaBaseError as e:
-                e = e.__str__()
-                if e == NOT_IMPLEMENTED_ERROR:
-                    print("DMeta couldn't update the metadata of {} since {}".format(file, NOT_IMPLEMENTED_ERROR))
-                if e == FILE_FORMAT_DOES_NOT_EXIST_ERROR:
-                    print(
-                        "Updating the metadata of {} failed because DMeta {}".format(
-                            file, FILE_FORMAT_DOES_NOT_EXIST_ERROR))
+            format = get_microsoft_format(file)
+            if format is None:
+                return
+            update(config_file_name, os.path.join(root, file), in_place, verbose)
+            counter[format] += 1
 
     if verbose:
         for format in counter.keys():
