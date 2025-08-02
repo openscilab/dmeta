@@ -96,6 +96,7 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     if verbose:
         print(f"Cleared metadata for: {microsoft_file_name}")
 
+    return modified
 
 def clear_all(in_place=False, verbose=False):
     """
@@ -200,6 +201,7 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     if verbose:
         print(f"Updated metadata for: {microsoft_file_name}")
 
+    return modified
 
 def update_all(config_file_name, in_place=False, verbose=False):
     """
