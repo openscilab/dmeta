@@ -1,5 +1,6 @@
 import os
 from dmeta.functions import update, update_all, clear, clear_all
+from dmeta.functions import extract_metadata
 
 TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
 
