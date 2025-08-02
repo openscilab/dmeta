@@ -242,6 +242,44 @@ def update_all(config_file_name, in_place=False, verbose=False):
             print("Metadata of {} files with the format of {} has been updated.".format(counter[format], format))
 
 
+def extract_metadata(microsoft_file_name):
+    """
+    Extract all the editable metadata from the given Microsoft file.
+
+    :param microsoft_file_name: name of Microsoft file
+    :type microsoft_file_name: str
+    :return: dict containing the extracted metadata
+    """
+    unzipped_dir, _ = extract(microsoft_file_name)
+    doc_props_dir = os.path.join(unzipped_dir, "docProps")
+    core_xml_path = os.path.join(doc_props_dir, "core.xml")
+    app_xml_path = os.path.join(doc_props_dir, "app.xml")
+    
+    extracted_metadata = {}
+    
+    # Extract metadata from core.xml
+    if os.path.exists(core_xml_path):
+        tree = lxml.parse(core_xml_path)
+        for xml_element in tree.iter():
+            for personal_field, xml_tag in CORE_XML_MAP.items():
+                if xml_tag in xml_element.tag:
+                    value = xml_element.text if xml_element.text else ""
+                    extracted_metadata[personal_field] = value.strip()
+    
+    # Extract metadata from app.xml
+    if os.path.exists(app_xml_path):
+        tree = lxml.parse(app_xml_path)
+        for xml_element in tree.iter():
+            for personal_field, xml_tag in APP_XML_MAP.items():
+                if xml_tag in xml_element.tag:
+                    value = xml_element.text if xml_element.text else ""
+                    extracted_metadata[personal_field] = value.strip()
+    
+    # Clean up
+    shutil.rmtree(unzipped_dir)
+    return extracted_metadata
+
+
 def dmeta_help():
     """
     Print DMeta details.
