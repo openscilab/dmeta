@@ -5,7 +5,10 @@ TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
 
 def test1():
     # clear a single .docx file [not inplace]
-    clear(os.path.join(TESTS_DIR_PATH, "test_a.docx"))
+    microsoft_file_name = os.path.join(TESTS_DIR_PATH, "test_a.docx")
+    output_path = clear(microsoft_file_name)
+    for value in extract_metadata(output_path).values():
+        assert value == ""
 
 
 def test2():
