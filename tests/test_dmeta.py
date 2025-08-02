@@ -42,7 +42,9 @@ def test5():
 
 def test6():
     # update a single .docx file [inplace]
-    update(os.path.join(TESTS_DIR_PATH, "config.json"), os.path.join(TESTS_DIR_PATH, "test_a.docx"), in_place=True)
+    microsoft_file_name = os.path.join(TESTS_DIR_PATH, "test_a.docx")
+    _ = update(os.path.join(TESTS_DIR_PATH, "config.json"), microsoft_file_name, in_place=True)
+    assert extract_metadata(microsoft_file_name)["authors"] == "UPDATED-AUTHOR"
 
 
 def test7():
