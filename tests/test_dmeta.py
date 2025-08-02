@@ -13,7 +13,10 @@ def test1():
 
 def test2():
     # clear a single .docx file [inplace]
-    clear(os.path.join(TESTS_DIR_PATH, "test_a.docx"), in_place=True)
+    microsoft_file_name = os.path.join(TESTS_DIR_PATH, "test_a.pptx")
+    _ = clear(microsoft_file_name, in_place=True)
+    for value in extract_metadata(microsoft_file_name).values():
+        assert value == ""
 
 
 def test3():
