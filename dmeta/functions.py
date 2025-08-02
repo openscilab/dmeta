@@ -141,8 +141,8 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     :return: None
     """
     config = read_json(config_file_name)
-    personal_fields_core_xml = {e: v for e, v in CORE_XML_MAP.items() if e in config}
-    personal_fields_app_xml = {e: v for e, v in APP_XML_MAP.items() if e in config}
+    personal_fields_core_xml = {e: config[e] for e, _ in CORE_XML_MAP.items() if e in config}
+    personal_fields_app_xml = {e: config[e] for e, _ in APP_XML_MAP.items() if e in config}
 
     has_core_tags = len(personal_fields_core_xml) > 0
     has_app_tags = len(personal_fields_app_xml) > 0
