@@ -141,8 +141,8 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     :return: None
     """
     config = read_json(config_file_name)
-    personal_fields_core_xml = {e: config[e] for e, _ in CORE_XML_MAP.items() if e in config}
-    personal_fields_app_xml = {e: config[e] for e, _ in APP_XML_MAP.items() if e in config}
+    personal_fields_core_xml = {k: config[k] for k in CORE_XML_MAP.keys() if k in config}
+    personal_fields_app_xml = {k: config[k] for k in APP_XML_MAP.keys() if k in config}
 
     has_core_tags = len(personal_fields_core_xml) > 0
     has_app_tags = len(personal_fields_app_xml) > 0
@@ -254,27 +254,21 @@ def extract_metadata(microsoft_file_name):
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
     core_xml_path = os.path.join(doc_props_dir, "core.xml")
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
-    
+
     extracted_metadata = {}
-    
-    # Extract metadata from core.xml
-    if os.path.exists(core_xml_path):
-        tree = lxml.parse(core_xml_path)
-        for xml_element in tree.iter():
-            for personal_field, xml_tag in CORE_XML_MAP.items():
-                if xml_tag in xml_element.tag:
-                    value = xml_element.text if xml_element.text else ""
-                    extracted_metadata[personal_field] = value.strip()
-    
-    # Extract metadata from app.xml
-    if os.path.exists(app_xml_path):
-        tree = lxml.parse(app_xml_path)
-        for xml_element in tree.iter():
-            for personal_field, xml_tag in APP_XML_MAP.items():
-                if xml_tag in xml_element.tag:
-                    value = xml_element.text if xml_element.text else ""
-                    extracted_metadata[personal_field] = value.strip()
-    
+
+    def _extract_metadata_from_xml(xml_path, xml_map):
+        if os.path.exists(xml_path):
+            tree = lxml.parse(xml_path)
+            for xml_element in tree.iter():
+                for personal_field, xml_tag in xml_map.items():
+                    if xml_tag in xml_element.tag:
+                        value = xml_element.text if xml_element.text else ""
+                        extracted_metadata[personal_field] = value.strip()
+
+    _extract_metadata_from_xml(core_xml_path, CORE_XML_MAP)
+    _extract_metadata_from_xml(app_xml_path, APP_XML_MAP)
+
     # Clean up
     shutil.rmtree(unzipped_dir)
     return extracted_metadata
