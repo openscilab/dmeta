@@ -97,6 +97,8 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     if verbose:
         print(f"Cleared metadata for: {microsoft_file_name}")
 
+    return modified
+
 
 def clear_all(in_place=False, verbose=False):
     """
@@ -141,8 +143,8 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     :return: None
     """
     config = read_json(config_file_name)
-    personal_fields_core_xml = {e: v for e, v in CORE_XML_MAP.items() if e in config}
-    personal_fields_app_xml = {e: v for e, v in APP_XML_MAP.items() if e in config}
+    personal_fields_core_xml = {k: config[k] for k in CORE_XML_MAP.keys() if k in config}
+    personal_fields_app_xml = {k: config[k] for k in APP_XML_MAP.keys() if k in config}
 
     has_core_tags = len(personal_fields_core_xml) > 0
     has_app_tags = len(personal_fields_app_xml) > 0
@@ -200,6 +202,8 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
 
     if verbose:
         print(f"Updated metadata for: {microsoft_file_name}")
+
+    return modified
 
 
 def update_all(config_file_name, in_place=False, verbose=False):
@@ -264,6 +268,38 @@ def clear_png_metadata(png_file_name, in_place=False, verbose=False):
         print(f"Metadata cleared for: {png_file_name} ({action})")
 
     return output_path
+
+
+def extract_metadata(microsoft_file_name):
+    """
+    Extract all the editable metadata from the given Microsoft file.
+
+    :param microsoft_file_name: name of Microsoft file
+    :type microsoft_file_name: str
+    :return: dict containing the extracted metadata
+    """
+    unzipped_dir, _ = extract(microsoft_file_name)
+    doc_props_dir = os.path.join(unzipped_dir, "docProps")
+    core_xml_path = os.path.join(doc_props_dir, "core.xml")
+    app_xml_path = os.path.join(doc_props_dir, "app.xml")
+
+    extracted_metadata = {}
+
+    def _extract_metadata_from_xml(xml_path, xml_map):
+        if os.path.exists(xml_path):
+            tree = lxml.parse(xml_path)
+            for xml_element in tree.iter():
+                for personal_field, xml_tag in xml_map.items():
+                    if xml_tag in xml_element.tag:
+                        value = xml_element.text if xml_element.text else ""
+                        extracted_metadata[personal_field] = value.strip()
+
+    _extract_metadata_from_xml(core_xml_path, CORE_XML_MAP)
+    _extract_metadata_from_xml(app_xml_path, APP_XML_MAP)
+
+    # Clean up
+    shutil.rmtree(unzipped_dir)
+    return extracted_metadata
 
 
 def dmeta_help():
