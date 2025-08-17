@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/logo.png" width="280" height="400">
+    <img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/logo.png" width="280">
     <br/>
     <br/>
     <a href="https://codecov.io/gh/openscilab/dmeta"><img src="https://codecov.io/gh/openscilab/dmeta/branch/dev/graph/badge.svg" alt="Codecov"></a>
