@@ -48,6 +48,13 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
             </td>
     </tr>
 </table>
+<table>
+    <tr> 
+        <td align="center">Code Quality</td>
+        <td align="center"></td>
+        <td align="center"></td>
+    </tr>
+</table>
 
 
 ## Installation
