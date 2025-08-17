@@ -51,7 +51,7 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
 <table>
     <tr> 
         <td align="center">Code Quality</td>
-        <td align="center"></td>
+        <td align="center"><a href="https://www.codefactor.io/repository/github/openscilab/dmeta"><img src="https://www.codefactor.io/repository/github/openscilab/dmeta/badge" alt="CodeFactor"></a></td>
         <td align="center"></td>
     </tr>
 </table>
