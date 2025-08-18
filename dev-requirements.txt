@@ -1,7 +1,7 @@
 art==6.5
 defusedxml==0.7.1
 lxml==5.2.2
-Pillow==8.4.0
+Pillow==11.3.0
 setuptools>=40.8.0
 vulture>=1.0
 bandit>=1.5.1
