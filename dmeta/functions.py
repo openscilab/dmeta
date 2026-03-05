@@ -87,7 +87,7 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     modified = microsoft_file_name
     if not in_place:
         modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_cleared" + "." + microsoft_format
-    with zipfile.ZipFile(modified, "w") as file:
+    with zipfile.ZipFile(modified, "w", compression=zipfile.ZIP_DEFLATED) as file:
         for file_name in source_file.namelist():
             file.write(os.path.join(unzipped_dir, file_name), file_name)
         file.close()
@@ -191,7 +191,7 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     modified = microsoft_file_name
     if not in_place:
         modified = microsoft_file_name[:microsoft_file_name.rfind('.')] + "_updated" + "." + microsoft_format
-    with zipfile.ZipFile(modified, "w") as file:
+    with zipfile.ZipFile(modified, "w", compression=zipfile.ZIP_DEFLATED) as file:
         for file_name in source_file.namelist():
             file.write(os.path.join(unzipped_dir, file_name), file_name)
         file.close()
