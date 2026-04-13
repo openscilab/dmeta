@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- `clear_png_metadata` function in `functions.py`
+- `extract_metadata` function in `functions.py`
+### Changed
+- `clear` function in `functions.py`
+- `update` function in `functions.py`
+- Test system modified
+- `README.md` updated
 ## [0.4] - 2025-06-16
 ### Added
 - `Acknowledgments` in `README.md`
@@ -79,9 +88,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `read_json` function in `util.py`
 
 [Unreleased]: https://github.com/openscilab/dmeta/compare/v0.4...dev
-### Changed
-- `clear` function in `functions.py`
-- `update` function in `functions.py`
 [0.4]: https://github.com/openscilab/dmeta/compare/v0.3...v0.4
 [0.3]: https://github.com/openscilab/dmeta/compare/v0.2...v0.3
 [0.2]: https://github.com/openscilab/dmeta/compare/v0.1...v0.2
