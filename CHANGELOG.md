@@ -79,6 +79,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `read_json` function in `util.py`
 
 [Unreleased]: https://github.com/openscilab/dmeta/compare/v0.4...dev
+### Changed
+- `clear` function in `functions.py`
+- `update` function in `functions.py`
 [0.4]: https://github.com/openscilab/dmeta/compare/v0.3...v0.4
 [0.3]: https://github.com/openscilab/dmeta/compare/v0.2...v0.3
 [0.2]: https://github.com/openscilab/dmeta/compare/v0.1...v0.2
