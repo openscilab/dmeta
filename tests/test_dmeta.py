@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 from dmeta.functions import update, update_all, clear, clear_all
+from dmeta.functions import clear_jpeg_metadata
 from dmeta.functions import clear_png_metadata
 from dmeta.functions import extract_metadata
 
@@ -75,4 +76,20 @@ def test10():
     png_file = os.path.join(TESTS_DIR_PATH, "test.png")
     output_path = clear_png_metadata(png_file, in_place=False, verbose=False)
     with Image.open(output_path) as img:
+        assert img.info == {}
+
+
+def test11():
+    # clear the metadata of the .jpg file [not inplace]
+    jpeg_file = os.path.join(TESTS_DIR_PATH, "test.jpg")
+    output_path = clear_jpeg_metadata(jpeg_file, in_place=False, verbose=False)
+    with Image.open(output_path) as img:
+        assert img.info == {}
+
+
+def test12():
+    # clear the metadata of the .jpg file [inplace]
+    jpeg_file = os.path.join(TESTS_DIR_PATH, "test.jpg")
+    clear_jpeg_metadata(jpeg_file, in_place=True, verbose=False)
+    with Image.open(jpeg_file) as img:
         assert img.info == {}
