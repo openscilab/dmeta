@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- JPEG params in `params.py`
 - `clear_jpeg_metadata` function in `functions.py`
 - `clear_png_metadata` function in `functions.py`
 - `extract_metadata` function in `functions.py`
