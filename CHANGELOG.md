@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `clear_png_metadata` function in `functions.py`
 - `extract_metadata` function in `functions.py`
 ### Changed
+- `test.yml`
 - `clear` function in `functions.py`
 - `update` function in `functions.py`
 - Test system modified
