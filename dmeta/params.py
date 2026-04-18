@@ -36,6 +36,14 @@ SUPPORTED_MICROSOFT_FORMATS = [
     "pptx",
     "xlsx"
 ]
+# JPEG marker codes per ITU-T T.81.
+JPEG_MARKER_PREFIX = 0xFF
+JPEG_SOI = 0xD8                                                 # Start Of Image
+JPEG_EOI = 0xD9                                                 # End Of Image
+JPEG_SOS = 0xDA                                                 # Start Of Scan
+JPEG_COM = 0xFE                                                 # Comment
+JPEG_APP_FIRST, JPEG_APP_LAST = 0xE0, 0xEF                      # APP0..APP15
+JPEG_STANDALONE_MARKERS = frozenset({0x00, 0x01, JPEG_SOI, JPEG_EOI} | set(range(0xD0, 0xD8)))
 INVALID_CONFIG_FILE_NAME_ERROR = "Config file name is not a string."
 CONFIG_FILE_DOES_NOT_EXIST_ERROR = "Given config file doesn't exist."
 UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR = "No config file provided. Set the .json config file with --config command."
