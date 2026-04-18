@@ -9,7 +9,9 @@ import defusedxml.lxml as lxml
 from .errors import DMetaBaseError
 from .util import get_microsoft_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
-    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS
+    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS, \
+    JPEG_MARKER_PREFIX, JPEG_SOI, JPEG_EOI, JPEG_SOS, JPEG_COM, \
+    JPEG_APP_FIRST, JPEG_APP_LAST, JPEG_STANDALONE_MARKERS
 
 
 def overwrite_metadata(
@@ -266,6 +268,68 @@ def clear_png_metadata(png_file_name, in_place=False, verbose=False):
     if verbose:
         action = "overwritten" if in_place else f"saved to {output_path}"
         print(f"Metadata cleared for: {png_file_name} ({action})")
+
+    return output_path
+
+
+def clear_jpeg_metadata(jpeg_file_name, in_place=False, verbose=False):
+    """
+    Remove all metadata from a JPEG file without re-encoding pixel data.
+
+    :param jpeg_file_name: path to original JPEG file
+    :type jpeg_file_name: str
+    :param in_place: if True, overwrite the original file with cleaned version
+    :type in_place: bool
+    :param verbose: if True, print detailed output
+    :type verbose: bool
+    :return: path to cleaned JPEG file
+    """
+    if not os.path.exists(jpeg_file_name) or not jpeg_file_name.lower().endswith((".jpg", ".jpeg")):
+        return
+
+    with open(jpeg_file_name, "rb") as f:
+        data = f.read()
+    soi = bytes([JPEG_MARKER_PREFIX, JPEG_SOI])
+    if not data.startswith(soi):
+        return
+
+    # Walk JPEG segments per ITU-T T.81 and drop APPn + COM (metadata holders).
+    out = bytearray(soi)
+    i, n = 2, len(data)
+    while i < n:
+        while i < n and data[i] == JPEG_MARKER_PREFIX:
+            i += 1
+        if i >= n:
+            break
+        marker = data[i]
+        i += 1
+        if marker in JPEG_STANDALONE_MARKERS:
+            out += bytes([JPEG_MARKER_PREFIX, marker])
+            if marker == JPEG_EOI:
+                break
+            continue
+        length = (data[i] << 8) | data[i + 1]
+        payload = data[i:i + length]
+        i += length
+        if JPEG_APP_FIRST <= marker <= JPEG_APP_LAST or marker == JPEG_COM:
+            continue
+        out += bytes([JPEG_MARKER_PREFIX, marker]) + payload
+        if marker == JPEG_SOS:
+            out += data[i:]
+            break
+
+    if in_place:
+        output_path = jpeg_file_name
+    else:
+        base, ext = os.path.splitext(jpeg_file_name)
+        output_path = base + "_cleaned" + ext
+
+    with open(output_path, "wb") as f:
+        f.write(bytes(out))
+
+    if verbose:
+        action = "overwritten" if in_place else f"saved to {output_path}"
+        print(f"Metadata cleared for: {jpeg_file_name} ({action})")
 
     return output_path
 
