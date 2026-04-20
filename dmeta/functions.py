@@ -11,7 +11,10 @@ from .util import get_microsoft_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS, \
     JPEG_MARKER_PREFIX, JPEG_SOI, JPEG_EOI, JPEG_SOS, JPEG_COM, \
-    JPEG_APP_FIRST, JPEG_APP_LAST, JPEG_STANDALONE_MARKERS
+    JPEG_APP_FIRST, JPEG_APP_LAST, JPEG_STANDALONE_MARKERS, \
+    GIF_TRAILER, GIF_EXTENSION_INTRODUCER, GIF_IMAGE_DESCRIPTOR, \
+    GIF_EXT_GRAPHIC_CONTROL, GIF_EXT_COMMENT, GIF_EXT_PLAIN_TEXT, \
+    GIF_EXT_APPLICATION, GIF_APP_EXT_NETSCAPE_IDENTIFIER
 
 
 def overwrite_metadata(
@@ -330,6 +333,100 @@ def clear_jpeg_metadata(jpeg_file_name, in_place=False, verbose=False):
     if verbose:
         action = "overwritten" if in_place else f"saved to {output_path}"
         print(f"Metadata cleared for: {jpeg_file_name} ({action})")
+
+    return output_path
+
+
+def clear_gif_metadata(gif_file_name, in_place=False, verbose=False):
+    """
+    Remove all metadata from a GIF file without re-encoding pixel data.
+
+    Preserves per-frame Graphic Control and NETSCAPE2.0 loop blocks; removes
+    Comment, Plain Text, and all other Application Extensions.
+
+    :param gif_file_name: path to original GIF file
+    :type gif_file_name: str
+    :param in_place: if True, overwrite the original file with cleaned version
+    :type in_place: bool
+    :param verbose: if True, print detailed output
+    :type verbose: bool
+    :return: path to cleaned GIF file
+    """
+    if not os.path.exists(gif_file_name) or not gif_file_name.lower().endswith(".gif"):
+        return
+
+    with open(gif_file_name, "rb") as f:
+        data = f.read()
+    if not (data.startswith(b"GIF87a") or data.startswith(b"GIF89a")):
+        return
+
+    n = len(data)
+
+    def skip_sub_blocks(start):
+        j = start
+        while j < n:
+            size = data[j]
+            j += 1
+            if size == 0:
+                return j
+            j += size
+        return j
+
+    # Header + Logical Screen Descriptor + optional Global Color Table.
+    out = bytearray(data[:13])
+    packed = data[10]
+    i = 13
+    if packed & 0x80:
+        gct = 3 * (1 << ((packed & 0x07) + 1))
+        out += data[i:i + gct]
+        i += gct
+
+    # Walk data stream per GIF89a; drop metadata-bearing extensions only.
+    while i < n:
+        b = data[i]
+        if b == GIF_TRAILER:
+            out += bytes([GIF_TRAILER])
+            break
+        if b == GIF_EXTENSION_INTRODUCER and i + 1 < n:
+            label = data[i + 1]
+            if label == GIF_EXT_GRAPHIC_CONTROL:
+                out += data[i:i + 8]
+                i += 8
+            elif label == GIF_EXT_APPLICATION and i + 2 < n:
+                ident_len = data[i + 2]
+                ident = data[i + 3:i + 3 + ident_len]
+                j = skip_sub_blocks(i + 3 + ident_len)
+                if ident == GIF_APP_EXT_NETSCAPE_IDENTIFIER:
+                    out += data[i:j]
+                i = j
+            elif label in (GIF_EXT_COMMENT, GIF_EXT_PLAIN_TEXT):
+                i = skip_sub_blocks(i + 2)
+            else:
+                i = skip_sub_blocks(i + 2)
+        elif b == GIF_IMAGE_DESCRIPTOR and i + 10 <= n:
+            packed2 = data[i + 9]
+            j = i + 10
+            if packed2 & 0x80:
+                j += 3 * (1 << ((packed2 & 0x07) + 1))
+            j += 1  # LZW minimum code size
+            j = skip_sub_blocks(j)
+            out += data[i:j]
+            i = j
+        else:
+            break
+
+    if in_place:
+        output_path = gif_file_name
+    else:
+        base, ext = os.path.splitext(gif_file_name)
+        output_path = base + "_cleaned" + ext
+
+    with open(output_path, "wb") as f:
+        f.write(bytes(out))
+
+    if verbose:
+        action = "overwritten" if in_place else f"saved to {output_path}"
+        print(f"Metadata cleared for: {gif_file_name} ({action})")
 
     return output_path
 
