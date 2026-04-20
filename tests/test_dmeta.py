@@ -3,6 +3,7 @@ from PIL import Image
 from dmeta.functions import update, update_all, clear, clear_all
 from dmeta.functions import clear_jpeg_metadata
 from dmeta.functions import clear_png_metadata
+from dmeta.functions import clear_gif_metadata
 from dmeta.functions import extract_metadata
 
 
@@ -93,3 +94,19 @@ def test12():
     clear_jpeg_metadata(jpeg_file, in_place=True, verbose=False)
     with Image.open(jpeg_file) as img:
         assert img.info == {}
+
+
+def test13():
+    # clear the metadata of the .gif file [not inplace]
+    gif_file = os.path.join(TESTS_DIR_PATH, "test.gif")
+    output_path = clear_gif_metadata(gif_file, in_place=False, verbose=False)
+    with Image.open(output_path) as img:
+        assert "comment" not in img.info
+
+
+def test14():
+    # clear the metadata of the .gif file [inplace]
+    gif_file = os.path.join(TESTS_DIR_PATH, "test.gif")
+    clear_gif_metadata(gif_file, in_place=True, verbose=False)
+    with Image.open(gif_file) as img:
+        assert "comment" not in img.info
