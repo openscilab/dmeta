@@ -44,6 +44,16 @@ JPEG_SOS = 0xDA                                                 # Start Of Scan
 JPEG_COM = 0xFE                                                 # Comment
 JPEG_APP_FIRST, JPEG_APP_LAST = 0xE0, 0xEF                      # APP0..APP15
 JPEG_STANDALONE_MARKERS = frozenset({0x00, 0x01, JPEG_SOI, JPEG_EOI} | set(range(0xD0, 0xD8)))
+
+# GIF block markers per GIF89a specification.
+GIF_TRAILER = 0x3B
+GIF_EXTENSION_INTRODUCER = 0x21
+GIF_IMAGE_DESCRIPTOR = 0x2C
+GIF_EXT_GRAPHIC_CONTROL = 0xF9                                  # per-frame timing (kept)
+GIF_EXT_COMMENT = 0xFE
+GIF_EXT_PLAIN_TEXT = 0x01
+GIF_EXT_APPLICATION = 0xFF
+GIF_APP_EXT_NETSCAPE_IDENTIFIER = b"NETSCAPE2.0"                # animation loop (kept)
 INVALID_CONFIG_FILE_NAME_ERROR = "Config file name is not a string."
 CONFIG_FILE_DOES_NOT_EXIST_ERROR = "Given config file doesn't exist."
 UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR = "No config file provided. Set the .json config file with --config command."
