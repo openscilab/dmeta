@@ -13,8 +13,8 @@ from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     JPEG_MARKER_PREFIX, JPEG_SOI, JPEG_EOI, JPEG_SOS, JPEG_COM, \
     JPEG_APP_FIRST, JPEG_APP_LAST, JPEG_STANDALONE_MARKERS, \
     GIF_TRAILER, GIF_EXTENSION_INTRODUCER, GIF_IMAGE_DESCRIPTOR, \
-    GIF_EXT_GRAPHIC_CONTROL, GIF_EXT_COMMENT, GIF_EXT_PLAIN_TEXT, \
-    GIF_EXT_APPLICATION, GIF_APP_EXT_NETSCAPE_IDENTIFIER
+    GIF_EXT_GRAPHIC_CONTROL, GIF_EXT_APPLICATION, \
+    GIF_APP_EXT_NETSCAPE_IDENTIFIER
 
 
 def overwrite_metadata(
@@ -399,9 +399,8 @@ def clear_gif_metadata(gif_file_name, in_place=False, verbose=False):
                 if ident == GIF_APP_EXT_NETSCAPE_IDENTIFIER:
                     out += data[i:j]
                 i = j
-            elif label in (GIF_EXT_COMMENT, GIF_EXT_PLAIN_TEXT):
-                i = skip_sub_blocks(i + 2)
             else:
+                # Comment, Plain Text, and any other extension carry metadata: drop.
                 i = skip_sub_blocks(i + 2)
         elif b == GIF_IMAGE_DESCRIPTOR and i + 10 <= n:
             packed2 = data[i + 9]
