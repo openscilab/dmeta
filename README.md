@@ -12,7 +12,7 @@
 
 ## Overview
 <p align="justify">
-DMeta is an open source Python package that removes metadata of Microsoft Office files.
+DMeta is an open source Python package that removes metadata of Microsoft Office files and image files.
 </p>
 <table>
     <tr>
@@ -81,7 +81,15 @@ from dmeta.functions import clear
 DOCX_FILE_PATH = os.path.join(os.getcwd(), "sample.docx")
 clear(DOCX_FILE_PATH, in_place=True)
 ```
-#### Clear metadata for all existing microsoft files (.docx|.pptx|.xlsx) in the current directory
+#### Clear metadata for any supported file in place
+```python
+import os
+from dmeta.functions import clear_file
+
+FILE_PATH = os.path.join(os.getcwd(), "photo.png")
+clear_file(FILE_PATH, in_place=True)
+```
+#### Clear metadata for all existing supported files (.docx|.pptx|.xlsx|.png|.jpg|.jpeg|.gif) in the current directory
 ```python
 from dmeta.functions import clear_all
 clear_all()
@@ -114,7 +122,11 @@ update_all(CONFIG_FILE_PATH)
 ```console
 dmeta --clear "./test_a.docx" --inplace
 ```
-#### Clear metadata for all existing microsoft files (.docx|.pptx|.xlsx) in the current directory
+#### Clear metadata for a .png file in place
+```console
+dmeta --clear "./photo.png" --inplace
+```
+#### Clear metadata for all existing supported files (.docx|.pptx|.xlsx|.png|.jpg|.jpeg|.gif) in the current directory
 ```console
 dmeta --clear-all
 ```
@@ -162,7 +174,7 @@ repos:
 pre-commit install # or pre_commit install (in windows)
 ```
 
-Now, every time you `git commit`, Dmeta will automatically clear metadata from any Microsoft files in-place.
+Now, every time you `git commit`, Dmeta will automatically clear metadata from any supported files in-place.
 
 #### ⚠️ Important: Clean Before You Commit
 
@@ -186,6 +198,9 @@ If you run `git add` on Office files that still contain embedded metadata, the p
 | Microsoft Word (.docx) | &#x2705; |
 | Microsoft PowerPoint (.pptx) | &#x2705; |
 | Microsoft Excel (.xlsx) | &#x2705; |
+| PNG (.png) | &#x2705; |
+| JPEG (.jpg, .jpeg) | &#x2705; |
+| GIF (.gif) | &#x2705; |
 
 
 ## Issues & bug reports
