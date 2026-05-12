@@ -2,7 +2,7 @@
 """DMeta parameters and constants."""
 DMETA_VERSION = "0.4"
 OVERVIEW = """
-A Python library for removing personal metadata in Microsoft files(.docx, .pptx, .xlsx).
+A Python library for removing personal metadata in Microsoft files(.docx, .pptx, .xlsx) and image files(.png, .jpg, .jpeg, .gif).
 
 """
 CORE_XML_MAP = {
@@ -36,6 +36,13 @@ SUPPORTED_MICROSOFT_FORMATS = [
     "pptx",
     "xlsx"
 ]
+SUPPORTED_IMAGE_FORMATS = [
+    "png",
+    "jpg",
+    "jpeg",
+    "gif"
+]
+SUPPORTED_FORMATS = SUPPORTED_MICROSOFT_FORMATS + SUPPORTED_IMAGE_FORMATS
 # JPEG marker codes per ITU-T T.81.
 JPEG_MARKER_PREFIX = 0xFF
 JPEG_SOI = 0xD8                                                 # Start Of Image
