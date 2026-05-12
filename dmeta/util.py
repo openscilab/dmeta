@@ -4,27 +4,28 @@ import os
 import json
 from shutil import rmtree
 from zipfile import ZipFile
-from .params import SUPPORTED_MICROSOFT_FORMATS, INVALID_CONFIG_FILE_NAME_ERROR, CONFIG_FILE_DOES_NOT_EXIST_ERROR
+from .params import SUPPORTED_FORMATS, INVALID_CONFIG_FILE_NAME_ERROR, CONFIG_FILE_DOES_NOT_EXIST_ERROR
 from .errors import DMetaBaseError
 
 
-def get_microsoft_format(file_name):
+def get_file_format(file_name):
     """
-    Extract format from the end of the given microsoft file name.
+    Extract format from the end of the given file name.
 
-    :param file_name: name of the microsoft file name
+    :param file_name: name of the file
     :type file_name: str
-    :return: str
+    :return: format string if supported, None otherwise
+    :rtype: str or None
     """
     if not isinstance(file_name, str):
         return None
     last_dot_index = file_name.rfind('.')
-    if (last_dot_index == -1):
+    if last_dot_index == -1:
         return None
-    format = file_name[last_dot_index + 1:]
-    if format not in SUPPORTED_MICROSOFT_FORMATS:
+    fmt = file_name[last_dot_index + 1:].lower()
+    if fmt not in SUPPORTED_FORMATS:
         return None
-    return format
+    return fmt
 
 
 def extract(file_name):
