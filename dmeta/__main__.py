@@ -15,15 +15,15 @@ def main():
     parser.add_argument(
         '--clear',
         nargs=1,
-        metavar=".docx file",
+        metavar="file",
         type=str,
-        help="the `clear` command clears all metadata in the given `.docx` file.",
+        help="the `clear` command clears all metadata in the given file (.docx, .pptx, .xlsx, .png, .jpg, .jpeg, .gif).",
     )
     parser.add_argument(
         '--clear-all',
         action="store_true",
         default=False,
-        help='the `clear-all` command clears all metadata in any `.docx` file in the current directory.',
+        help='the `clear-all` command clears all metadata in any supported file in the current directory.',
     )
     parser.add_argument(
         '--update',
