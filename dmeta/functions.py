@@ -7,9 +7,10 @@ from PIL import Image
 from art import tprint
 import defusedxml.lxml as lxml
 from .errors import DMetaBaseError
-from .util import get_microsoft_format, extract, read_json
+from .util import get_file_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
-    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, SUPPORTED_MICROSOFT_FORMATS, \
+    UPDATE_COMMAND_WITH_NO_CONFIG_FILE_ERROR, \
+    SUPPORTED_MICROSOFT_FORMATS, SUPPORTED_FORMATS, \
     JPEG_MARKER_PREFIX, JPEG_SOI, JPEG_EOI, JPEG_SOS, JPEG_COM, \
     JPEG_APP_FIRST, JPEG_APP_LAST, JPEG_STANDALONE_MARKERS, \
     GIF_TRAILER, GIF_EXTENSION_INTRODUCER, GIF_IMAGE_DESCRIPTOR, \
@@ -56,8 +57,8 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     :type verbose: bool
     :return: None
     """
-    microsoft_format = get_microsoft_format(microsoft_file_name)
-    if microsoft_format is None:
+    microsoft_format = get_file_format(microsoft_file_name)
+    if microsoft_format is None or microsoft_format not in SUPPORTED_MICROSOFT_FORMATS:
         return
     unzipped_dir, source_file = extract(microsoft_file_name)
     doc_props_dir = os.path.join(unzipped_dir, "docProps")
@@ -107,7 +108,7 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
 
 def clear_all(in_place=False, verbose=False):
     """
-    Clear all the editable metadata in any Microsoft file in the current directory and its subdirectories.
+    Clear all the editable metadata in any supported file in the current directory and its subdirectories.
 
     :param in_place: the `in_place` flag applies the changes directly to the original file
     :type in_place: bool
@@ -117,20 +118,20 @@ def clear_all(in_place=False, verbose=False):
     """
     path = os.getcwd()
     counter = {
-        format: 0 for format in SUPPORTED_MICROSOFT_FORMATS
+        fmt: 0 for fmt in SUPPORTED_FORMATS
     }
 
     for root, _, files in os.walk(path):
         for file in files:
-            format = get_microsoft_format(file)
-            if format is None:
+            fmt = get_file_format(file)
+            if fmt is None:
                 continue
-            clear(os.path.join(root, file), in_place, verbose)
-            counter[format] += 1
+            clear_file(os.path.join(root, file), in_place, verbose)
+            counter[fmt] += 1
 
     if verbose:
-        for format in counter.keys():
-            print("Metadata of {} files with the format of {} has been cleared.".format(counter[format], format))
+        for fmt in counter.keys():
+            print("Metadata of {} files with the format of {} has been cleared.".format(counter[fmt], fmt))
 
 
 def update(config_file_name, microsoft_file_name, in_place=False, verbose=False):
@@ -158,8 +159,8 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
         print("There isn't any chosen personal field to remove.")
         return
 
-    microsoft_format = get_microsoft_format(microsoft_file_name)
-    if microsoft_format is None:
+    microsoft_format = get_file_format(microsoft_file_name)
+    if microsoft_format is None or microsoft_format not in SUPPORTED_MICROSOFT_FORMATS:
         return
 
     unzipped_dir, source_file = extract(microsoft_file_name)
@@ -230,11 +231,11 @@ def update_all(config_file_name, in_place=False, verbose=False):
 
     for root, _, files in os.walk(path):
         for file in files:
-            format = get_microsoft_format(file)
-            if format is None:
-                return
+            fmt = get_file_format(file)
+            if fmt is None or fmt not in SUPPORTED_MICROSOFT_FORMATS:
+                continue
             update(config_file_name, os.path.join(root, file), in_place, verbose)
-            counter[format] += 1
+            counter[fmt] += 1
 
     if verbose:
         for format in counter.keys():
@@ -430,6 +431,39 @@ def clear_gif_metadata(gif_file_name, in_place=False, verbose=False):
     return output_path
 
 
+CLEAR_HANDLERS = {
+    "docx": clear,
+    "pptx": clear,
+    "xlsx": clear,
+    "png": clear_png_metadata,
+    "jpg": clear_jpeg_metadata,
+    "jpeg": clear_jpeg_metadata,
+    "gif": clear_gif_metadata,
+}
+
+
+def clear_file(file_name, in_place=False, verbose=False):
+    """
+    Clear all metadata from the given file based on its format.
+
+    :param file_name: path to the file
+    :type file_name: str
+    :param in_place: applies changes directly to the original file
+    :type in_place: bool
+    :param verbose: enables detailed output
+    :type verbose: bool
+    :return: path to the cleared file, or None if format is unsupported
+    :rtype: str or None
+    """
+    fmt = get_file_format(file_name)
+    if fmt is None:
+        return None
+    handler = CLEAR_HANDLERS.get(fmt)
+    if handler is None:
+        return None
+    return handler(file_name, in_place, verbose)
+
+
 def extract_metadata(microsoft_file_name):
     """
     Extract all the editable metadata from the given Microsoft file.
@@ -483,7 +517,7 @@ def run_dmeta(args):
     """
     verbose = args.verbose
     if args.clear:
-        clear(args.clear[0], args.inplace, verbose)
+        clear_file(args.clear[0], args.inplace, verbose)
     elif args.clear_all:
         clear_all(args.inplace, verbose)
     elif args.update:
