@@ -12,12 +12,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `clear_jpeg_metadata` function in `functions.py`
 - `clear_png_metadata` function in `functions.py`
 - `extract_metadata` function in `functions.py`
+- `SUPPORTED_IMAGE_FORMATS` and `SUPPORTED_FORMATS` in `params.py`
+- `get_file_format` function in `util.py`
+- `CLEAR_HANDLERS` dict in `functions.py`
+- `clear_file` function in `functions.py`
 ### Changed
 - `test.yml`
 - `clear` function in `functions.py`
 - `update` function in `functions.py`
+- `clear_all` function in `functions.py`
+- `update_all` function in `functions.py`
+- `run_dmeta` function in `functions.py`
+- CLI help text in `__main__.py`
+- `.pre-commit-hooks.yaml` updated
 - Test system modified
 - `README.md` updated
+### Removed
+- `get_microsoft_format` function in `util.py`
 ## [0.4] - 2025-06-16
 ### Added
 - `Acknowledgments` in `README.md`
