@@ -1,5 +1,5 @@
 repos:
   - repo: https://github.com/openscilab/dmeta.git
-    rev: v0.4
+    rev: v0.5
     hooks:
       - id: clear-metadata
