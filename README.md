@@ -62,9 +62,9 @@ DMeta is an open source Python package that removes metadata of Microsoft Office
 ### PyPI
 
 - Check [Python Packaging User Guide](https://packaging.python.org/installing/)
-- Run `pip install dmeta==0.4`
+- Run `pip install dmeta==0.5`
 ### Source code
-- Download [Version 0.4](https://github.com/openscilab/dmeta/archive/v0.4.zip) or [Latest Source](https://github.com/openscilab/dmeta/archive/dev.zip)
+- Download [Version 0.5](https://github.com/openscilab/dmeta/archive/v0.5.zip) or [Latest Source](https://github.com/openscilab/dmeta/archive/dev.zip)
 - Run `pip install .`
 
 ## Usage
@@ -163,7 +163,7 @@ In your project root, create or update .pre-commit-config.yaml:
 ```yaml
 repos:
   - repo: https://github.com/openscilab/dmeta.git
-    rev: v0.4 # minimum v0.4 or commit SHA
+    rev: v0.5 # minimum v0.4 or commit SHA
     hooks:
       - id: clear-metadata
 ```
@@ -217,7 +217,7 @@ You can also join our discord server
 
 ## Acknowledgments
 
-[Python Software Foundation (PSF)](https://www.python.org/psf/) granted DMeta library partially for version(s) 0.4.
+[Python Software Foundation (PSF)](https://www.python.org/psf/) granted DMeta library partially for version(s) 0.4, 0.5.
 [PSF](https://www.python.org/psf/) is the organization behind Python. Their mission is to promote, protect, and advance the Python programming language and to support and facilitate the growth of a diverse and international community of Python programmers.
 
 <a href="https://www.python.org/psf/"><img src="https://github.com/openscilab/dmeta/raw/main/otherfiles/psf.png" height="65px" alt="Python Software Foundation"></a>
