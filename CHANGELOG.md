@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [0.5] - 2026-05-27
 ### Added
 - GIF params in `params.py`
 - `clear_gif_metadata` function in `functions.py`
@@ -103,7 +104,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `extract_docx` function in `util.py`
 - `read_json` function in `util.py`
 
-[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.4...dev
+[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.5...dev
+[0.5]: https://github.com/openscilab/dmeta/compare/v0.4...v0.5
 [0.4]: https://github.com/openscilab/dmeta/compare/v0.3...v0.4
 [0.3]: https://github.com/openscilab/dmeta/compare/v0.2...v0.3
 [0.2]: https://github.com/openscilab/dmeta/compare/v0.1...v0.2
