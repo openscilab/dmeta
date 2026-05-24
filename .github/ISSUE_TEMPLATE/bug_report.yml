@@ -84,6 +84,7 @@ body:
       label: DMeta version
       description: Which version of DMeta are you using?
       options:
+        - DMeta 0.5
         - DMeta 0.4
         - DMeta 0.3
         - DMeta 0.2
