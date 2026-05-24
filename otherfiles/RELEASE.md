@@ -16,7 +16,7 @@
 	2. Add a new compare link to the end of the file (Example: `[0.2]: https://github.com/openscilab/dmeta/compare/v0.1...v0.2`)
 	3. Update `dev` compare link (Example: `[Unreleased]: https://github.com/openscilab/dmeta/compare/v0.2...dev`)
 4. Update `.github/ISSUE_TEMPLATE/bug_report.yml`
-   1. Add new version tag to `Nava version` dropbox options
+   1. Add new version tag to `DMeta version` dropbox options
 5. Create a PR from `release` to `dev`
 	1. Title: `Version x.x` (Example: `Version 0.1`)
 	2. Tag all related issues
