@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `CLEAR_HANDLERS` dict in `functions.py`
 - `clear_file` function in `functions.py`
 ### Changed
+- `RELEASE.md`
 - `test.yml`
 - `clear` function in `functions.py`
 - `update` function in `functions.py`
