@@ -653,12 +653,8 @@ def _parse_flac_container(data):
     return blocks, i
 
 
-def mp3_has_sidecar_tags(mp3_file_name):
-    """
-    Return True if ID3 / APE / Lyrics3 regions exist outside MPEG frames.
-
-    Uses the same strip helpers as clear_mp3_metadata.
-    """
+def _mp3_has_sidecar_tags(mp3_file_name):
+    """Return True if ID3 / APE / Lyrics3 regions exist outside MPEG frames."""
     if not os.path.exists(mp3_file_name):
         return False
     with open(mp3_file_name, "rb") as f:
@@ -668,24 +664,42 @@ def mp3_has_sidecar_tags(mp3_file_name):
     return start > 0 or end < len(data)
 
 
-def flac_metadata_block_types(flac_file_name):
+def _flac_has_removable_metadata(flac_file_name):
     """
-    Return FLAC metadata block type codes in file order, or None if invalid.
+    Return True if removable FLAC metadata is present.
 
-    Uses the same container parser as clear_flac_metadata.
+    Removable means a leading ID3v2 prefix and/or any metadata block other than
+    a sole STREAMINFO (same rules as clear_flac_metadata).
     """
     if not os.path.exists(flac_file_name):
-        return None
+        return False
     with open(flac_file_name, "rb") as f:
         data = f.read()
-    data = _flac_bytes_after_optional_id3(data)
-    if data is None:
-        return None
-    parsed = _parse_flac_container(data)
+    stripped = _flac_bytes_after_optional_id3(data)
+    if stripped is None:
+        return False
+    if stripped is not data:
+        return True
+    parsed = _parse_flac_container(stripped)
     if parsed is None:
-        return None
+        return False
     blocks, _ = parsed
-    return [block_type for block_type, _ in blocks]
+    types = [block_type for block_type, _ in blocks]
+    return types != [FLAC_STREAMINFO_TYPE]
+
+
+def has_audio_metadata(file_name):
+    """
+    Return True if removable MP3/FLAC metadata is present.
+
+    Uses the same parsers as clear_mp3_metadata / clear_flac_metadata.
+    """
+    fmt = get_file_format(file_name)
+    if fmt == "mp3":
+        return _mp3_has_sidecar_tags(file_name)
+    if fmt == "flac":
+        return _flac_has_removable_metadata(file_name)
+    return False
 
 
 def clear_flac_metadata(flac_file_name, in_place=False, verbose=False):
