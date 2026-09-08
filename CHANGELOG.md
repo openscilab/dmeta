@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `README.md` updated
 - Test system modified (MP3/FLAC tests)
 - `dev-requirements.txt` updated
+### Removed
+- `defusedxml` dependency
 ## [0.5] - 2026-05-27
 ### Added
 - GIF params in `params.py`
