@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Audio(FLAC/MP3) params in `params.py`
+- `clear_mp3_metadata` function in `functions.py`
+- `clear_flac_metadata` function in `functions.py`
+- `has_audio_metadata` function in `functions.py`
+- `mp3` / `flac` entries in `CLEAR_HANDLERS`
+- `tests/conftest.py` (fixture backup/restore + artifact GC)
+### Changed
+- `SUPPORTED_FORMATS.md` updated
+- `__main__.py` updated
+- `.pre-commit-hooks.yaml` updated
+- `README.md` updated
+- Test system modified (MP3/FLAC tests)
+- `dev-requirements.txt` updated
 ## [0.5] - 2026-05-27
 ### Added
 - GIF params in `params.py`
