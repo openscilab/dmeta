@@ -1,13 +1,41 @@
 import os
 from PIL import Image
+from mutagen.mp3 import MP3
+from mutagen.flac import FLAC
 from dmeta.functions import update, update_all, clear, clear_all
 from dmeta.functions import clear_jpeg_metadata
 from dmeta.functions import clear_png_metadata
 from dmeta.functions import clear_gif_metadata
+from dmeta.functions import clear_mp3_metadata
+from dmeta.functions import clear_flac_metadata
+from dmeta.functions import clear_file
 from dmeta.functions import extract_metadata
+from dmeta.functions import has_audio_metadata
 
 
 TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
+
+
+def _assert_audio_clear(path, clearer, *, in_place):
+    """Before/after clearance via dmeta; mutagen mirrors Pillow empty-info checks."""
+    assert has_audio_metadata(path)
+    if in_place:
+        clearer(path, in_place=True, verbose=False)
+        assert not has_audio_metadata(path)
+        cleared = path
+    else:
+        output_path = clearer(path, in_place=False, verbose=False)
+        assert has_audio_metadata(path)
+        assert not has_audio_metadata(output_path)
+        cleared = output_path
+    if path.lower().endswith(".mp3"):
+        assert list(MP3(cleared).keys()) == []
+    else:
+        flac = FLAC(cleared)
+        assert dict(flac) == {}
+        assert flac.pictures == []
+    return cleared
+
 
 def test1():
     # clear a single .docx file [not inplace]
@@ -26,13 +54,13 @@ def test2():
 
 
 def test3():
-    # clear all existing .docx files [not inplace]
+    # clear all existing supported files [not inplace]
     os.chdir(TESTS_DIR_PATH)
     clear_all()
 
 
 def test4():
-    # clear all existing .docx files [inplace]
+    # clear all existing supported files [inplace]
     os.chdir(TESTS_DIR_PATH)
     clear_all(in_place=True)
 
@@ -72,6 +100,7 @@ def test9():
     with Image.open(png_file) as img:
         assert img.info == {}
 
+
 def test10():
     # clear the metadata of the .png file [not inplace]
     png_file = os.path.join(TESTS_DIR_PATH, "test.png")
@@ -110,3 +139,29 @@ def test14():
     clear_gif_metadata(gif_file, in_place=True, verbose=False)
     with Image.open(gif_file) as img:
         assert "comment" not in img.info
+
+
+def test15(audio_file):
+    # clear the metadata of the .mp3 file [not inplace]
+    _assert_audio_clear(audio_file("test.mp3"), clear_mp3_metadata, in_place=False)
+
+
+def test16(audio_file):
+    # clear the metadata of the .mp3 file [inplace]
+    _assert_audio_clear(audio_file("test.mp3"), clear_mp3_metadata, in_place=True)
+
+
+def test17(audio_file):
+    # clear the metadata of the .flac file [not inplace]
+    _assert_audio_clear(audio_file("test.flac"), clear_flac_metadata, in_place=False)
+
+
+def test18(audio_file):
+    # clear the metadata of the .flac file [inplace]
+    _assert_audio_clear(audio_file("test.flac"), clear_flac_metadata, in_place=True)
+
+
+def test19(audio_file):
+    # clear_file routes mp3 and flac [not inplace]
+    _assert_audio_clear(audio_file("test.mp3"), clear_file, in_place=False)
+    _assert_audio_clear(audio_file("test.flac"), clear_file, in_place=False)
