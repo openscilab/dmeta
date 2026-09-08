@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Session fixture hygiene for the DMeta test suite.
+"""Session fixture hygiene for the DMeta test suite.
 
 Layers:
   1. setup  — GC stale artifacts, snapshot committed fixtures
