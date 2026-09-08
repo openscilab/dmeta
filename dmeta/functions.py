@@ -5,7 +5,7 @@ import shutil
 import zipfile
 from PIL import Image
 from art import tprint
-from lxml import etree as lxml
+from lxml import etree as lxml  # nosec B410
 from .errors import DMetaBaseError
 from .util import get_file_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
@@ -21,6 +21,18 @@ from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     MP3_APE_HAS_HEADER_FLAG, MP3_APE_IS_HEADER_FLAG, \
     MP3_LYRICS3V2_TAIL, MP3_LYRICS3V1_TAIL, MP3_LYRICS3V1_BEGIN, \
     FLAC_MAGIC, FLAC_BLOCK_HEADER_SIZE, FLAC_STREAMINFO_TYPE, FLAC_STREAMINFO_SIZE
+
+
+def parse_xml(xml_path):
+    """
+    Parse an XML file with entity resolution and network access disabled.
+
+    :param xml_path: path to the XML file
+    :type xml_path: str
+    :return: parsed element tree
+    """
+    parser = lxml.XMLParser(resolve_entities=False, no_network=True)
+    return lxml.parse(xml_path, parser)  # nosec B320
 
 
 def overwrite_metadata(
@@ -41,7 +53,7 @@ def overwrite_metadata(
     """
     xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
     if os.path.exists(xml_path):
-        e_core = lxml.parse(xml_path)
+        e_core = parse_xml(xml_path)
         for xml_element in e_core.iter():
             for personal_field in xml_map if metadata is None else metadata:
                 associated_xml_tag = xml_map[personal_field]
@@ -73,7 +85,7 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     def is_metadata_cleared(xml_path, is_core=True):
         if not os.path.exists(xml_path):
             return True
-        tree = lxml.parse(xml_path)
+        tree = parse_xml(xml_path)
         xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
         for xml_element in tree.iter():
             for personal_field in xml_map:
@@ -177,7 +189,7 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
     def is_metadata_up_to_date(xml_path, metadata, is_core=True):
         if not os.path.exists(xml_path):
             return False
-        tree = lxml.parse(xml_path)
+        tree = parse_xml(xml_path)
         xml_map = CORE_XML_MAP if is_core else APP_XML_MAP
         for xml_element in tree.iter():
             for personal_field in xml_map if metadata is None else metadata:
@@ -821,7 +833,7 @@ def extract_metadata(microsoft_file_name):
 
     def _extract_metadata_from_xml(xml_path, xml_map):
         if os.path.exists(xml_path):
-            tree = lxml.parse(xml_path)
+            tree = parse_xml(xml_path)
             for xml_element in tree.iter():
                 for personal_field, xml_tag in xml_map.items():
                     if xml_tag in xml_element.tag:
