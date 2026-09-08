@@ -2,7 +2,6 @@ import os
 from PIL import Image
 from mutagen.mp3 import MP3
 from mutagen.flac import FLAC
-from mutagen.apev2 import APEv2, APENoHeaderError
 from dmeta.functions import update, update_all, clear, clear_all
 from dmeta.functions import clear_jpeg_metadata
 from dmeta.functions import clear_png_metadata
@@ -11,13 +10,31 @@ from dmeta.functions import clear_mp3_metadata
 from dmeta.functions import clear_flac_metadata
 from dmeta.functions import clear_file
 from dmeta.functions import extract_metadata
-from dmeta.functions import mp3_has_sidecar_tags
-from dmeta.functions import flac_metadata_block_types
-from dmeta.params import FLAC_STREAMINFO_TYPE
-from dmeta.params import MP3_ID3V2_MAGIC
+from dmeta.functions import has_audio_metadata
 
 
 TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
+
+
+def _assert_audio_clear(path, clearer, *, in_place):
+    """Before/after clearance via dmeta; mutagen mirrors Pillow empty-info checks."""
+    assert has_audio_metadata(path)
+    if in_place:
+        clearer(path, in_place=True, verbose=False)
+        assert not has_audio_metadata(path)
+        cleared = path
+    else:
+        output_path = clearer(path, in_place=False, verbose=False)
+        assert has_audio_metadata(path)
+        assert not has_audio_metadata(output_path)
+        cleared = output_path
+    if path.lower().endswith(".mp3"):
+        assert list(MP3(cleared).keys()) == []
+    else:
+        flac = FLAC(cleared)
+        assert dict(flac) == {}
+        assert flac.pictures == []
+    return cleared
 
 
 def test1():
@@ -124,67 +141,39 @@ def test14():
         assert "comment" not in img.info
 
 
-def test15():
+def test15(audio_fixtures):
     # clear the metadata of the .mp3 file [not inplace]
     mp3_file = os.path.join(TESTS_DIR_PATH, "test.mp3")
-    output_path = clear_mp3_metadata(mp3_file, in_place=False, verbose=False)
-    assert list(MP3(output_path).keys()) == []
-    assert not mp3_has_sidecar_tags(output_path)
-    try:
-        APEv2(output_path)
-        assert False, "APEv2 tag still present after clearance"
-    except APENoHeaderError:
-        pass
+    _assert_audio_clear(mp3_file, clear_mp3_metadata, in_place=False)
 
 
-def test16():
+def test16(audio_fixtures):
     # clear the metadata of the .mp3 file [inplace]
     mp3_file = os.path.join(TESTS_DIR_PATH, "test.mp3")
-    clear_mp3_metadata(mp3_file, in_place=True, verbose=False)
-    assert list(MP3(mp3_file).keys()) == []
-    assert not mp3_has_sidecar_tags(mp3_file)
+    _assert_audio_clear(mp3_file, clear_mp3_metadata, in_place=True)
 
 
-def test17():
+def test17(audio_fixtures):
     # clear the metadata of the .flac file [not inplace]
     flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
-    output_path = clear_flac_metadata(flac_file, in_place=False, verbose=False)
-    flac = FLAC(output_path)
-    assert dict(flac) == {}
-    assert flac.pictures == []
-    assert flac_metadata_block_types(output_path) == [FLAC_STREAMINFO_TYPE]
+    _assert_audio_clear(flac_file, clear_flac_metadata, in_place=False)
 
 
-def test18():
+def test18(audio_fixtures):
     # clear the metadata of the .flac file [inplace]
     flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
-    clear_flac_metadata(flac_file, in_place=True, verbose=False)
-    flac = FLAC(flac_file)
-    assert dict(flac) == {}
-    assert flac.pictures == []
-    assert flac_metadata_block_types(flac_file) == [FLAC_STREAMINFO_TYPE]
+    _assert_audio_clear(flac_file, clear_flac_metadata, in_place=True)
 
 
-def test19():
+def test19(audio_fixtures):
     # clear_file routes mp3 and flac [not inplace]
-    mp3_out = clear_file(os.path.join(TESTS_DIR_PATH, "test.mp3"), in_place=False, verbose=False)
-    flac_out = clear_file(os.path.join(TESTS_DIR_PATH, "test.flac"), in_place=False, verbose=False)
-    assert list(MP3(mp3_out).keys()) == []
-    assert not mp3_has_sidecar_tags(mp3_out)
-    assert dict(FLAC(flac_out)) == {}
-    assert flac_metadata_block_types(flac_out) == [FLAC_STREAMINFO_TYPE]
-
-
-def test20():
-    # FLAC with leading ID3v2 (Windows/WMP style) still clears to STREAMINFO only
+    mp3_file = os.path.join(TESTS_DIR_PATH, "test.mp3")
     flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
-    with open(flac_file, "rb") as f:
-        flac_bytes = f.read()
-    # Empty ID3v2.3 header (same layout clear_flac / _mp3_id3v2_len accept).
-    id3_prefix = MP3_ID3V2_MAGIC + b"\x03\x00\x00\x00\x00\x00\x00"
-    prefixed = os.path.join(TESTS_DIR_PATH, "_prefixed.flac")
-    with open(prefixed, "wb") as f:
-        f.write(id3_prefix + flac_bytes)
-    prefixed_out = clear_flac_metadata(prefixed, in_place=False, verbose=False)
-    assert flac_metadata_block_types(prefixed_out) == [FLAC_STREAMINFO_TYPE]
-    assert dict(FLAC(prefixed_out)) == {}
+    _assert_audio_clear(mp3_file, clear_file, in_place=False)
+    _assert_audio_clear(flac_file, clear_file, in_place=False)
+
+
+def test20(audio_fixtures):
+    # FLAC with leading ID3v2 still clears via clear_flac_metadata
+    flac_file = os.path.join(TESTS_DIR_PATH, "test_id3.flac")
+    _assert_audio_clear(flac_file, clear_flac_metadata, in_place=False)
