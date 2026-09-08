@@ -5,7 +5,7 @@ import shutil
 import zipfile
 from PIL import Image
 from art import tprint
-import defusedxml.lxml as lxml
+from lxml import etree as lxml
 from .errors import DMetaBaseError
 from .util import get_file_format, extract, read_json
 from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
