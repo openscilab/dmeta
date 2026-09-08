@@ -7,15 +7,19 @@ Layers:
   2. run    — tests execute
   3. teardown — restore fixtures, GC generated artifacts
 
-Audio tests that need enriched before/after checks use the `audio_fixtures`
-fixture to re-copy MP3/FLAC samples after earlier in-place / clear_all runs.
+MP3/FLAC tests assert metadata before and after clearance, so they work on
+their own copy of the sample (`audio_file`) instead of the shared fixture.
 """
 import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
 
+from dmeta.functions import has_audio_metadata
+
 TESTS_DIR = Path(__file__).resolve().parent
+REPO_DIR = TESTS_DIR.parent
 
 _FIXTURE_FILES = (
     "test.mp3",
@@ -52,16 +56,31 @@ def _gc_artifacts():
     for pattern in _ARTIFACT_FILE_GLOBS:
         for path in TESTS_DIR.glob(pattern):
             if path.is_file():
-                path.unlink(missing_ok=True)
+                path.unlink()
     for pattern in _ARTIFACT_DIR_GLOBS:
         for path in TESTS_DIR.glob(pattern):
             if path.is_dir():
                 shutil.rmtree(path, ignore_errors=True)
 
 
+def _enriched_audio_bytes(name):
+    """
+    Read a sample that still carries metadata.
+
+    CI clears `tests/` in place (`dmeta --clear-all --inplace`) before pytest
+    runs, so fall back to the committed sample when the working copy is bare.
+    """
+    src = TESTS_DIR / name
+    if src.is_file() and has_audio_metadata(str(src)):
+        return src.read_bytes()
+    return subprocess.check_output(
+        ["git", "cat-file", "blob", "HEAD:tests/" + name],
+        cwd=str(REPO_DIR))
+
+
 @pytest.fixture(scope="session")
 def _fixture_backup(tmp_path_factory):
-    """Snapshot fixtures for session restore; shared with audio_fixtures."""
+    """Snapshot fixtures for session restore."""
     _gc_artifacts()
     backup_root = tmp_path_factory.mktemp("dmeta_fixture_backup")
     mapping = {}
@@ -84,11 +103,17 @@ def _session_hygiene(_fixture_backup):
     yield
 
 
+@pytest.fixture(scope="session")
+def _audio_samples():
+    """Enriched MP3/FLAC bytes, read once per session."""
+    return {name: _enriched_audio_bytes(name) for name in _AUDIO_FIXTURES}
+
+
 @pytest.fixture
-def audio_fixtures(_fixture_backup):
-    """Restore committed audio fixtures before an MP3/FLAC test."""
-    for name in _AUDIO_FIXTURES:
-        dest = _fixture_backup.get(name)
-        if dest is not None:
-            shutil.copy2(dest, TESTS_DIR / name)
-    yield
+def audio_file(_audio_samples, tmp_path):
+    """Write an enriched sample into the test's own directory."""
+    def _write(name):
+        path = tmp_path / name
+        path.write_bytes(_audio_samples[name])
+        return str(path)
+    return _write

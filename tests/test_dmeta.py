@@ -141,33 +141,27 @@ def test14():
         assert "comment" not in img.info
 
 
-def test15(audio_fixtures):
+def test15(audio_file):
     # clear the metadata of the .mp3 file [not inplace]
-    mp3_file = os.path.join(TESTS_DIR_PATH, "test.mp3")
-    _assert_audio_clear(mp3_file, clear_mp3_metadata, in_place=False)
+    _assert_audio_clear(audio_file("test.mp3"), clear_mp3_metadata, in_place=False)
 
 
-def test16(audio_fixtures):
+def test16(audio_file):
     # clear the metadata of the .mp3 file [inplace]
-    mp3_file = os.path.join(TESTS_DIR_PATH, "test.mp3")
-    _assert_audio_clear(mp3_file, clear_mp3_metadata, in_place=True)
+    _assert_audio_clear(audio_file("test.mp3"), clear_mp3_metadata, in_place=True)
 
 
-def test17(audio_fixtures):
+def test17(audio_file):
     # clear the metadata of the .flac file [not inplace]
-    flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
-    _assert_audio_clear(flac_file, clear_flac_metadata, in_place=False)
+    _assert_audio_clear(audio_file("test.flac"), clear_flac_metadata, in_place=False)
 
 
-def test18(audio_fixtures):
+def test18(audio_file):
     # clear the metadata of the .flac file [inplace]
-    flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
-    _assert_audio_clear(flac_file, clear_flac_metadata, in_place=True)
+    _assert_audio_clear(audio_file("test.flac"), clear_flac_metadata, in_place=True)
 
 
-def test19(audio_fixtures):
+def test19(audio_file):
     # clear_file routes mp3 and flac [not inplace]
-    mp3_file = os.path.join(TESTS_DIR_PATH, "test.mp3")
-    flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
-    _assert_audio_clear(mp3_file, clear_file, in_place=False)
-    _assert_audio_clear(flac_file, clear_file, in_place=False)
+    _assert_audio_clear(audio_file("test.mp3"), clear_file, in_place=False)
+    _assert_audio_clear(audio_file("test.flac"), clear_file, in_place=False)
