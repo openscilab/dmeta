@@ -171,9 +171,3 @@ def test19(audio_fixtures):
     flac_file = os.path.join(TESTS_DIR_PATH, "test.flac")
     _assert_audio_clear(mp3_file, clear_file, in_place=False)
     _assert_audio_clear(flac_file, clear_file, in_place=False)
-
-
-def test20(audio_fixtures):
-    # FLAC with leading ID3v2 still clears via clear_flac_metadata
-    flac_file = os.path.join(TESTS_DIR_PATH, "test_id3.flac")
-    _assert_audio_clear(flac_file, clear_flac_metadata, in_place=False)

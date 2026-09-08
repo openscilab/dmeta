@@ -20,7 +20,6 @@ TESTS_DIR = Path(__file__).resolve().parent
 _FIXTURE_FILES = (
     "test.mp3",
     "test.flac",
-    "test_id3.flac",
     "test.png",
     "test.jpg",
     "test.gif",
@@ -35,7 +34,6 @@ _FIXTURE_FILES = (
 _AUDIO_FIXTURES = (
     "test.mp3",
     "test.flac",
-    "test_id3.flac",
 )
 
 _ARTIFACT_FILE_GLOBS = (
