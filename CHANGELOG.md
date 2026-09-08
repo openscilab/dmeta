@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `clear_mp3_metadata` function in `functions.py`
 - `clear_flac_metadata` function in `functions.py`
 - `has_audio_metadata` function in `functions.py`
+- `parse_xml` function in `functions.py`
 - `mp3` / `flac` entries in `CLEAR_HANDLERS`
 - `tests/conftest.py` (fixture backup/restore + artifact GC)
 ### Changed
