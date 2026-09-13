@@ -12,7 +12,7 @@
 
 ## Overview
 <p align="justify">
-DMeta is an open source Python package that removes metadata of Microsoft Office files, image files, and audio files.
+DMeta is an open source Python package that removes metadata of Microsoft Office, image, and audio files.
 </p>
 <table>
     <tr>
