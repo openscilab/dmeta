@@ -83,6 +83,15 @@ def clear(microsoft_file_name, in_place=False, verbose=False):
     app_xml_path = os.path.join(doc_props_dir, "app.xml")
 
     def is_metadata_cleared(xml_path, is_core=True):
+        """
+        Check whether editable metadata fields in the XML are empty.
+
+        :param xml_path: path to core.xml or app.xml
+        :type xml_path: str
+        :param is_core: True for core.xml mapping, False for app.xml
+        :type is_core: bool
+        :return: True if all mapped fields are empty
+        """
         if not os.path.exists(xml_path):
             return True
         tree = parse_xml(xml_path)
@@ -187,6 +196,17 @@ def update(config_file_name, microsoft_file_name, in_place=False, verbose=False)
 
     # Check if metadata is already up to date
     def is_metadata_up_to_date(xml_path, metadata, is_core=True):
+        """
+        Check whether XML metadata already matches the given values.
+
+        :param xml_path: path to core.xml or app.xml
+        :type xml_path: str
+        :param metadata: expected field values keyed by personal field name
+        :type metadata: dict
+        :param is_core: True for core.xml mapping, False for app.xml
+        :type is_core: bool
+        :return: True if every given field matches
+        """
         if not os.path.exists(xml_path):
             return False
         tree = parse_xml(xml_path)
@@ -381,6 +401,13 @@ def clear_gif_metadata(gif_file_name, in_place=False, verbose=False):
     n = len(data)
 
     def skip_sub_blocks(start):
+        """
+        Advance past a GIF sub-block chain starting at the given offset.
+
+        :param start: byte offset of the first size byte
+        :type start: int
+        :return: offset immediately after the terminating zero-length block
+        """
         j = start
         while j < n:
             size = data[j]
@@ -453,6 +480,10 @@ def _id3_synchsafe_to_int(size_bytes):
     Decode a 4-byte ID3v2 synchsafe integer.
 
     Per ID3v2.3 / ID3v2.4, each byte contributes 7 bits (MSB must be 0).
+
+    :param size_bytes: four-byte synchsafe size field
+    :type size_bytes: bytes
+    :return: decoded integer size
     """
     value = 0
     for byte in size_bytes:
@@ -466,6 +497,12 @@ def _mp3_id3v2_len(data, offset=0):
 
     Layout (ID3v2.3 / ID3v2.4): "ID3" + version(2) + flags(1) + size(4 synchsafe)
     + frames; optional 10-byte footer when flags bit 0x10 is set (ID3v2.4).
+
+    :param data: MP3 file bytes
+    :type data: bytes
+    :param offset: start offset of a candidate ID3v2 header
+    :type offset: int
+    :return: total tag length in bytes, or 0
     """
     if offset + MP3_ID3V2_HEADER_SIZE > len(data):
         return 0
@@ -486,6 +523,12 @@ def _mp3_ape_tag_len_from_footer(data, footer_end):
 
     APEv2 preamble (32 bytes, "APETAGEX") appears as footer and optionally as
     header; size field counts items + footer, not a preceding header.
+
+    :param data: MP3 file bytes
+    :type data: bytes
+    :param footer_end: exclusive end offset of a candidate APEv2 footer
+    :type footer_end: int
+    :return: (start, end) span of the tag, or None
     """
     if footer_end < MP3_APE_HEADER_SIZE:
         return None
@@ -506,7 +549,13 @@ def _mp3_ape_tag_len_from_footer(data, footer_end):
 
 
 def _mp3_strip_leading_tags(data):
-    """Strip leading ID3v2 and APEv2 tags; return audio-start offset."""
+    """
+    Strip leading ID3v2 and APEv2 tags; return audio-start offset.
+
+    :param data: MP3 file bytes
+    :type data: bytes
+    :return: byte offset where MPEG frames begin
+    """
     offset = 0
     id3_len = _mp3_id3v2_len(data, offset)
     if id3_len:
@@ -530,6 +579,10 @@ def _mp3_strip_trailing_tags(data):
 
     Order follows common tag stacking (outermost at EOF): ID3v1, then Lyrics3 /
     APE / ID3v2.4 footer tags that may sit before it.
+
+    :param data: MP3 file bytes
+    :type data: bytes
+    :return: exclusive end offset of the MPEG frame region
     """
     end = len(data)
     while end > 0:
@@ -626,6 +679,10 @@ def _flac_bytes_after_optional_id3(data):
 
     Some Windows tools prepend ID3v2 before the FLAC stream. Returns None if
     fLaC is missing or a non-ID3 prefix precedes it.
+
+    :param data: FLAC file bytes, optionally with a leading ID3v2 tag
+    :type data: bytes
+    :return: bytes starting at fLaC, or None if invalid
     """
     magic_at = data.find(FLAC_MAGIC)
     if magic_at < 0:
@@ -641,6 +698,8 @@ def _parse_flac_container(data):
     """
     Parse metadata blocks from a buffer that starts with fLaC.
 
+    :param data: FLAC bytes beginning with the fLaC magic
+    :type data: bytes
     :return: (blocks, frames_offset) where blocks is [(block_type, payload), ...],
              or None if the container is invalid
     """
@@ -666,7 +725,13 @@ def _parse_flac_container(data):
 
 
 def _mp3_has_sidecar_tags(mp3_file_name):
-    """Return True if ID3 / APE / Lyrics3 regions exist outside MPEG frames."""
+    """
+    Return True if ID3 / APE / Lyrics3 regions exist outside MPEG frames.
+
+    :param mp3_file_name: path to the MP3 file
+    :type mp3_file_name: str
+    :return: True if removable tag regions are present
+    """
     if not os.path.exists(mp3_file_name):
         return False
     with open(mp3_file_name, "rb") as f:
@@ -682,6 +747,10 @@ def _flac_has_removable_metadata(flac_file_name):
 
     Removable means a leading ID3v2 prefix and/or any metadata block other than
     a sole STREAMINFO (same rules as clear_flac_metadata).
+
+    :param flac_file_name: path to the FLAC file
+    :type flac_file_name: str
+    :return: True if removable metadata is present
     """
     if not os.path.exists(flac_file_name):
         return False
@@ -705,6 +774,10 @@ def has_audio_metadata(file_name):
     Return True if removable MP3/FLAC metadata is present.
 
     Uses the same parsers as clear_mp3_metadata / clear_flac_metadata.
+
+    :param file_name: path to an audio file
+    :type file_name: str
+    :return: True if removable metadata is present
     """
     fmt = get_file_format(file_name)
     if fmt == "mp3":
@@ -832,6 +905,15 @@ def extract_metadata(microsoft_file_name):
     extracted_metadata = {}
 
     def _extract_metadata_from_xml(xml_path, xml_map):
+        """
+        Fill extracted_metadata from mapped tags in the given XML file.
+
+        :param xml_path: path to core.xml or app.xml
+        :type xml_path: str
+        :param xml_map: mapping of personal field names to XML tag suffixes
+        :type xml_map: dict
+        :return: None
+        """
         if os.path.exists(xml_path):
             tree = parse_xml(xml_path)
             for xml_element in tree.iter():
