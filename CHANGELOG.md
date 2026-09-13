@@ -11,14 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `clear_flac_metadata` function in `functions.py`
 - `has_audio_metadata` function in `functions.py`
 - `parse_xml` function in `functions.py`
-- `mp3` / `flac` entries in `CLEAR_HANDLERS`
-- `tests/conftest.py` (fixture backup/restore + artifact GC)
+- `tests/conftest.py`
 ### Changed
-- `SUPPORTED_FORMATS.md` updated
 - `__main__.py` updated
 - `.pre-commit-hooks.yaml` updated
 - `README.md` updated
-- Test system modified (MP3/FLAC tests)
+- Test system modified
 - `dev-requirements.txt` updated
 ### Removed
 - `defusedxml` dependency
