@@ -17,7 +17,7 @@ def main():
         nargs=1,
         metavar="file",
         type=str,
-        help="the `clear` command clears all metadata in the given file (.docx, .pptx, .xlsx, .png, .jpg, .jpeg, .gif).",
+        help="the `clear` command clears all metadata in the given file (.docx, .pptx, .xlsx, .png, .jpg, .jpeg, .gif, .mp3, .flac).",
     )
     parser.add_argument(
         '--clear-all',
