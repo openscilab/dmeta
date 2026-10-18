@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """DMeta functions."""
 import os
+import re
 import shutil
 import zipfile
 from PIL import Image
@@ -20,7 +21,9 @@ from .params import CORE_XML_MAP, APP_XML_MAP, OVERVIEW, DMETA_VERSION, \
     MP3_ID3V2_FOOTER_FLAG, MP3_APE_MAGIC, MP3_APE_HEADER_SIZE, \
     MP3_APE_HAS_HEADER_FLAG, MP3_APE_IS_HEADER_FLAG, \
     MP3_LYRICS3V2_TAIL, MP3_LYRICS3V1_TAIL, MP3_LYRICS3V1_BEGIN, \
-    FLAC_MAGIC, FLAC_BLOCK_HEADER_SIZE, FLAC_STREAMINFO_TYPE, FLAC_STREAMINFO_SIZE
+    FLAC_MAGIC, FLAC_BLOCK_HEADER_SIZE, FLAC_STREAMINFO_TYPE, FLAC_STREAMINFO_SIZE, \
+    PDF_MAGIC, PDF_ENCRYPT_KEY, PDF_BLANK_BYTE, PDF_EMPTY_DICT, \
+    PDF_INFO_REF_RE, PDF_METADATA_REF_RE, PDF_METADATA_TYPE_RE, PDF_OBJECT_HEADER_RE
 
 
 def parse_xml(xml_path):
@@ -334,7 +337,7 @@ def clear_jpeg_metadata(jpeg_file_name, in_place=False, verbose=False):
     if not data.startswith(soi):
         return
 
-    # Walk JPEG segments per ITU-T T.81 and drop APPn + COM (metadata holders).
+    # Walk JPEG segments per ITU-T T.81 Annex B and drop APPn + COM (metadata holders).
     out = bytearray(soi)
     i, n = 2, len(data)
     while i < n:
@@ -854,6 +857,180 @@ def clear_flac_metadata(flac_file_name, in_place=False, verbose=False):
     return output_path
 
 
+def _pdf_object_offsets(data):
+    """
+    Map each indirect object number to the byte offset of its header.
+
+    When incremental updates redefine an object number, the last (authoritative)
+    definition wins, matching how a reader resolves the active cross-reference.
+
+    :param data: raw PDF bytes
+    :type data: bytes
+    :return: mapping of object number to header offset
+    """
+    offsets = {}
+    for match in re.finditer(PDF_OBJECT_HEADER_RE, data):
+        offsets[int(match.group(1))] = match.start(1)
+    return offsets
+
+
+def _pdf_object_body(data, offset):
+    """
+    Return the content span of the indirect object at the given offset.
+
+    :param data: raw PDF bytes
+    :type data: bytes
+    :param offset: byte offset of the object header (first digit)
+    :type offset: int
+    :return: (body_start, endobj_start) span between `obj` and `endobj`, or None
+    """
+    header = re.compile(rb"\d+\s+\d+\s+obj").match(data, offset)
+    if header is None:
+        return None
+    endobj = data.find(b"endobj", header.end())
+    if endobj < 0:
+        return None
+    return header.end(), endobj
+
+
+def _pdf_blank_region(buf, start, end):
+    """
+    Overwrite a byte range in place with spaces, preserving file length.
+
+    :param buf: mutable PDF buffer
+    :type buf: bytearray
+    :param start: inclusive start offset
+    :type start: int
+    :param end: exclusive end offset
+    :type end: int
+    :return: None
+    """
+    for index in range(start, end):
+        buf[index] = PDF_BLANK_BYTE
+
+
+def _pdf_erase_stream_payload(buf, data, offset):
+    """
+    Blank the stream payload of the object at the given offset in place.
+
+    :param buf: mutable PDF buffer
+    :type buf: bytearray
+    :param data: raw PDF bytes (immutable reference)
+    :type data: bytes
+    :param offset: byte offset of the object header
+    :type offset: int
+    :return: None
+    """
+    body = _pdf_object_body(data, offset)
+    if body is None:
+        return
+    stream = data.find(b"stream", body[0])
+    if stream < 0 or stream > body[1]:
+        return
+    payload = stream + len(b"stream")
+    if data[payload:payload + 2] == b"\r\n":
+        payload += 2
+    elif data[payload:payload + 1] in (b"\n", b"\r"):
+        payload += 1
+    end = data.find(b"endstream", payload)
+    if end < 0:
+        return
+    _pdf_blank_region(buf, payload, end)
+
+
+def has_pdf_metadata(file_name):
+    """
+    Return True if a PDF still exposes Document Information or XMP metadata.
+
+    Uses the same structure scan as clear_pdf_metadata.
+
+    :param file_name: path to a PDF file
+    :type file_name: str
+    :return: True if removable metadata is present
+    """
+    if not os.path.exists(file_name):
+        return False
+    with open(file_name, "rb") as f:
+        data = f.read()
+    if not data.startswith(PDF_MAGIC):
+        return False
+    offsets = _pdf_object_offsets(data)
+    # Any Document Information dictionary that still holds content.
+    for match in re.finditer(PDF_INFO_REF_RE, data):
+        num = int(re.search(rb"\d+", match.group()).group())
+        body = _pdf_object_body(data, offsets[num]) if num in offsets else None
+        if body is not None and b"/" in data[body[0]:body[1]]:
+            return True
+    # Any surviving XMP metadata reference (catalog, page, ...).
+    return re.search(PDF_METADATA_REF_RE, data) is not None
+
+
+def clear_pdf_metadata(pdf_file_name, in_place=False, verbose=False):
+    """
+    Remove Document Information and XMP metadata from a PDF file in place.
+
+    Per ISO 32000-1:2008, the Document Information dictionary (trailer `/Info`,
+    section 14.3.3) and XMP metadata streams (`/Type /Metadata`, section 14.3.2)
+    carry personal data. These streams may attach to the catalog, a page, or any
+    object, so every one is physically erased by overwriting its bytes with
+    spaces and every `/Info` and `/Metadata` reference is removed. No metadata
+    text survives while each cross-reference offset stays valid. Encrypted PDFs
+    are skipped.
+
+    :param pdf_file_name: path to original PDF file
+    :type pdf_file_name: str
+    :param in_place: if True, overwrite the original file with cleaned version
+    :type in_place: bool
+    :param verbose: if True, print detailed output
+    :type verbose: bool
+    :return: path to cleaned PDF file
+    """
+    if not os.path.exists(pdf_file_name) or not pdf_file_name.lower().endswith(".pdf"):
+        return
+
+    with open(pdf_file_name, "rb") as f:
+        data = f.read()
+    if not data.startswith(PDF_MAGIC) or PDF_ENCRYPT_KEY in data:
+        return
+
+    buf = bytearray(data)
+    offsets = _pdf_object_offsets(data)
+
+    # Document Information dictionaries: erase their content, then de-register /Info.
+    for match in re.finditer(PDF_INFO_REF_RE, data):
+        num = int(re.search(rb"\d+", match.group()).group())
+        body = _pdf_object_body(data, offsets[num]) if num in offsets else None
+        if body is not None:
+            buf[body[0]:body[0] + len(PDF_EMPTY_DICT)] = PDF_EMPTY_DICT
+            _pdf_blank_region(buf, body[0] + len(PDF_EMPTY_DICT), body[1])
+        _pdf_blank_region(buf, match.start(), match.end())
+
+    # XMP metadata streams (catalog, page, or any object): erase their payloads.
+    for offset in offsets.values():
+        body = _pdf_object_body(data, offset)
+        if body is not None and re.search(PDF_METADATA_TYPE_RE, data[body[0]:body[1]]):
+            _pdf_erase_stream_payload(buf, data, offset)
+
+    # De-register every /Metadata reference.
+    for match in re.finditer(PDF_METADATA_REF_RE, data):
+        _pdf_blank_region(buf, match.start(), match.end())
+
+    if in_place:
+        output_path = pdf_file_name
+    else:
+        base, ext = os.path.splitext(pdf_file_name)
+        output_path = base + "_cleaned" + ext
+
+    with open(output_path, "wb") as f:
+        f.write(bytes(buf))
+
+    if verbose:
+        action = "overwritten" if in_place else f"saved to {output_path}"
+        print(f"Metadata cleared for: {pdf_file_name} ({action})")
+
+    return output_path
+
+
 CLEAR_HANDLERS = {
     "docx": clear,
     "pptx": clear,
@@ -864,6 +1041,7 @@ CLEAR_HANDLERS = {
     "gif": clear_gif_metadata,
     "mp3": clear_mp3_metadata,
     "flac": clear_flac_metadata,
+    "pdf": clear_pdf_metadata,
 }
 
 
