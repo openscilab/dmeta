@@ -1,0 +1,85 @@
+%PDF-1.7
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R /Metadata 5 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << >> /Contents 4 0 R /Metadata 7 0 R >>
+endobj
+4 0 obj
+<< /Length 36 >>
+stream
+BT /F1 24 Tf 72 700 Td (Hello) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Metadata /Subtype /XML /Length 1793 >>
+stream
+<?xpacket begin="Ôªø" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="DMeta Test 1.0">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:pdf="http://ns.adobe.com/pdf/1.3/"
+    xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
+    xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/">
+   <dc:format>application/pdf</dc:format>
+   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">DMeta Secret Title</rdf:li></rdf:Alt></dc:title>
+   <dc:creator><rdf:Seq><rdf:li>Jane Private Author</rdf:li></rdf:Seq></dc:creator>
+   <dc:subject><rdf:Bag><rdf:li>secret</rdf:li><rdf:li>private</rdf:li><rdf:li>dmeta</rdf:li></rdf:Bag></dc:subject>
+   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">Confidential Subject</rdf:li></rdf:Alt></dc:description>
+   <dc:publisher><rdf:Bag><rdf:li>Secret Company</rdf:li></rdf:Bag></dc:publisher>
+   <dc:rights><rdf:Alt><rdf:li xml:lang="x-default">Private Rights 2020</rdf:li></rdf:Alt></dc:rights>
+   <dc:date><rdf:Seq><rdf:li>2020-01-01T00:00:00Z</rdf:li></rdf:Seq></dc:date>
+   <xmp:CreatorTool>SecretTool 1.0</xmp:CreatorTool>
+   <xmp:CreateDate>2020-01-01T00:00:00Z</xmp:CreateDate>
+   <xmp:ModifyDate>2020-12-31T23:59:59Z</xmp:ModifyDate>
+   <xmp:MetadataDate>2020-12-31T23:59:59Z</xmp:MetadataDate>
+   <pdf:Producer>SecretProducer 2.0</pdf:Producer>
+   <pdf:Keywords>secret, private, dmeta</pdf:Keywords>
+   <xmpMM:DocumentID>uuid:secret-document-id-0001</xmpMM:DocumentID>
+   <xmpMM:InstanceID>uuid:secret-instance-id-0001</xmpMM:InstanceID>
+   <photoshop:AuthorsPosition>Secret Manager</photoshop:AuthorsPosition>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>
+endstream
+endobj
+6 0 obj
+<< /Title (DMeta Secret Title) /Author (Jane Private Author) /Subject (Confidential Subject) /Keywords (secret, private, dmeta) /Creator (SecretTool 1.0) /Producer (SecretProducer 2.0) /CreationDate (D:20200101000000Z) /ModDate (D:20201231235959Z) /Trapped /False /Company (Secret Company) /Manager (Secret Manager) /Comments (Private internal note) /SourceModified (D:20200101000000Z) >>
+endobj
+7 0 obj
+<< /Type /Metadata /Subtype /XML /Length 484 >>
+stream
+<?xpacket begin="Ôªø" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">Page Secret Heading</rdf:li></rdf:Alt></dc:title>
+   <dc:creator><rdf:Seq><rdf:li>Page Secret Author</rdf:li></rdf:Seq></dc:creator>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f
+0000000015 00000 n
+0000000080 00000 n
+0000000137 00000 n
+0000000257 00000 n
+0000000343 00000 n
+0000002218 00000 n
+0000002622 00000 n
+trailer
+<< /Size 8 /Root 1 0 R /Info 6 0 R >>
+startxref
+3187
+%%EOF
