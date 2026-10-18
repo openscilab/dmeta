@@ -4,15 +4,18 @@ import os
 from PIL import Image
 from mutagen.mp3 import MP3
 from mutagen.flac import FLAC
+from pypdf import PdfReader
 from dmeta.functions import update, update_all, clear, clear_all
 from dmeta.functions import clear_jpeg_metadata
 from dmeta.functions import clear_png_metadata
 from dmeta.functions import clear_gif_metadata
 from dmeta.functions import clear_mp3_metadata
 from dmeta.functions import clear_flac_metadata
+from dmeta.functions import clear_pdf_metadata
 from dmeta.functions import clear_file
 from dmeta.functions import extract_metadata
 from dmeta.functions import has_audio_metadata
+from dmeta.functions import has_pdf_metadata
 
 
 TESTS_DIR_PATH = os.path.join(os.getcwd(), "tests")
@@ -46,6 +49,47 @@ def _assert_audio_clear(path, clearer, in_place):
         flac = FLAC(cleared)
         assert dict(flac) == {}
         assert flac.pictures == []
+    return cleared
+
+
+def _assert_pdf_clear(path, clearer, in_place):
+    """
+    Assert PDF metadata is present, clear it, then assert it is gone.
+
+    The Document Information values are captured from the untouched file and
+    checked for byte-level absence in the result, proving a hard cleanup.
+
+    :param path: path to the PDF file
+    :type path: str
+    :param clearer: clearance function to call
+    :type clearer: callable
+    :param in_place: if True, overwrite the file; otherwise write a cleaned copy
+    :type in_place: bool
+    :return: path to the cleared file
+    """
+    reader = PdfReader(path)
+    secrets = [value.encode("utf-8", "ignore") for value in reader.metadata.values() if value]
+    assert reader.xmp_metadata is not None
+    assert has_pdf_metadata(path)
+    if in_place:
+        clearer(path, in_place=True, verbose=False)
+        assert not has_pdf_metadata(path)
+        cleared = path
+    else:
+        output_path = clearer(path, in_place=False, verbose=False)
+        assert has_pdf_metadata(path)
+        assert not has_pdf_metadata(output_path)
+        cleared = output_path
+    reader = PdfReader(cleared)
+    assert reader.metadata is None
+    assert reader.xmp_metadata is None
+    assert len(reader.pages) >= 1
+    raw = open(cleared, "rb").read()
+    for secret in secrets:
+        assert secret not in raw
+    # Every XMP packet (document and page level) is physically erased.
+    assert b"xmpmeta" not in raw
+    assert b"<?xpacket" not in raw
     return cleared
 
 
@@ -153,27 +197,42 @@ def test14():
         assert "comment" not in img.info
 
 
-def test15(audio_file):
+def test15(sample_file):
     """Clear the metadata of the .mp3 file [not inplace]."""
-    _assert_audio_clear(audio_file("test.mp3"), clear_mp3_metadata, False)
+    _assert_audio_clear(sample_file("test.mp3"), clear_mp3_metadata, False)
 
 
-def test16(audio_file):
+def test16(sample_file):
     """Clear the metadata of the .mp3 file [inplace]."""
-    _assert_audio_clear(audio_file("test.mp3"), clear_mp3_metadata, True)
+    _assert_audio_clear(sample_file("test.mp3"), clear_mp3_metadata, True)
 
 
-def test17(audio_file):
+def test17(sample_file):
     """Clear the metadata of the .flac file [not inplace]."""
-    _assert_audio_clear(audio_file("test.flac"), clear_flac_metadata, False)
+    _assert_audio_clear(sample_file("test.flac"), clear_flac_metadata, False)
 
 
-def test18(audio_file):
+def test18(sample_file):
     """Clear the metadata of the .flac file [inplace]."""
-    _assert_audio_clear(audio_file("test.flac"), clear_flac_metadata, True)
+    _assert_audio_clear(sample_file("test.flac"), clear_flac_metadata, True)
 
 
-def test19(audio_file):
+def test19(sample_file):
     """Clear_file routes mp3 and flac [not inplace]."""
-    _assert_audio_clear(audio_file("test.mp3"), clear_file, False)
-    _assert_audio_clear(audio_file("test.flac"), clear_file, False)
+    _assert_audio_clear(sample_file("test.mp3"), clear_file, False)
+    _assert_audio_clear(sample_file("test.flac"), clear_file, False)
+
+
+def test20(sample_file):
+    """Clear the metadata of the .pdf file [not inplace]."""
+    _assert_pdf_clear(sample_file("test.pdf"), clear_pdf_metadata, False)
+
+
+def test21(sample_file):
+    """Clear the metadata of the .pdf file [inplace]."""
+    _assert_pdf_clear(sample_file("test.pdf"), clear_pdf_metadata, True)
+
+
+def test22(sample_file):
+    """Clear_file routes pdf [not inplace]."""
+    _assert_pdf_clear(sample_file("test.pdf"), clear_file, False)
