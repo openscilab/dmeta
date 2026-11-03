@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Audio(FLAC/MP3) params in `params.py`
+- PDF params in `params.py`
 - `clear_mp3_metadata` function in `functions.py`
 - `clear_flac_metadata` function in `functions.py`
+- `clear_pdf_metadata` function in `functions.py`
 - `has_audio_metadata` function in `functions.py`
+- `has_pdf_metadata` function in `functions.py`
 - `parse_xml` function in `functions.py`
 - `tests/conftest.py`
 ### Changed
