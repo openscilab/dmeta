@@ -2,8 +2,8 @@
 """DMeta parameters and constants."""
 DMETA_VERSION = "0.5"
 OVERVIEW = """
-A Python library for removing personal metadata in Microsoft files(.docx, .pptx, .xlsx), image files(.png, .jpg, .jpeg, .gif), audio files(.mp3, .flac), and PDF files(.pdf).
-
+A Python library for removing personal metadata in Microsoft files(.docx, .pptx, .xlsx), \
+image files(.png, .jpg, .jpeg, .gif), audio files(.mp3, .flac), and PDF files(.pdf).
 """
 # OOXML metadata fields per ECMA-376 / ISO/IEC 29500: OPC core-properties
 # (docProps/core.xml) at https://ecma-international.org/publications-and-standards/standards/ecma-376/
@@ -74,7 +74,7 @@ GIF_EXT_APPLICATION = 0xFF
 GIF_APP_EXT_NETSCAPE_IDENTIFIER = b"NETSCAPE2.0"                # animation loop (kept)
 
 # MP3 sidecar tag constants per their specifications:
-# ID3v1 (https://id3.org/ID3v1), 
+# ID3v1 (https://id3.org/ID3v1),
 # ID3v2.3 (https://id3.org/id3v2.3.0),
 # ID3v2.4 (https://id3.org/id3v2.4.0-structure),
 # APEv2 (https://wiki.hydrogenaud.io/index.php?title=APEv2_specification),
