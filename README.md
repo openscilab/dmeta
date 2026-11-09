@@ -12,7 +12,7 @@
 
 ## Overview
 <p align="justify">
-DMeta is an open source Python package that removes metadata of Microsoft Office, image, and audio files.
+DMeta is an open source Python package that removes metadata of Microsoft Office, image, audio, and PDF files.
 </p>
 <table>
     <tr>
@@ -89,7 +89,7 @@ from dmeta.functions import clear_file
 FILE_PATH = os.path.join(os.getcwd(), "photo.png")
 clear_file(FILE_PATH, in_place=True)
 ```
-#### Clear metadata for all existing supported files (.docx|.pptx|.xlsx|.png|.jpg|.jpeg|.gif|.mp3|.flac) in the current directory
+#### Clear metadata for all existing supported files (.docx|.pptx|.xlsx|.png|.jpg|.jpeg|.gif|.mp3|.flac|.pdf) in the current directory
 ```python
 from dmeta.functions import clear_all
 clear_all()
@@ -126,7 +126,7 @@ dmeta --clear "./test_a.docx" --inplace
 ```console
 dmeta --clear "./photo.png" --inplace
 ```
-#### Clear metadata for all existing supported files (.docx|.pptx|.xlsx|.png|.jpg|.jpeg|.gif|.mp3|.flac) in the current directory
+#### Clear metadata for all existing supported files (.docx|.pptx|.xlsx|.png|.jpg|.jpeg|.gif|.mp3|.flac|.pdf) in the current directory
 ```console
 dmeta --clear-all
 ```
@@ -203,6 +203,7 @@ If you run `git add` on Office files that still contain embedded metadata, the p
 | GIF (.gif) | &#x2705; |
 | MP3 (.mp3) | &#x2705; |
 | FLAC (.flac) | &#x2705; |
+| PDF (.pdf) | &#x2705; |
 
 
 ## Issues & bug reports
